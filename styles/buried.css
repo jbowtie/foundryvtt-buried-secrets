@@ -1,0 +1,77 @@
+:root {
+	--almost_white: #eeefff;
+	--red: #ff0000;
+	--holoblue: #33b5e5;
+	--holobluemed: #84d2ef;
+	--holobluelt: #ade1f4;
+	--redmed: #ff6666;
+	--redlt: #ffb2b2;
+	--darkblue: #001324;
+}
+
+.table-actions input {
+    appearance: none;
+    margin: 0 0.5em;
+    border-radius: 50%;
+    width: 1em;
+    height: 1em;
+    border: thin solid #222;
+}
+
+.table-actions input:checked, .table-actions input.filled {
+    background-color: #222;
+}
+
+.table-actions tbody td.table-actions__attribute {
+	border-right: 2px solid #0d0e13;
+}
+
+
+.xp {
+    display:inline-flex;
+    flex-direction:row-reverse;
+}
+.xp input {
+    appearance: none;
+    margin-left: 5px;
+    margin-right: 0;
+    border-radius: 20%;
+    width: 16px;
+    height: 16px;
+    border-color: #222;
+}
+
+.xp input:checked,
+.xp input:checked ~ input[type=radio] {
+  background-color: #222;
+}
+.xp-clear {
+    border: 1px solid black;
+    width: auto;
+    padding: 0.25em 0.25em 0;
+    border-radius: 3px;
+    margin-bottom: none;
+    font-size: 1em;
+}
+.xp-clear input {
+    display:none;
+}
+
+.dice-tooltip .dice-rolls .roll.bobd6 {
+	/*background: url('assets/icons/d6-black.svg');*/
+	background-color: black;
+	color: var(--almost_white);
+	background-size: 24px 24px;
+}
+.dice-tooltip .die.critical-success {
+  color: #12a012;
+}
+.dice-tooltip .die.success {
+  color: #008000;
+}
+.dice-tooltip .die.partial-success {
+  color: #04578f;
+}
+.dice-tooltip .die.failure {
+  color: red;
+}

@@ -1,0 +1,67 @@
+{
+    "Actor": {
+        "types": ["character", "role", "crew", "npc"],
+        "templates": {
+            "base": {
+                "description": ""
+            }
+        },
+        "character": {
+            "templates": ["base"],
+            "playbook": "",
+            "stress": {
+                "value": 0,
+                "min": 0,
+                "max": 8
+            },
+            "actions": {
+                "attune": {"value": 0, "min":0, "max": 5},
+                "command": {"value": 0, "min":0, "max": 5},
+                "consort": {"value": 0, "min":0, "max": 5},
+                "finesse": {"value": 0, "min":0, "max": 5},
+                "hunt": {"value": 2, "min":0, "max": 5},
+                "prowl": {"value": 0, "min":0, "max": 5},
+                "skirmish": {"value": 0, "min":0, "max": 5},
+                "study": {"value": 0, "min":0, "max": 5},
+                "survey": {"value": 0, "min":0, "max": 5},
+                "sway": {"value": 0, "min":0, "max": 5},
+                "tinker": {"value": 0, "min":0, "max": 5},
+                "wreck": {"value": 0, "min":0, "max": 5}
+            },
+            "xp": {
+                "insight": {"value":0},
+                "prowess": {"value":0},
+                "resolve": {"value":0},
+                "playbook": {"value":0}
+            }
+        },
+        "role": {
+            "templates": ["base"]
+        },
+        "crew": {
+            "templates": ["base"]
+        },
+        "npc": {
+            "templates": ["base"],
+            "biography": ""
+        }
+    },
+    "Item": {
+        "types": ["skill", "gear", "ability"],
+        "templates": {
+            "base": {
+                "description": ""
+            }
+        },
+        "skill": {
+            "templates": ["base"]
+        },
+        "gear": {
+            "templates": ["base"],
+            "load": 0
+        },
+        "ability": {
+            "templates": ["base"]
+        }
+    }
+}
