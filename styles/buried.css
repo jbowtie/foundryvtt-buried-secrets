@@ -58,10 +58,15 @@
 }
 
 .dice-tooltip .dice-rolls .roll.bobd6 {
-	/*background: url('assets/icons/d6-black.svg');*/
-	background-color: black;
+	background-image: url('d6-black.svg');
 	color: var(--almost_white);
 	background-size: 24px 24px;
+}
+.dice-tooltip .die {
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: large;
+  margin-top: 0.5em;
 }
 .dice-tooltip .die.critical-success {
   color: #12a012;
@@ -73,5 +78,15 @@
   color: #04578f;
 }
 .dice-tooltip .die.failure {
-  color: red;
+  color: var(--red);
+}
+
+.label-stripe-chat {
+  text-transform: uppercase;
+  background-color: #191813;
+  color: #EEEFFF;
+  font-size: x-large;
+
+  text-align: center;
+  padding: 3px 5px 0;
 }

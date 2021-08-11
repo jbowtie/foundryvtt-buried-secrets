@@ -83,7 +83,7 @@
 			<td><input class="{{#if (lteq 3 data.actions.finesse.value)}}filled{{/if}}" type="radio" name="data.actions.finesse.value" value="2" {{checked data.actions.finesse.value 2}}/></td>
 			<td><input class="{{#if (lteq 4 data.actions.finesse.value)}}filled{{/if}}" type="radio" name="data.actions.finesse.value" value="3" {{checked data.actions.finesse.value 3}}/></td>
 			<td><input type="radio" name="data.actions.finesse.value" value="4" {{checked data.actions.finesse.value 4}}/></td>
-            <td class="left-aligned">Finesse: <span>{{data.actions.finesse.value}}</span></td>
+            <td class="left-aligned"><span class="rollable" data-action="finesse">Finesse: <span>{{data.actions.finesse.value}}</span></span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute"><input class="{{#if (lteq 2 data.actions.prowl.value)}}filled{{/if}}" type="radio" name="data.actions.prowl.value" value="1" {{checked data.actions.prowl.value 1}}/></td>
