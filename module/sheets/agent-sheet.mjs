@@ -3,7 +3,7 @@ export class AgentSheet extends ActorSheet {
         return mergeObject(super.defaultOptions, {
             classes: ["secrets", "sheet", "actor"],
             template: "systems/buried-secrets/templates/actor/agent-sheet.html",
-            width: 850,
+            width: 900,
             height: 600,
             tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mission"}]
         });
@@ -21,17 +21,23 @@ export class AgentSheet extends ActorSheet {
 
         // Add the actor's data to context.data for easier access, as well as flags.
         context.data = actorData.data;
+        context.flags = actorData.flags;
+
+        if(actorData.type == 'character') {
+            this._prepareCharacterItems(context);
+        }
+
         return context;
     }
-  /** @override */
-	activateListeners(html) {
+    /** @override */
+    activateListeners(html) {
         super.activateListeners(html);
         html.find(".rollable").click(this._onRoll.bind(this));
     }
 
     async _onRoll(event) {
         event.preventDefault();
-        
+
         let speaker = ChatMessage.getSpeaker(this.actor);
         const action = $(event.currentTarget).data("action");
         const data = this.actor.data.data;
@@ -93,9 +99,33 @@ export class AgentSheet extends ActorSheet {
             }
         } else {
             // else (4,5) = partial success
-    roll_status = "partial-success";
-  }
+            roll_status = "partial-success";
+        }
 
-  return roll_status;
-}
+        return roll_status;
+    }
+
+    _prepareCharacterItems(context) {
+        const gear = [];
+        const abilities = [];
+        const skills = [];
+
+        for (let i of context.items) {
+            switch (i.type) {
+                case 'gear':
+                    gear.push(i);
+                    break;
+                case 'ability':
+                    abilities.push(i);
+                    break;
+                case 'skill':
+                    skills.push(i);
+                    break;
+            }
+        }
+
+        context.gear = gear;
+        context.abilities = abilities;
+        context.skills = skills;
+    }
 }

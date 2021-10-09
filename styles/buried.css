@@ -57,6 +57,25 @@
     display:none;
 }
 
+.agent-powers ul, .agent-gear ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.agent-gear h4 {font-weight:bold;margin:0;}
+
+[role="tooltip"] {
+  display: none;
+}
+
+li:hover [role="tooltip"] {
+    display: block;
+    position: absolute;
+    background-color: var(--almost_white);
+    outline: thin solid black;
+    padding: 0.5em;
+}
+
 .dice-tooltip .dice-rolls .roll.bobd6 {
 	background-image: url('d6-black.svg');
 	color: var(--almost_white);

@@ -19,7 +19,7 @@
                 "command": {"value": 0, "min":0, "max": 5},
                 "consort": {"value": 0, "min":0, "max": 5},
                 "finesse": {"value": 0, "min":0, "max": 5},
-                "hunt": {"value": 2, "min":0, "max": 5},
+                "hunt": {"value": 0, "min":0, "max": 5},
                 "prowl": {"value": 0, "min":0, "max": 5},
                 "skirmish": {"value": 0, "min":0, "max": 5},
                 "study": {"value": 0, "min":0, "max": 5},
@@ -47,7 +47,7 @@
         }
     },
     "Item": {
-        "types": ["skill", "gear", "ability"],
+        "types": ["skill", "gear", "ability", "playbook"],
         "templates": {
             "base": {
                 "description": ""
@@ -62,6 +62,13 @@
         },
         "ability": {
             "templates": ["base"]
+        },
+        "playbook": {
+            "templates": ["base"],
+            "xp_trigger": "",
+            "abilities": "",
+            "gear": "",
+            "actions": {}
         }
     }
 }
