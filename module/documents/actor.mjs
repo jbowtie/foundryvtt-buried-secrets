@@ -51,7 +51,14 @@ export class SecretsActor extends Actor {
         await this.addPlaybookAbilities(pb);
         await this.addStandardGear();
         await this.addPlaybookGear(pb);
-        const updates = {_id: this.id, data: { playbook: playbook, xp_trigger: pb.data.data.xp_trigger}};
+        let actions = pb.data.data.actions;
+        let new_actions = {};
+        for (const act in actions)
+        {
+            new_actions[act] = {"value": actions[act]};
+        }
+        console.log(new_actions);
+        const updates = {_id: this.id, data: { playbook: playbook, xp_trigger: pb.data.data.xp_trigger, actions: new_actions }};
         const updated = await this.update(updates);
     }
 

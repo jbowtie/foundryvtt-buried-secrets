@@ -62,5 +62,17 @@ export class GenericItemSheet extends ItemSheet {
     if (!this.isEditable) return;
 
     // Roll handlers, click handlers, etc. would go here.
+    html.find('.add-playbook-action').click(this.addPlaybookAction.bind(this));
+  }
+  
+  async addPlaybookAction(event) {
+    event.preventDefault();
+    const abilities = this.item.data.data.actions;
+    const att = $('select.new_action')[0].value;
+    const val = $('input.new_action_val')[0].value;
+    console.log(`${att} = ${val}`);
+    abilities[att] = val;
+    const updates = {_id: this.item.id, data: { actions: abilities}};
+    const updated = await this.item.update(updates);
   }
 }
