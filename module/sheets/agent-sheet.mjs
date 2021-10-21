@@ -25,6 +25,9 @@ export class AgentSheet extends ActorSheet {
 
         if(actorData.type == 'character') {
             this._prepareCharacterItems(context);
+            if(context.data.playbook === '') {
+                context.playbooks = game.items.filter(x => x.type === 'playbook');
+            }
         }
 
         return context;
@@ -33,6 +36,13 @@ export class AgentSheet extends ActorSheet {
     activateListeners(html) {
         super.activateListeners(html);
         html.find(".rollable").click(this._onRoll.bind(this));
+        html.find(".select-playbook").click(this._setPlaybook.bind(this));
+    }
+
+    async _setPlaybook(event) {
+        event.preventDefault();
+        const playbook = $(event.currentTarget).data("playbook");
+        await this.actor.setPlaybook(playbook);
     }
 
     async _onRoll(event) {
@@ -107,13 +117,18 @@ export class AgentSheet extends ActorSheet {
 
     _prepareCharacterItems(context) {
         const gear = [];
+        const playbook_gear = [];
         const abilities = [];
         const skills = [];
 
         for (let i of context.items) {
             switch (i.type) {
                 case 'gear':
-                    gear.push(i);
+                    if(i.data.source === 'playbook') {
+                        playbook_gear.push(i);
+                    } else {
+                        gear.push(i);
+                    }
                     break;
                 case 'ability':
                     abilities.push(i);
@@ -125,6 +140,7 @@ export class AgentSheet extends ActorSheet {
         }
 
         context.gear = gear;
+        context.playbook_gear = playbook_gear;
         context.abilities = abilities;
         context.skills = skills;
     }

@@ -9,6 +9,7 @@
         "character": {
             "templates": ["base"],
             "playbook": "",
+            "xp_trigger": "",
             "stress": {
                 "value": 0,
                 "min": 0,
@@ -58,7 +59,8 @@
         },
         "gear": {
             "templates": ["base"],
-            "load": 0
+            "load": 0,
+            "source": ""
         },
         "ability": {
             "templates": ["base"]

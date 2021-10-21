@@ -6,10 +6,10 @@
         <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
         <div class="header-fields">
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
-            <p><input name="playbook" type="text" value="{{data.playbook}}" placeholder="Playbook"/></p>
+            <h2>{{data.playbook}}</h2>
         </div>
     </header>
-
+    {{#if data.playbook}}
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="mission">Mission</a>
@@ -49,7 +49,7 @@
 			<td><input class="{{#if (lteq 3 data.actions.study.value)}}filled{{/if}}" type="radio" name="data.actions.study.value" value="2" {{checked data.actions.study.value 2}}/></td>
 			<td><input class="{{#if (lteq 4 data.actions.study.value)}}filled{{/if}}" type="radio" name="data.actions.study.value" value="3" {{checked data.actions.study.value 3}}/></td>
 			<td><input type="radio" name="data.actions.study.value" value="4" {{checked data.actions.study.value 4}}/></td>
-            <td class="left-aligned">Study: <span>{{data.actions.study.value}}</span></td>
+            <td class="left-aligned"><span class="rollable" data-action="study">Study: <span>{{data.actions.study.value}}</span></span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -58,7 +58,7 @@
 			<td><input class="{{#if (lteq 3 data.actions.survey.value)}}filled{{/if}}" type="radio" name="data.actions.survey.value" value="2" {{checked data.actions.survey.value 2}}/></td>
 			<td><input class="{{#if (lteq 4 data.actions.survey.value)}}filled{{/if}}" type="radio" name="data.actions.survey.value" value="3" {{checked data.actions.survey.value 3}}/></td>
 			<td><input type="radio" name="data.actions.survey.value" value="4" {{checked data.actions.survey.value 4}}/></td>
-            <td class="left-aligned">Survey: <span>{{data.actions.survey.value}}</span></td>
+            <td class="left-aligned"><span class="rollable" data-action="survey">Survey: <span>{{data.actions.survey.value}}</span></span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -67,7 +67,7 @@
 			<td><input class="{{#if (lteq 3 data.actions.tinker.value)}}filled{{/if}}" type="radio" name="data.actions.tinker.value" value="2" {{checked data.actions.tinker.value 2}}/></td>
 			<td><input class="{{#if (lteq 4 data.actions.tinker.value)}}filled{{/if}}" type="radio" name="data.actions.tinker.value" value="3" {{checked data.actions.tinker.value 3}}/></td>
 			<td><input type="radio" name="data.actions.tinker.value" value="4" {{checked data.actions.tinker.value 4}}/></td>
-            <td class="left-aligned">Tinker: <span>{{data.actions.tinker.value}}</span></td>
+            <td class="left-aligned"><span class="rollable" data-action="tinker">Tinker: <span>{{data.actions.tinker.value}}</span></span></td>
 		</tr>
     </tbody></table>
 <table class="table-actions pull-left" style="grid-column:3/5;">
@@ -184,7 +184,7 @@
         <li><i class="far fa-square"></i> <strong>{{ability.name}}</strong> &mdash; {{ability.data.description}}</li>
         {{/each}}
 </ul>
-<p style="margin-top:0;"><i>Mark XP if you address a challenge with knowledge or arcane power.</i></p>
+<p style="margin-top:0;"><i>{{data.xp_trigger}}</i></p>
 </div>
 
 <div class="agent-gear" style="grid-column: 5/7;">
@@ -212,13 +212,36 @@
     </ul>
     <h4>Special items</h4>
     <ul>
-        <li><i class="far fa-square"></i> <i>Psychic focus</i></li>
-        <li><i class="far fa-square"></i> <i>Banishing charm</i></li>
-        <li><span class="connect"><i class="far fa-square"></i>&#8211;<i class="far fa-square"></i></span> Fine clothing and jewelry</li>
+        {{#each playbook_gear as |item id|}}
+        <li>
+        {{#if (gteq 0 item.data.load)}}
+        <i class="far fa-square"></i> <i>{{item.name}}</i>
+        {{/if}}
+        {{#if (equal 1 item.data.load)}}
+        <i class="far fa-square"></i> {{item.name}}
+        {{/if}}
+        {{#if (equal 2 item.data.load)}}
+        <span class="connect"><i class="far fa-square"></i>&#8211;<i class="far fa-square"></i></span> {{item.name}}
+        {{/if}}
+        {{#if (equal 3 item.data.load)}}
+        <span class="connect"><i class="far fa-square"></i>&#8211;<i class="far fa-square"></i>&#8211;<i class="far fa-square"></i></span> {{item.name}}
+        {{/if}}
+        <p role="tooltip"><img src="{{item.img}}" alt="{{item.name}}" width="24" height="24" style="float:left;margin-right: 0.5em;" />{{item.data.description}}</p>
+        </li>
+        {{/each}}
     </ul>
 </div>
             </div>
         </section>
         <section class="tab" data-group="primary" data-tab="downtime">DOWNTIME HERE</section>
     </section>
+    {{else}}
+    <section>
+        <h2>SELECT PLAYBOOK</h2>
+        {{#each playbooks as |item id|}}
+        <button class='select-playbook' data-playbook="{{item.name}}"><img src="{{item.img}}" style= "width: 2em; height: 2em;margin-right: 0.5em;"/> {{item.name}}</button>
+        {{/each}}
+        
+    </section>
+    {{/if}}
 </form>

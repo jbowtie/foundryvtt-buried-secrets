@@ -14,7 +14,7 @@ export class GenericItemSheet extends ItemSheet {
   get template() {
     const path = "systems/buried-secrets/templates/item";
 
-    let generic_template = ["skill", "ability", "playbook"];
+    let generic_template = ["skill", "ability"];
     let template_name = `${this.item.data.type}`;
 
     if (generic_template.includes(this.item.data.type)) {

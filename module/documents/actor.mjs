@@ -30,5 +30,97 @@ export class SecretsActor extends Actor {
         const actorData = this.data;
         const data = actorData.data;
         // for type=character: derive attributes (insight, prowess, resolve)
+        if(actorData.type === 'character') {
+            this.prepareAgentData(data);
+        }
+
     }
+
+    prepareAgentData(data) {
+        //console.log("checking playbook");
+        //if (data.playbook === '') return;
+        //this.setPlaybook(data.playbook);
+    }
+
+    async setPlaybook(playbook) {
+        let pb = game.items.getName(playbook);
+        if (!pb) {
+            console.log("no such playbook");
+            return;
+        }
+        await this.addPlaybookAbilities(pb);
+        await this.addStandardGear();
+        await this.addPlaybookGear(pb);
+        const updates = {_id: this.id, data: { playbook: playbook, xp_trigger: pb.data.data.xp_trigger}};
+        const updated = await this.update(updates);
+    }
+
+    async addPlaybookAbilities(pb) {
+        let existing_abilities = this.items
+            .filter( a => a.type === 'ability' )
+            .map( e => { return e.data.name } );
+        let desired_abilities = pb.data.data.abilities.split(',')
+            .filter(x => !existing_abilities.includes(x));
+            //.reverse(); // seems to reorder items otherwise
+        let items_to_add = [];
+        for (const ability of desired_abilities)
+        {
+            let item = game.items.getName(ability);
+            if(item)
+                items_to_add.push(item.toObject());
+        }
+        await this.createEmbeddedDocuments( "Item", items_to_add );
+    }
+
+    async addPlaybookGear(pb) {
+        let existing_gear = this.items
+            .filter( a => a.type === 'gear' )
+            .map( e => { return e.data.name } );
+        let desired_gear = pb.data.data.gear.split(',')
+            .filter(x => !existing_gear.includes(x))
+            .reverse(); // seems to reorder items otherwise
+        let items_to_add = [];
+        let sort = 100;
+        for (const gearName of desired_gear)
+        {
+            const item = game.items.getName(gearName);
+            if(item) {
+                const item_template = item.toObject();
+                item_template.sort = sort;
+                item_template.data.source = "playbook";
+                items_to_add.push(item_template);
+            }
+            sort = sort + 100;
+        }
+        await this.createEmbeddedDocuments( "Item", items_to_add );
+    }
+
+    async addStandardGear() {
+        let folder = await game.folders.find( f => f.name === "Standard Gear");
+        if(folder === undefined) {
+            console.warn("Could not find standard gear folder!");
+            return;
+        }
+        let existing_gear = this.items
+            .filter( a => a.type === 'gear' )
+            .map( e => { return e.data.name } );
+        let desired_gear = folder.contents
+            .filter(x => !existing_gear.includes(x.name));
+
+        let items_to_add = [];
+        for (const item of desired_gear) {
+            //console.log(`${item.name} - ${item.data.sort}`);
+            const item_template = item.toObject();
+            items_to_add.push(item_template);
+        }
+        await this.createEmbeddedDocuments( "Item", items_to_add );
+    }
+
+  /** @override */
+   /* _onUpdate(changed, options, userId) {
+        super._onUpdate(changed, options, userId);
+        if(changed.hasOwnProperty('playbook')) {
+            console.log(changed.playbook);
+        }
+    }*/
 }
