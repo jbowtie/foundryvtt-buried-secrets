@@ -44,12 +44,69 @@ Hooks.once('init', function() {
     Handlebars.registerHelper('equal', (a, b) => {
         return (a === b);
     });
+
+    Handlebars.registerHelper('inventory', function(item, options) {
+        let ret = "";
+        const itemClass = item.data.equipped ? "fas" : "far";
+        switch(item.data.load) {
+            case 0:
+                ret += `<i class="${itemClass} fa-square"></i> <i>${item.name}</i>`;
+                break;
+            case 1:
+                ret += `<i class="${itemClass} fa-square"></i> ${item.name}`;
+                break;
+            case 2:
+                ret += `<span class="connect"><i class="${itemClass} fa-square"></i>&#8211;<i class="${itemClass} fa-square"></i></span> ${item.name}`;
+                break;
+            case 3:
+                ret += `<span class="connect"><i class="${itemClass} fa-square"></i>&#8211;<i class="${itemClass} fa-square"></i>&#8211;<i class="${itemClass} fa-square"></i></span> ${item.name}`;
+                break;
+        }
+        return ret;
+    });
 });
 
 /*
  * Ready Hook
  */
 
-Hooks.once('ready', function() {
+Hooks.once('ready', async function () {
     // after fully loaded
+    if (!game.user.isGM) return;
 });
+    // TODO: migration
+/*    const gearUpdate = {data: {equipped: false}};
+    //const abilityUpdate = {data: {chosen: false}};
+    for (let i of game.items) {
+        if(i.type == 'ability') {
+            console.log(i);
+            //const r = await _updateItem(i, gearUpdate);
+        }
+    }
+    console.warn('MIGRATE EMBEDDED');
+    for (let a of game.actors) {
+        for (let i of a.getEmbeddedCollection("Item")) {
+            if(i.type == 'ability') {
+                console.log(i);
+                //const r = await _updateItem(i, gearUpdate);
+            }
+        }
+    }
+});
+
+async function _updateItem(item, updateData) {
+    try {
+        let result = await item.update(updateData);
+        if (result.name) {
+            console.log(`MIGRATION |  ${result.name} with result ${typeof (result) === "object"}`);
+        } else {
+            console.log(`MIGRATION |  No data migration needed with result ${typeof (result) === "object"}`);
+        }
+        return true;
+    } catch (e) {
+        ui.notifications.error(`MIGRATION |  Error during the migration of ${item.name} ! `);
+        console.error(`MIGRATION |  Error ${e} during the migration of ${item.name} ! `);
+        return false;
+    }
+}
+*/

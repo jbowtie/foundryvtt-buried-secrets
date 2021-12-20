@@ -37,6 +37,22 @@ export class AgentSheet extends ActorSheet {
         super.activateListeners(html);
         html.find(".rollable").click(this._onRoll.bind(this));
         html.find(".select-playbook").click(this._setPlaybook.bind(this));
+        html.find(".agent-gear li").click(this._toggleGear.bind(this));
+        html.find(".agent-powers span[data-ability]").click(this._toggleAbility.bind(this));
+    }
+
+    async _toggleGear(event) {
+        event.preventDefault();
+        // figure out which item it is
+        const itemId = $(event.currentTarget).data("item");
+        //const load = $(event.currentTarget).data("load");
+        const newVal = await this.actor.toggleGear(itemId);
+    }
+
+    async _toggleAbility(event) {
+        event.preventDefault();
+        const itemId = $(event.currentTarget).data("ability");
+        const newVal = await this.actor.toggleAbility(itemId);
     }
 
     async _setPlaybook(event) {

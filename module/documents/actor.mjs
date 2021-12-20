@@ -123,6 +123,34 @@ export class SecretsActor extends Actor {
         await this.createEmbeddedDocuments( "Item", items_to_add );
     }
 
+    async toggleGear(itemId) {
+        let item = this.items.find(i => i.id === itemId);
+        if (item.type !== 'gear'){
+            console.error("Cannot equip ${item.name} as gear!");
+            return false;
+        }
+        const itemData = item.data;
+        const newVal = !itemData.data.equipped;
+        //console.log(`Item ${item.name} is ${itemData.data.equipped}`);
+        const toggle = {_id: itemId, data: {equipped: newVal}};
+        await item.update(toggle);
+        return newVal;
+    }
+
+
+    async toggleAbility(itemId) {
+        let item = this.items.find(i => i.id === itemId);
+        if (item.type !== 'ability'){
+            console.error("Cannot choose ${item.name} as ability!");
+            return false;
+        }
+        const itemData = item.data;
+        const newVal = !itemData.data.chosen;
+        //console.log(`Item ${item.name} is ${itemData.data.chosen}`);
+        const toggle = {_id: itemId, data: {chosen: newVal}};
+        await item.update(toggle);
+        return newVal;
+    }
   /** @override */
    /* _onUpdate(changed, options, userId) {
         super._onUpdate(changed, options, userId);

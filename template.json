@@ -60,10 +60,12 @@
         "gear": {
             "templates": ["base"],
             "load": 0,
-            "source": ""
+            "source": "",
+            "equipped": false
         },
         "ability": {
-            "templates": ["base"]
+            "templates": ["base"],
+            "chosen": false
         },
         "playbook": {
             "templates": ["base"],

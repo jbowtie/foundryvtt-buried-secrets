@@ -98,7 +98,7 @@
 			<td><input class="{{#if (lteq 3 data.actions.prowl.value)}}filled{{/if}}" type="radio" name="data.actions.prowl.value" value="2" {{checked data.actions.prowl.value 2}}/></td>
 			<td><input class="{{#if (lteq 4 data.actions.prowl.value)}}filled{{/if}}" type="radio" name="data.actions.prowl.value" value="3" {{checked data.actions.prowl.value 3}}/></td>
 			<td><input type="radio" name="data.actions.prowl.value" value="4" {{checked data.actions.prowl.value 4}}/></td>
-            <td class="left-aligned">Prowl: <span>{{data.actions.prowl.value}}</span></td>
+            <td class="left-aligned"><span class="rollable" data-action="prowl"></span>Prowl: <span>{{data.actions.prowl.value}}</span></span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -107,7 +107,7 @@
 			<td><input class="{{#if (lteq 3 data.actions.skirmish.value)}}filled{{/if}}" type="radio" name="data.actions.skirmish.value" value="2" {{checked data.actions.skirmish.value 2}}/></td>
 			<td><input class="{{#if (lteq 4 data.actions.skirmish.value)}}filled{{/if}}" type="radio" name="data.actions.skirmish.value" value="3" {{checked data.actions.skirmish.value 3}}/></td>
 			<td><input type="radio" name="data.actions.skirmish.value" value="4" {{checked data.actions.skirmish.value 4}}/></td>
-            <td class="left-aligned">Skirmish: <span>{{data.actions.skirmish.value}}</span></td>
+            <td class="left-aligned"><span class="rollable" data-action="skirmish"></span>Skirmish: <span>{{data.actions.skirmish.value}}</span></span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -116,7 +116,7 @@
 			<td><input class="{{#if (lteq 3 data.actions.wreck.value)}}filled{{/if}}" type="radio" name="data.actions.wreck.value" value="2" {{checked data.actions.wreck.value 2}}/></td>
 			<td><input class="{{#if (lteq 4 data.actions.wreck.value)}}filled{{/if}}" type="radio" name="data.actions.wreck.value" value="3" {{checked data.actions.wreck.value 3}}/></td>
 			<td><input type="radio" name="data.actions.wreck.value" value="4" {{checked data.actions.wreck.value 4}}/></td>
-            <td class="left-aligned">Wreck: <span>{{data.actions.wreck.value}}</span></td>
+            <td class="left-aligned"><span class="rollable" data-action="wreck"></span>Wreck: <span>{{data.actions.wreck.value}}</span></span></td>
 		</tr>
     </tbody></table>
 <table class="table-actions pull-left" style="grid-column:5/7;">
@@ -181,7 +181,8 @@
     </h3>
     <ul>
         {{#each abilities as |ability id|}}
-        <li><i class="far fa-square"></i> <strong>{{ability.name}}</strong> &mdash; {{ability.data.description}}</li>
+        <li>
+            <span data-ability="{{ability._id}}"><i class="{{#if ability.data.chosen}}fas{{else}}far{{/if}} fa-square"></i> <strong>{{ability.name}}</strong></span> &mdash; {{ability.data.description}}</li>
         {{/each}}
 </ul>
 <p style="margin-top:0;"><i>{{data.xp_trigger}}</i></p>
@@ -192,19 +193,8 @@
     <h4>Standard items</h4>
     <ul>
         {{#each gear as |item id|}}
-        <li>
-        {{#if (gteq 0 item.data.load)}}
-        <i class="far fa-square"></i> <i>{{item.name}}</i>
-        {{/if}}
-        {{#if (equal 1 item.data.load)}}
-        <i class="far fa-square"></i> {{item.name}}
-        {{/if}}
-        {{#if (equal 2 item.data.load)}}
-        <span class="connect"><i class="far fa-square"></i>&#8211;<i class="far fa-square"></i></span> {{item.name}}
-        {{/if}}
-        {{#if (equal 3 item.data.load)}}
-        <span class="connect"><i class="far fa-square"></i>&#8211;<i class="far fa-square"></i>&#8211;<i class="far fa-square"></i></span> {{item.name}}
-        {{/if}}
+        <li data-load="{{item.data.load}}" data-item="{{item._id}}">
+        {{#inventory item}}{{/inventory}}
         <p role="tooltip"><img src="{{item.img}}" alt="{{item.name}}" width="24" height="24" style="float:left;margin-right: 0.5em;" />{{item.data.description}}</p>
         </li>
         {{/each}}
@@ -213,19 +203,8 @@
     <h4>Special items</h4>
     <ul>
         {{#each playbook_gear as |item id|}}
-        <li>
-        {{#if (gteq 0 item.data.load)}}
-        <i class="far fa-square"></i> <i>{{item.name}}</i>
-        {{/if}}
-        {{#if (equal 1 item.data.load)}}
-        <i class="far fa-square"></i> {{item.name}}
-        {{/if}}
-        {{#if (equal 2 item.data.load)}}
-        <span class="connect"><i class="far fa-square"></i>&#8211;<i class="far fa-square"></i></span> {{item.name}}
-        {{/if}}
-        {{#if (equal 3 item.data.load)}}
-        <span class="connect"><i class="far fa-square"></i>&#8211;<i class="far fa-square"></i>&#8211;<i class="far fa-square"></i></span> {{item.name}}
-        {{/if}}
+        <li data-load="{item.data.load}" data-item="{{item._id}}">
+        {{#inventory item}}{{/inventory}}
         <p role="tooltip"><img src="{{item.img}}" alt="{{item.name}}" width="24" height="24" style="float:left;margin-right: 0.5em;" />{{item.data.description}}</p>
         </li>
         {{/each}}
