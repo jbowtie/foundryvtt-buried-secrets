@@ -1,12 +1,29 @@
-<form class="{{cssClass}} flexcol" autocomplete="off">
+<form class="{{cssClass}} flexcol" style="flex-basis: auto;flex-grow:0;" autocomplete="off">
 
     {{!-- Sheet Header --}}
-    <header class="sheet-header">
+    <header class="agent-header">
         {{!-- Header stuff goes here --}}
         <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" spellcheck="false"/></h1>
             <h2>{{data.playbook}}</h2>
+        </div>
+        <div class="stress-track">
+            <strong>Stress: </strong>
+            <span class="xp xp-track" title="Stress">
+                <input type="radio" name="data.stress.value" value="8" {{checked data.stress.value 8}}/>
+                <input type="radio" name="data.stress.value" value="7" {{checked data.stress.value 7}}/>
+                <input type="radio" name="data.stress.value" value="6" {{checked data.stress.value 6}}/>
+                <input type="radio" name="data.stress.value" value="5" {{checked data.stress.value 5}}/>
+                <input type="radio" name="data.stress.value" value="4" {{checked data.stress.value 4}}/>
+                <input type="radio" name="data.stress.value" value="3" {{checked data.stress.value 3}}/>
+                <input type="radio" name="data.stress.value" value="2" {{checked data.stress.value 2}}/>
+                <input type="radio" name="data.stress.value" value="1" {{checked data.stress.value 1}}/>
+            </span>
+            <p><label class="xp-clear"><input type="radio" name="data.stress.value" value="0" {{checked data.stress.value 0}} />Clear Stress</label></p>
+            <h2>Conditions</h2>
+            <p style="text-align: center;">Cold - Haunted - Obsessed - Paranoid</p>
+            <p style="text-align: center;">Reckless - Soft - Unstable - Vicious</p>
         </div>
     </header>
     {{#if data.playbook}}
@@ -22,7 +39,7 @@
         <section class="tab" data-group="primary" data-tab="mission">
             <div style="display:grid;grid-gap:4px;">
 <table class="table-actions pull-left" style="grid-column:1/3;">
-    <tbody><tr><th colspan="4" style="text-align: left;">Insight</th><th colspan="2" style="text-align:right;">XP: <span class="xp xp-track" title="Insight XP">
+    <tbody><tr><th colspan="4" style="text-align: left;">Insight {{data.derived.insight}}</th><th colspan="2" style="text-align:right;">XP: <span class="xp xp-track" title="Insight XP">
                 <input type="radio" name="data.xp.insight.value" value="6" {{checked data.xp.insight.value 6}}/>
                 <input type="radio" name="data.xp.insight.value" value="5" {{checked data.xp.insight.value 5}}/>
                 <input type="radio" name="data.xp.insight.value" value="4" {{checked data.xp.insight.value 4}}/>
@@ -71,7 +88,7 @@
 		</tr>
     </tbody></table>
 <table class="table-actions pull-left" style="grid-column:3/5;">
-    <tbody><tr><th colspan="4" style="text-align: left;">Prowess</th><th colspan="2" style="text-align:right;">XP: <span class="xp xp-track" title="Prowess XP">
+    <tbody><tr><th colspan="4" style="text-align: left;">Prowess {{data.derived.prowess}}</th><th colspan="2" style="text-align:right;">XP: <span class="xp xp-track" title="Prowess XP">
                 <input type="radio" name="data.xp.prowess.value" value="6" {{checked data.xp.prowess.value 6}}/>
                 <input type="radio" name="data.xp.prowess.value" value="5" {{checked data.xp.prowess.value 5}}/>
                 <input type="radio" name="data.xp.prowess.value" value="4" {{checked data.xp.prowess.value 4}}/>
@@ -120,7 +137,7 @@
 		</tr>
     </tbody></table>
 <table class="table-actions pull-left" style="grid-column:5/7;">
-    <tbody><tr><th colspan="4" style="text-align: left;">Resolve</th><th colspan="2" style="text-align:right;">XP: <span class="xp xp-track" title="Resolve XP">
+    <tbody><tr><th colspan="4" style="text-align: left;">Resolve {{data.derived.resolve}}</th><th colspan="2" style="text-align:right;">XP: <span class="xp xp-track" title="Resolve XP">
                 <input type="radio" name="data.xp.resolve.value" value="6" {{checked data.xp.resolve.value 6}}/>
                 <input type="radio" name="data.xp.resolve.value" value="5" {{checked data.xp.resolve.value 5}}/>
                 <input type="radio" name="data.xp.resolve.value" value="4" {{checked data.xp.resolve.value 4}}/>
@@ -256,11 +273,12 @@
         </div>
         <div class="agent-skill section" style="grid-column: 5/7;">
         <h3>Investigative Skills</h3>
-        <ul>
+        <dl>
         {{#each skills as |skill id|}}
-        <li>{{skill.name}}</li>
+        <dt>{{skill.name}}</dt>
+        <dd>{{skill.data.description}}</dd>
         {{/each}}
-        </ul>
+        </dl>
         <div class="skill-select" style="display: none;">
         <select>
             <option value="">- select a skill -</option>
@@ -276,7 +294,49 @@
 
             </div>
         </section>
-        <section class="tab" data-group="primary" data-tab="downtime">DOWNTIME HERE</section>
+        <section class="tab" data-group="primary" data-tab="downtime">
+            
+            <div style="display:grid;grid-gap:4px;grid-template-columns: 1fr 1fr;">
+        <div class="prose section">
+            <h2>Mission Rewards</h2>
+            <p>After the mission, mark as directed:</p>
+            <h3>Primary Mission</h4>
+            <p>If you were on the primary mission, mark xp as follows:</p>
+            <ul>
+                <li>{{data.xp_trigger}}</li>
+                <li>You made effective use of your investigative skills.</li>
+                <li>You struggled with issues from your stress or conditions.</li>
+                <li>You provided emotional support for a crew member.</li>
+            </ul>
+            <h3>Secondary Mission</h3>
+            <p>If you survived the secondary mission, you mark 2 xp.</p>
+            <p>You may also need to mark harm or stress.</p>
+            <h3>Skipped Mission</h3>
+            <p>Agents who skipped the mission get to take R &amp; R (rest and relaxation).</p>
+            <button>R &amp; R</button>
+            <p>This marks a healing tick and clears up to 3 stress.</p>
+        </div>
+        <div class="prose section">
+            <h2>Downtime Activities</h2>
+            <p>If you went on a mission, you can pursue one personal activity before your next mission.</p>
+            <h3>Assigned Downtime</h3>
+            <p><strong>If the Quartermaster assigns you to a project</strong>, you don't have time left for a personal activity.</p>
+            <h3>Seek Stability</h3>
+            <p>Visit your source of stability to relieve stress.</p>
+            <button>Stability Check</button>
+            <h3>Train</h3>
+            <p>Mark 1 XP in a selected track (Insight, Prowess, Resolve, or playbook advancement).</p>
+            <p><em>You can mark 2 XP for a track when your crew has unlocked the corresponding upgrade.</em></p>
+            <h3>Recover</h3>
+            <p>Seek treatment for your existing harm. Either roll using the quality level of the NPC treating you, or take one stress and roll 0d.</p>
+            <p>Poor - 0d, Standard - 1d, Fine - 2d, Exceptional - 3d.</p>
+            <button>Recovery Roll</button>
+            <p>Mark a number of segments on your healing clock. 1-3: one segment, 4/5: two segments, 6: three segments, critical: five segments.</p>
+            <p>When you fill your healing clock, reduce each instance of harm on your sheet by one level, then clear the clock. Extra segments "roll over".</p>
+            <h3>Crafting</h3>
+            <p>Work on a personal long-term project to creat</p>
+        </div>
+            </div>
     </section>
     {{else}}
     <section>

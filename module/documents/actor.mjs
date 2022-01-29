@@ -37,9 +37,10 @@ export class SecretsActor extends Actor {
     }
 
     prepareAgentData(data) {
-        //console.log("checking playbook");
-        //if (data.playbook === '') return;
-        //this.setPlaybook(data.playbook);
+        data.derived = {};
+        data.derived.insight = ["hunt", "study", "survey", "tinker"].map(x => data.actions[x].value > 0 ? 1 : 0).reduce((a, x) => a + x, 0);
+        data.derived.prowess = ["finesse", "prowl", "skirmish", "wreck"].map(x => data.actions[x].value > 0 ? 1 : 0).reduce((a, x) => a + x, 0);
+        data.derived.resolve = ["attune", "command", "consort", "sway"].map(x => data.actions[x].value > 0 ? 1 : 0).reduce((a, x) => a + x, 0);
     }
 
     async setPlaybook(playbook) {

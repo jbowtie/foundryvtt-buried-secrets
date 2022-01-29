@@ -9,6 +9,16 @@
 	--darkblue: #001324;
 }
 
+.agent-header {
+  display:flex;
+  column-gap: 1em;
+}
+.agent-header h1 {border-bottom: none;}
+.stress-track {
+  align-self: flex-start;
+  margin-left:auto;
+}
+.stress-track p {text-align:right;}
 
 div.section {
     padding: 5px;
@@ -54,6 +64,7 @@ div.section {
     width: 16px;
     height: 16px;
     border-color: #222;
+    border: thin solid #222;
 }
 
 .xp input:checked,
@@ -167,6 +178,11 @@ li:hover [role="tooltip"] {
 
 .agent-skill button {
   width: auto;
+}
+
+.prose h3 {
+  font-weight: bold;
+  margin-top: 1.5em;
 }
 
 /*-- CLOCKS --*/
