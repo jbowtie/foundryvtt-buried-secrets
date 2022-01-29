@@ -34,6 +34,19 @@
                 "prowess": {"value":0},
                 "resolve": {"value":0},
                 "playbook": {"value":0}
+            },
+            "harm": {
+                "healing": {"value": 0},
+                "level3": "",
+                "level2a": "",
+                "level2b": "",
+                "level1a": "",
+                "level1b": ""
+            },
+            "armour": {
+                "standard": false,
+                "heavy": false,
+                "special": false
             }
         },
         "role": {

@@ -9,6 +9,17 @@
 	--darkblue: #001324;
 }
 
+
+div.section {
+    padding: 5px;
+    border-style: solid;
+    border-color: #888;
+    border-radius: 5px;
+    border-width: 1px;
+    position: relative;
+}
+
+
 .table-actions input {
     appearance: none;
     margin: 0 0.5em;
@@ -26,6 +37,10 @@
 	border-right: 2px solid #0d0e13;
 }
 
+.rollable:hover, .rollable:focus {
+  color: var(--red);
+  cursor: pointer; 
+}
 
 .xp {
     display:inline-flex;
@@ -62,6 +77,10 @@
     padding-left: 0;
 }
 
+.agent-gear li:hover, .agent-powers li span:hover {
+  color: var(--red);
+  cursor: pointer; 
+}
 .agent-gear h4 {font-weight:bold;margin:0;}
 
 [role="tooltip"] {
@@ -72,8 +91,10 @@ li:hover [role="tooltip"] {
     display: block;
     position: absolute;
     background-color: var(--almost_white);
+    color: black;
     outline: thin solid black;
     padding: 0.5em;
+    z-index: 100;
 }
 
 .dice-tooltip .dice-rolls .roll.bobd6 {
@@ -108,4 +129,100 @@ li:hover [role="tooltip"] {
 
   text-align: center;
   padding: 3px 5px 0;
+}
+
+.healing {
+  position: relative;
+  padding: 5px;
+}
+.healing .xp-clear {
+  position: absolute;
+  right: 5px;
+  top: 2em;
+  font-size: 13px;
+}
+
+.harm table {
+    width:100%;margin:1em 0;text-align:center;border-collapse: collapse;
+}
+
+.harm table tr:first-child {
+    border-top: 1px solid black;
+}
+.harm table tr {
+    border-bottom: 1px solid black;height:3em;
+}
+
+.harm .num {
+    width: 1.5em;background-color: #ddd;
+}
+.harm input {
+    width: 100%;
+    border: none;
+}
+.harm .lbl {
+    width:4em;background-color: #ddd;
+    font-variant: small-caps;font-size:90%;
+}
+
+.agent-skill button {
+  width: auto;
+}
+
+/*-- CLOCKS --*/
+.clock {
+    font-size:19.5px;
+    width:4em;
+    height:4em;
+    background-color:#ddd;
+    border-radius:50%;
+    position: relative;
+    overflow:hidden;
+    border:thin solid #666;
+    box-sizing: border-box;
+    margin-bottom: 0.5em;
+}
+.clock input[type=radio] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display:inline-block;
+  margin: 0;
+  width: 2em;
+  height: 2em;
+  position: absolute;
+  left:2em;
+  bottom:2em;
+  top:auto;
+  background-color: #eee;
+  transform-origin:0 2em ;
+  box-sizing: border-box;
+  font-size:inherit;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.clock input:checked,
+.clock input:checked ~ input[type=radio] {
+  background-color: #222;
+}
+
+.clock .size[value="4"] ~ input[type=radio][value="8"]
+{ display:none; }
+.clock .size[value="4"] ~ input[type=radio][value="7"]
+{ display:none; }
+.clock .size[value="4"] ~ input[type=radio][value="6"]
+{ display:none; }
+.clock .size[value="4"] ~ input[type=radio][value="5"]
+{ display:none; }
+.clock .size[value="4"] ~input[value="4"] {
+    transform: rotate(-90deg);
+}
+.clock .size[value="4"] ~ input[value="3"] {
+    transform: rotate(-180deg);
+}
+.clock .size[value="4"] ~ input[value="2"] {
+    transform: rotate(-270deg);
+}
+.clock .size[value="4"] ~ input[value="1"] {
+    transform: rotate(0deg);
 }

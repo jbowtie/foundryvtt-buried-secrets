@@ -28,6 +28,8 @@ export class AgentSheet extends ActorSheet {
             if(context.data.playbook === '') {
                 context.playbooks = game.items.filter(x => x.type === 'playbook');
             }
+            const existing_skills = context.skills.map(s => s.name);
+            context.skill_list = game.items.filter(x => x.type === 'skill' && !existing_skills.includes(x.data.name));
         }
 
         return context;
@@ -36,9 +38,43 @@ export class AgentSheet extends ActorSheet {
     activateListeners(html) {
         super.activateListeners(html);
         html.find(".rollable").click(this._onRoll.bind(this));
-        html.find(".select-playbook").click(this._setPlaybook.bind(this));
         html.find(".agent-gear li").click(this._toggleGear.bind(this));
         html.find(".agent-powers span[data-ability]").click(this._toggleAbility.bind(this));
+        // select playbook
+        html.find(".select-playbook").click(this._setPlaybook.bind(this));
+        // add/remove investigative skills
+        html.find(".add-skill").click(this._showSkillSelect.bind(this));
+        html.find(".cancel-skill").click(this._cancelSkillSelect.bind(this));
+        html.find(".confirm-skill").click(this._confirmSkillSelect.bind(this));
+    }
+
+    async _cancelSkillSelect(event) {
+        event.preventDefault();
+        $('.skill-select').hide();
+        $('.add-skill').show();
+    }
+    async _confirmSkillSelect(event) {
+        event.preventDefault();
+        const val = $('.skill-select select').val();
+        if (val === '') {
+            console.log("No skill selected");
+            return;
+        }
+        console.log(`Wanted skill ${val}`);
+        const item = game.items.getName(val);
+        if(item) {
+            const itemTemplate = item.toObject();
+            await this.actor.createEmbeddedDocuments("Item", [itemTemplate]);
+
+        } else {console.log('NO SUCH ITEM');}
+
+        $('.skill-select').hide();
+        $('.add-skill').show();
+    }
+    async _showSkillSelect(event) {
+        event.preventDefault();
+        $('.skill-select').show();
+        $(event.currentTarget).hide();
     }
 
     async _toggleGear(event) {
