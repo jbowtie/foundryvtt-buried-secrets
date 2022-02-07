@@ -10,6 +10,7 @@
             "templates": ["base"],
             "playbook": "",
             "xp_trigger": "",
+            "status": "",
             "stress": {
                 "value": 0,
                 "min": 0,
@@ -50,7 +51,14 @@
             }
         },
         "role": {
-            "templates": ["base"]
+            "templates": ["base"],
+            "role": "",
+            "resources": {
+                "intel": {"value": 0, "min": 0, "max": 4},
+                "heat": {"value": 0, "min": 0, "max": 8},
+                "threat": {"value": 0, "min": 0, "max": 5},
+                "supply": {"value": 0}
+            }
         },
         "crew": {
             "templates": ["base"]

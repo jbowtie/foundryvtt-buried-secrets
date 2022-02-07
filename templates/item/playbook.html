@@ -29,7 +29,7 @@
     <div class="tab" data-group="primary" data-tab="bonuses">
         <h3>Starting Actions:</h3>
         {{#each data.actions as |val action|}}
-        {{#if (gteq val 1)}}
+        {{#if (gte val 1)}}
         <p class="flexrow">{{action}}: {{val}}<button class="remove-playbook-action" data-action="{{action}}" title="Remove action"><i class="fas fa-trash"></i></button></p>
         {{/if}}
         {{/each}}
