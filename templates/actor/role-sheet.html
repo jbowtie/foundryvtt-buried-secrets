@@ -1,0 +1,86 @@
+<form class="{{cssClass}} flexcol" style="flex-basis: auto;flex-grow:0;" autocomplete="off">
+
+    {{!-- Sheet Header --}}
+    <header class="agent-header">
+        <h1>{{data.role}}</h1>
+    </header>
+
+    {{#if data.role}}
+    <section>
+        {{#if (eq data.role "director")}}
+        <div class="section">
+        <h3>Intel</h3>
+            <p>You can store up to 4 intel between missions (any extra must be spent immediately).The first vault upgrade allows you to store 8 intel; the second vault upgrade allows you to store up to 16 intel.</p>
+            <p><b>Intel:</b>
+                <span class="xp ib stress">
+                {{#track data.resources.intel.max}}
+                    <input type="radio" name="data.resources.intel.value" value="{{@index}}" {{checked data.resources.intel.value @index}}/>
+                {{/track}}
+                </span>
+            </p>
+            <p>
+                <label class="xp-clear ib"><input type="radio" name="data.resources.intel.value" value="0" {{checked data.resources.intel.value 0}}/>Clear Intel</label>
+            </p>
+        </div>
+        <div class="section">
+            <h3>Heat</h3>
+            <p>Heat indicates how much attention your activities are attracting. If the track fills up, increase threat by one then clear the heat track.</p>
+            <p><b>Heat:</b>
+                <span class="xp ib stress">
+                {{#track data.resources.heat.max}}
+                    <input type="radio" name="data.resources.heat.value" value="{{@index}}" {{checked data.resources.heat.value @index}}/>
+                {{/track}}
+                </span>
+            </p>
+            <p>
+                <label class="xp-clear ib"><input type="radio" name="data.resources.heat.value" value="0" {{checked data.resources.heat.value 0}}/>Clear Heat</label>
+            </p>
+            <h4>Threat</h4>
+            <p>As the threat level increases, the more dangerous and desperate the conspiracy becomes. If the threat level ever reaches 5, the crew is destroyed by the full might of the conspiracy.</p>
+            <p><strong>Threat:</strong> 
+                <span class="xp ib stress">
+                {{#track data.resources.threat.max}}
+                    <input type="radio" name="data.resources.threat.value" value="{{@index}}" {{checked data.resources.threat.value @index}}/>
+                {{/track}}
+                </span>
+            </p>
+        </div>
+        {{/if}}
+        {{#if (eq data.role "qm")}}
+        <div class="section">
+            <h3>Supply</h3>
+            <p>You can keep up to 6 supply on hand.Use it to upgrade the crew, replenish squads, and obtain assets.</p>
+            <p><b>Supply:</b>
+                <span class="xp ib stress">
+                {{#track 6}}
+                    <input type="radio" name="data.resources.supply.value" value="{{@index}}" {{checked data.resources.supply.value @index}}/>
+                {{/track}}
+                </span>
+            </p>
+            <p>
+                <label class="xp-clear ib"><input type="radio" name="data.resources.supply.value" value="0" {{checked data.resources.supply.value 0}}/>Clear Supply</label>
+            </p>
+        </div>
+        {{/if}}
+        {{#if (eq data.role "personnel")}}
+        <div class="section">
+            <h3>Agents</h3>
+            {{#each agents}}
+            <p>{{this.name}} ({{this.playbook}}) - Stress: {{this.stress}}
+                - {{this.skills}} - Harm: {{this.harm}}
+            </p>
+            {{/each}}
+            <h3>Experts</h3>
+            <h3>Squads</h3>
+        </div>
+        {{/if}}
+    </section>
+    {{else}}
+    <section>
+        <h2>Create the role:</h2>
+        <button class="select-role" data-role="director">Director</button>
+        <button class="select-role" data-role="personnel">Personnel</button>
+        <button class="select-role" data-role="qm">Quartermaster</button>
+    </section>
+    {{/if}}
+</form>
