@@ -34,7 +34,7 @@
         <section class="tab" data-group="primary" data-tab="mission">
             <div style="display:grid;grid-gap:4px;">
 <table class="table-actions pull-left" style="grid-column:1/3;">
-    <tbody><tr><th colspan="4" style="text-align: left;">Insight {{data.derived.insight}}</th><th colspan="2" style="text-align:right;">XP: <span class="xp xp-track" title="Insight XP">
+    <tbody><tr><th colspan="4" style="text-align: left;padding-left:0.5em;font-size: larger"><span class="rollable" data-action="insight">Insight</span></th><th colspan="2" style="text-align:right;padding-right:0.5em">XP: <span class="xp xp-track" title="Insight XP">
             {{#track 6}}
                 <input type="radio" name="data.xp.insight.value" value="{{@index}}" {{checked data.xp.insight.value @index}}/>
             {{/track}}
@@ -49,7 +49,7 @@
 			<td><input class="{{#if (lte 3 data.actions.hunt.value)}}filled{{/if}}" type="radio" name="data.actions.hunt.value" value="2" {{checked data.actions.hunt.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.hunt.value)}}filled{{/if}}" type="radio" name="data.actions.hunt.value" value="3" {{checked data.actions.hunt.value 3}}/></td>
 			<td><input type="radio" name="data.actions.hunt.value" value="4" {{checked data.actions.hunt.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="hunt">Hunt: <span>{{data.actions.hunt.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="hunt">Hunt</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -58,7 +58,7 @@
 			<td><input class="{{#if (lte 3 data.actions.study.value)}}filled{{/if}}" type="radio" name="data.actions.study.value" value="2" {{checked data.actions.study.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.study.value)}}filled{{/if}}" type="radio" name="data.actions.study.value" value="3" {{checked data.actions.study.value 3}}/></td>
 			<td><input type="radio" name="data.actions.study.value" value="4" {{checked data.actions.study.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="study">Study: <span>{{data.actions.study.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="study">Study</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -67,7 +67,7 @@
 			<td><input class="{{#if (lte 3 data.actions.survey.value)}}filled{{/if}}" type="radio" name="data.actions.survey.value" value="2" {{checked data.actions.survey.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.survey.value)}}filled{{/if}}" type="radio" name="data.actions.survey.value" value="3" {{checked data.actions.survey.value 3}}/></td>
 			<td><input type="radio" name="data.actions.survey.value" value="4" {{checked data.actions.survey.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="survey">Survey: <span>{{data.actions.survey.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="survey">Survey</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -76,11 +76,11 @@
 			<td><input class="{{#if (lte 3 data.actions.tinker.value)}}filled{{/if}}" type="radio" name="data.actions.tinker.value" value="2" {{checked data.actions.tinker.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.tinker.value)}}filled{{/if}}" type="radio" name="data.actions.tinker.value" value="3" {{checked data.actions.tinker.value 3}}/></td>
 			<td><input type="radio" name="data.actions.tinker.value" value="4" {{checked data.actions.tinker.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="tinker">Tinker: <span>{{data.actions.tinker.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="tinker">Tinker</span></td>
 		</tr>
     </tbody></table>
 <table class="table-actions pull-left" style="grid-column:3/5;">
-    <tbody><tr><th colspan="4" style="text-align: left;">Prowess {{data.derived.prowess}}</th><th colspan="2" style="text-align:right;">XP: <span class="xp xp-track" title="Prowess XP">
+    <tbody><tr><th colspan="4" style="text-align: left;padding-left:0.5em;font-size: larger"><span class="rollable" data-action="prowess">Prowess</span></th><th colspan="2" style="text-align:right;padding-right:0.5em">XP: <span class="xp xp-track" title="Prowess XP">
             {{#track 6}}
                 <input type="radio" name="data.xp.prowess.value" value="{{@index}}" {{checked data.xp.prowess.value @index}}/>
             {{/track}}
@@ -95,7 +95,7 @@
 			<td><input class="{{#if (lte 3 data.actions.finesse.value)}}filled{{/if}}" type="radio" name="data.actions.finesse.value" value="2" {{checked data.actions.finesse.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.finesse.value)}}filled{{/if}}" type="radio" name="data.actions.finesse.value" value="3" {{checked data.actions.finesse.value 3}}/></td>
 			<td><input type="radio" name="data.actions.finesse.value" value="4" {{checked data.actions.finesse.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="finesse">Finesse: <span>{{data.actions.finesse.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="finesse">Finesse</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -104,7 +104,7 @@
 			<td><input class="{{#if (lte 3 data.actions.prowl.value)}}filled{{/if}}" type="radio" name="data.actions.prowl.value" value="2" {{checked data.actions.prowl.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.prowl.value)}}filled{{/if}}" type="radio" name="data.actions.prowl.value" value="3" {{checked data.actions.prowl.value 3}}/></td>
 			<td><input type="radio" name="data.actions.prowl.value" value="4" {{checked data.actions.prowl.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="prowl">Prowl: <span>{{data.actions.prowl.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="prowl">Prowl</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -113,7 +113,7 @@
 			<td><input class="{{#if (lte 3 data.actions.skirmish.value)}}filled{{/if}}" type="radio" name="data.actions.skirmish.value" value="2" {{checked data.actions.skirmish.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.skirmish.value)}}filled{{/if}}" type="radio" name="data.actions.skirmish.value" value="3" {{checked data.actions.skirmish.value 3}}/></td>
 			<td><input type="radio" name="data.actions.skirmish.value" value="4" {{checked data.actions.skirmish.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="skirmish">Skirmish: <span>{{data.actions.skirmish.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="skirmish">Skirmish</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -122,11 +122,11 @@
 			<td><input class="{{#if (lte 3 data.actions.wreck.value)}}filled{{/if}}" type="radio" name="data.actions.wreck.value" value="2" {{checked data.actions.wreck.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.wreck.value)}}filled{{/if}}" type="radio" name="data.actions.wreck.value" value="3" {{checked data.actions.wreck.value 3}}/></td>
 			<td><input type="radio" name="data.actions.wreck.value" value="4" {{checked data.actions.wreck.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="wreck">Wreck: <span>{{data.actions.wreck.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="wreck">Wreck</span></td>
 		</tr>
     </tbody></table>
 <table class="table-actions pull-left" style="grid-column:5/7;">
-    <tbody><tr><th colspan="4" style="text-align: left;">Resolve {{data.derived.resolve}}</th><th colspan="2" style="text-align:right;">XP: <span class="xp xp-track" title="Resolve XP">
+    <tbody><tr><th colspan="4" style="text-align: left;padding-left:0.5em;font-size: larger"><span class="rollable" data-action="resolve">Resolve</span></th><th colspan="2" style="text-align:right;padding-right:0.5em">XP: <span class="xp xp-track" title="Resolve XP">
             {{#track 6}}
                 <input type="radio" name="data.xp.resolve.value" value="{{@index}}" {{checked data.xp.resolve.value @index}}/>
             {{/track}}
@@ -141,7 +141,7 @@
 			<td><input class="{{#if (lte 3 data.actions.attune.value)}}filled{{/if}}" type="radio" name="data.actions.attune.value" value="2" {{checked data.actions.attune.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.attune.value)}}filled{{/if}}" type="radio" name="data.actions.attune.value" value="3" {{checked data.actions.attune.value 3}}/></td>
 			<td><input type="radio" name="data.actions.attune.value" value="4" {{checked data.actions.attune.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="attune">Attune: <span>{{data.actions.attune.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="attune">Attune</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -150,7 +150,7 @@
 			<td><input class="{{#if (lte 3 data.actions.command.value)}}filled{{/if}}" type="radio" name="data.actions.command.value" value="2" {{checked data.actions.command.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.command.value)}}filled{{/if}}" type="radio" name="data.actions.command.value" value="3" {{checked data.actions.command.value 3}}/></td>
 			<td><input type="radio" name="data.actions.command.value" value="4" {{checked data.actions.command.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="command">Command: <span>{{data.actions.command.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="command">Command</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -159,7 +159,7 @@
 			<td><input class="{{#if (lte 3 data.actions.consort.value)}}filled{{/if}}" type="radio" name="data.actions.consort.value" value="2" {{checked data.actions.consort.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.consort.value)}}filled{{/if}}" type="radio" name="data.actions.consort.value" value="3" {{checked data.actions.consort.value 3}}/></td>
 			<td><input type="radio" name="data.actions.consort.value" value="4" {{checked data.actions.consort.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="consort">Consort: <span>{{data.actions.consort.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="consort">Consort</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -168,20 +168,18 @@
 			<td><input class="{{#if (lte 3 data.actions.sway.value)}}filled{{/if}}" type="radio" name="data.actions.sway.value" value="2" {{checked data.actions.sway.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.sway.value)}}filled{{/if}}" type="radio" name="data.actions.sway.value" value="3" {{checked data.actions.sway.value 3}}/></td>
 			<td><input type="radio" name="data.actions.sway.value" value="4" {{checked data.actions.sway.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="sway">Sway: <span>{{data.actions.sway.value}}</span></span></td>
+            <td class="left-aligned"><span class="rollable" data-action="sway">Sway</span></td>
 		</tr>
     </tbody></table>
 <div class="agent-powers section" style="grid-column: 1/5;">
-    <h3 style="position:relative;margin-top:0.5em;margin-bottom:0.5em;">Special Abilities <span style="position:absolute;right:0;text-align:right;">XP: 
-        <i class="far fa-bookmark" style="color:white;"></i>
-        <i class="fas fa-bookmark" style="color:white;"></i>
-        <i class="fas fa-bookmark" style="color:white;"></i>
-        <i class="fas fa-bookmark" style="color:white;"></i>
-        <i class="fas fa-bookmark" style="color:white;"></i>
-        <i class="fas fa-bookmark" style="color:white;"></i>
-        <i class="fas fa-bookmark" style="color:white;"></i>
-        <i class="fas fa-bookmark" style="color:white;"></i></span>
+    <h3 style="position:relative;margin-top:0.5em;margin-bottom:0.5em;">Special Abilities <span style="position:absolute;right:0;text-align:right;">XP: <span class="xp xp-track" title="Playbook XP">
+            {{#track 8}}
+                <input type="radio" name="data.xp.playbook.value" value="{{@index}}" {{checked data.xp.playbook.value @index}}/>
+            {{/track}}
+            </span>
+        </span>
     </h3>
+    <p style="text-align: right;margin-bottom: 1em;font-weight: bold;"><label class="xp-clear"><input type="radio" name="data.xp.playbook.value" value="0" {{checked data.xp.playbook.value 0}} />Clear XP</label></p>
     <ul>
         {{#each abilities as |ability id|}}
         <li>

@@ -102,8 +102,26 @@ export class AgentSheet extends ActorSheet {
 
         let speaker = ChatMessage.getSpeaker(this.actor);
         const action = $(event.currentTarget).data("action");
+        const is_resistance = ["resolve", "insight", "prowess"].includes(action);
+        // roll types:
+        //  fortune (arbitrary dice; includes recovery roll)
+        //  stability (lowest resistance)
+
+        // TODO more sophisticated:
+        //   position/effect
+        //   factor in harm
+        //   has assist?
+        //   pushing yourself?
+        //   devil's bargain?
+
         const data = this.actor.data.data;
-        let dice_amount = data.actions[action].value;
+        let dice_amount = 0;
+        if(is_resistance){
+            dice_amount = data.derived[action];
+        }
+        else{
+            dice_amount = data.actions[action].value;
+        }
         let zeromode = false;
         if (dice_amount < 0) { dice_amount = 0;}
         if (dice_amount <= 0) {
@@ -115,9 +133,14 @@ export class AgentSheet extends ActorSheet {
         await r.evaluate({async: true});
         let rolls = (r.terms)[0].results;
         let roll_status = this.getActionRollStatus(rolls, zeromode);
+        let resist_status = "";
+        if(is_resistance){
+            [roll_status, resist_status] = this.getResistanceRollStatus(rolls, zeromode);
+        }
         let result = await renderTemplate("systems/buried-secrets/templates/secrets-roll.html", {
             rolls: rolls, 
             roll_status: roll_status, 
+            resist_status: resist_status,
             zeromode: zeromode, 
             action: action});
 
@@ -129,6 +152,37 @@ export class AgentSheet extends ActorSheet {
         }
 
         await CONFIG.ChatMessage.documentClass.create(messageData, {});
+    }
+
+    getResistanceRollStatus(rolls, zeromode = false) {
+
+        let sorted_rolls = rolls.map(i => i.result).sort();
+        let use_die;
+        let prev_use_die;
+
+        if (zeromode) {
+            use_die = sorted_rolls[0];
+        } else {
+            use_die = sorted_rolls[sorted_rolls.length - 1];
+            if (sorted_rolls.length - 2 >= 0) {
+                prev_use_die = sorted_rolls[sorted_rolls.length - 2]
+            }
+        }
+
+        let stress = 6 - use_die;
+        let roll_status = "success";
+        let resist_status = `Take ${stress} stress`;
+
+        if (use_die === 6) {
+            // if 6 - check the prev highest one.
+            // 6,6 = critical success
+            if (prev_use_die && prev_use_die === 6) {
+                roll_status = "critical-success";
+                resist_status = "Clear 1 stress";
+            }
+        }
+
+        return [roll_status, resist_status];
     }
 
     getActionRollStatus(rolls, zeromode = false) {
