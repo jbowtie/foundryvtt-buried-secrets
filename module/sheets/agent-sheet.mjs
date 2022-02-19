@@ -38,6 +38,7 @@ export class AgentSheet extends ActorSheet {
     activateListeners(html) {
         super.activateListeners(html);
         html.find(".rollable").click(this._onRoll.bind(this));
+        html.find(".simple-roll").click(this._simpleRoll.bind(this));
         html.find(".agent-gear li").click(this._toggleGear.bind(this));
         html.find(".agent-powers span[data-ability]").click(this._toggleAbility.bind(this));
         // select playbook
@@ -97,16 +98,31 @@ export class AgentSheet extends ActorSheet {
         await this.actor.setPlaybook(playbook);
     }
 
+    async stabilityRoll() {
+        const data = this.actor.data.data;
+        const stability_dice = Math.min(data.derived.insight, data.derived.prowess, data.derived.resolve);
+        const [rolls, zeromode, roll_status, r] = await this._performRoll(stability_dice);
+        const [roll, critical] = this.rollValue(rolls, zeromode);
+        const results = {
+            original_roll: r,
+            rolls: rolls,
+            roll_status: "success",
+            resist_status: `Clear ${roll} stress`,
+            zeromode: zeromode,
+            action: 'stability'
+        };
+        await this._displayRollResult(results);
+    }
     async _onRoll(event) {
         event.preventDefault();
 
-        let speaker = ChatMessage.getSpeaker(this.actor);
         const action = $(event.currentTarget).data("action");
-        const is_resistance = ["resolve", "insight", "prowess"].includes(action);
-        // roll types:
-        //  fortune (arbitrary dice; includes recovery roll)
-        //  stability (lowest resistance)
+        if(action === 'stability') {
+            await this.stabilityRoll();
+            return;
+        }
 
+        const is_resistance = ["resolve", "insight", "prowess"].includes(action);
         // TODO more sophisticated:
         //   position/effect
         //   factor in harm
@@ -122,6 +138,41 @@ export class AgentSheet extends ActorSheet {
         else{
             dice_amount = data.actions[action].value;
         }
+        let [rolls, zeromode, roll_status, r] = await this._performRoll(dice_amount);
+        let resist_status = "";
+        if(is_resistance){
+            [roll_status, resist_status] = this.getResistanceRollStatus(rolls, zeromode);
+        }
+        const results = {
+            original_roll: r,
+            rolls: rolls,
+            roll_status: roll_status,
+            resist_status: resist_status,
+            zeromode: zeromode,
+            action: action
+        };
+        await this._displayRollResult(results);
+    }
+    async _displayRollResult(results) {
+        let speaker = ChatMessage.getSpeaker(this.actor);
+        let message = await renderTemplate("systems/buried-secrets/templates/secrets-roll.html", {
+            rolls: results.rolls, 
+            roll_status: results.roll_status, 
+            resist_status: results.resist_status,
+            zeromode: results.zeromode, 
+            action: results.action});
+
+        let messageData = {
+            speaker: speaker,
+            content: message,
+            type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+            roll: results.original_roll
+        }
+
+        await CONFIG.ChatMessage.documentClass.create(messageData, {});
+    }
+
+    async _performRoll(dice_amount) {
         let zeromode = false;
         if (dice_amount < 0) { dice_amount = 0;}
         if (dice_amount <= 0) {
@@ -129,33 +180,48 @@ export class AgentSheet extends ActorSheet {
             zeromode = true;
         }
         let r = new Roll( `${dice_amount}d6`, {} );
-
         await r.evaluate({async: true});
         let rolls = (r.terms)[0].results;
         let roll_status = this.getActionRollStatus(rolls, zeromode);
-        let resist_status = "";
-        if(is_resistance){
-            [roll_status, resist_status] = this.getResistanceRollStatus(rolls, zeromode);
-        }
-        let result = await renderTemplate("systems/buried-secrets/templates/secrets-roll.html", {
-            rolls: rolls, 
-            roll_status: roll_status, 
-            resist_status: resist_status,
-            zeromode: zeromode, 
-            action: action});
+        return [rolls, zeromode, roll_status, r];
+    }
+    
+    _simpleRoll(event) {
+        const action = $(event.currentTarget).data("action");
 
-        let messageData = {
-            speaker: speaker,
-            content: result,
-            type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-            roll: r
-        }
-
-        await CONFIG.ChatMessage.documentClass.create(messageData, {});
+        const d = new Dialog({
+            title: `${action} Roll`,
+            content: `<form style='padding: 1em;'>
+            <label style='display:block;'>How many dice?</label>
+            <select name="dice_amount">
+                ${[0,1,2,3,4,5].map(n => `<option value='${n}'>${n}</option>`)}
+            </select>
+            </form>`,
+            buttons: {
+                cancel: {icon:"<i class='fas fa-times'></i>", label: "Cancel"},
+                confirm: {
+                    icon:"<i class='fas fa-dice'></i>",
+                    label: "Roll!",
+                    callback: async (html) => {
+                        const dice_amount = parseInt(html.find('[name="dice_amount"]')[0].value);
+                        let [rolls, zeromode, roll_status, original_roll] = await this._performRoll(dice_amount);
+                        const results = {
+                            original_roll: original_roll,
+                            rolls: rolls,
+                            roll_status: roll_status,
+                            resist_status: "",
+                            zeromode: zeromode,
+                            action: action
+                        };
+                        await this._displayRollResult(results);
+                    }}
+            },
+            default: "confirm"
+        });
+        d.render(true);
     }
 
-    getResistanceRollStatus(rolls, zeromode = false) {
-
+    rollValue(rolls, zeromode = false) {
         let sorted_rolls = rolls.map(i => i.result).sort();
         let use_die;
         let prev_use_die;
@@ -169,17 +235,26 @@ export class AgentSheet extends ActorSheet {
             }
         }
 
-        let stress = 6 - use_die;
-        let roll_status = "success";
-        let resist_status = `Take ${stress} stress`;
+        let critical = false;
 
         if (use_die === 6) {
             // if 6 - check the prev highest one.
             // 6,6 = critical success
             if (prev_use_die && prev_use_die === 6) {
-                roll_status = "critical-success";
-                resist_status = "Clear 1 stress";
+                critical = true;
             }
+        }
+        return [use_die, critical];
+    }
+
+    getResistanceRollStatus(rolls, zeromode = false) {
+        let [use_die, critical] = this.rollValue(rolls, zeromode);
+        let stress = 6 - use_die;
+        let roll_status = "success";
+        let resist_status = `Take ${stress} stress`;
+        if (critical) {
+            roll_status = "critical-success";
+            resist_status = "Clear 1 stress";
         }
 
         return [roll_status, resist_status];
@@ -187,19 +262,8 @@ export class AgentSheet extends ActorSheet {
 
     getActionRollStatus(rolls, zeromode = false) {
 
-        let sorted_rolls = rolls.map(i => i.result).sort();
+        let [use_die, critical] = this.rollValue(rolls, zeromode);
         let roll_status;
-        let use_die;
-        let prev_use_die;
-
-        if (zeromode) {
-            use_die = sorted_rolls[0];
-        } else {
-            use_die = sorted_rolls[sorted_rolls.length - 1];
-            if (sorted_rolls.length - 2 >= 0) {
-                prev_use_die = sorted_rolls[sorted_rolls.length - 2]
-            }
-        }
 
         // 1,2,3 = failure
         if (use_die <= 3) {
@@ -207,7 +271,7 @@ export class AgentSheet extends ActorSheet {
         } else if (use_die === 6) {
             // if 6 - check the prev highest one.
             // 6,6 = critical success
-            if (prev_use_die && prev_use_die === 6) {
+            if (critical) {
                 roll_status = "critical-success";
             } else {
                 // 6 = success

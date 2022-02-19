@@ -7,6 +7,7 @@
         <div class="header-fields">
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" spellcheck="false"/></h1>
             <h2>{{data.playbook}}</h2>
+            <p><button class="simple-roll" data-action="fortune"><i class='fas fa-dice'></i> Fortune Roll</button></p>
         </div>
         <div class="stress-track">
             <strong>Stress: </strong>
@@ -307,18 +308,19 @@
             <p><strong>If the Quartermaster assigns you to a project</strong>, you don't have time left for a personal activity.</p>
             <h3>Seek Stability</h3>
             <p>Visit your source of stability to relieve stress.</p>
-            <button>Stability Check</button>
+            <button class="rollable" data-action="stability">Stability Check</button>
             <h3>Train</h3>
             <p>Mark 1 XP in a selected track (Insight, Prowess, Resolve, or playbook advancement).</p>
             <p><em>You can mark 2 XP for a track when your crew has unlocked the corresponding upgrade.</em></p>
             <h3>Recover</h3>
             <p>Seek treatment for your existing harm. Either roll using the quality level of the NPC treating you, or take one stress and roll 0d.</p>
             <p>Poor - 0d, Standard - 1d, Fine - 2d, Exceptional - 3d.</p>
-            <button>Recovery Roll</button>
+            <p><button class="simple-roll" data-action="recovery"><i class='fas fa-dice'></i> Recovery Roll</button></p>
             <p>Mark a number of segments on your healing clock. 1-3: one segment, 4/5: two segments, 6: three segments, critical: five segments.</p>
             <p>When you fill your healing clock, reduce each instance of harm on your sheet by one level, then clear the clock. Extra segments "roll over".</p>
             <h3>Crafting</h3>
-            <p>Work on a personal long-term project to creat</p>
+            <p>Work on a personal long-term project to invent, build or enhance gadgets, weapons, apps, or spells.</p>
+            <p>(under construction)</p>
         </div>
             </div>
     </section>
