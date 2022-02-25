@@ -27,6 +27,7 @@
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="mission">Mission</a>
         <a class="item" data-tab="downtime">Downtime</a>
+        <a class="item" data-tab="bio">Biography</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -50,7 +51,7 @@
 			<td><input class="{{#if (lte 3 data.actions.hunt.value)}}filled{{/if}}" type="radio" name="data.actions.hunt.value" value="2" {{checked data.actions.hunt.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.hunt.value)}}filled{{/if}}" type="radio" name="data.actions.hunt.value" value="3" {{checked data.actions.hunt.value 3}}/></td>
 			<td><input type="radio" name="data.actions.hunt.value" value="4" {{checked data.actions.hunt.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="hunt">Hunt</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="hunt">Hunt</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -59,7 +60,7 @@
 			<td><input class="{{#if (lte 3 data.actions.study.value)}}filled{{/if}}" type="radio" name="data.actions.study.value" value="2" {{checked data.actions.study.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.study.value)}}filled{{/if}}" type="radio" name="data.actions.study.value" value="3" {{checked data.actions.study.value 3}}/></td>
 			<td><input type="radio" name="data.actions.study.value" value="4" {{checked data.actions.study.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="study">Study</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="study">Study</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -68,7 +69,7 @@
 			<td><input class="{{#if (lte 3 data.actions.survey.value)}}filled{{/if}}" type="radio" name="data.actions.survey.value" value="2" {{checked data.actions.survey.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.survey.value)}}filled{{/if}}" type="radio" name="data.actions.survey.value" value="3" {{checked data.actions.survey.value 3}}/></td>
 			<td><input type="radio" name="data.actions.survey.value" value="4" {{checked data.actions.survey.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="survey">Survey</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="survey">Survey</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -77,7 +78,7 @@
 			<td><input class="{{#if (lte 3 data.actions.tinker.value)}}filled{{/if}}" type="radio" name="data.actions.tinker.value" value="2" {{checked data.actions.tinker.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.tinker.value)}}filled{{/if}}" type="radio" name="data.actions.tinker.value" value="3" {{checked data.actions.tinker.value 3}}/></td>
 			<td><input type="radio" name="data.actions.tinker.value" value="4" {{checked data.actions.tinker.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="tinker">Tinker</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="tinker">Tinker</span></td>
 		</tr>
     </tbody></table>
 <table class="table-actions pull-left" style="grid-column:3/5;">
@@ -96,7 +97,7 @@
 			<td><input class="{{#if (lte 3 data.actions.finesse.value)}}filled{{/if}}" type="radio" name="data.actions.finesse.value" value="2" {{checked data.actions.finesse.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.finesse.value)}}filled{{/if}}" type="radio" name="data.actions.finesse.value" value="3" {{checked data.actions.finesse.value 3}}/></td>
 			<td><input type="radio" name="data.actions.finesse.value" value="4" {{checked data.actions.finesse.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="finesse">Finesse</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="finesse">Finesse</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -105,7 +106,7 @@
 			<td><input class="{{#if (lte 3 data.actions.prowl.value)}}filled{{/if}}" type="radio" name="data.actions.prowl.value" value="2" {{checked data.actions.prowl.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.prowl.value)}}filled{{/if}}" type="radio" name="data.actions.prowl.value" value="3" {{checked data.actions.prowl.value 3}}/></td>
 			<td><input type="radio" name="data.actions.prowl.value" value="4" {{checked data.actions.prowl.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="prowl">Prowl</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="prowl">Prowl</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -114,7 +115,7 @@
 			<td><input class="{{#if (lte 3 data.actions.skirmish.value)}}filled{{/if}}" type="radio" name="data.actions.skirmish.value" value="2" {{checked data.actions.skirmish.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.skirmish.value)}}filled{{/if}}" type="radio" name="data.actions.skirmish.value" value="3" {{checked data.actions.skirmish.value 3}}/></td>
 			<td><input type="radio" name="data.actions.skirmish.value" value="4" {{checked data.actions.skirmish.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="skirmish">Skirmish</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="skirmish">Skirmish</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -123,7 +124,7 @@
 			<td><input class="{{#if (lte 3 data.actions.wreck.value)}}filled{{/if}}" type="radio" name="data.actions.wreck.value" value="2" {{checked data.actions.wreck.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.wreck.value)}}filled{{/if}}" type="radio" name="data.actions.wreck.value" value="3" {{checked data.actions.wreck.value 3}}/></td>
 			<td><input type="radio" name="data.actions.wreck.value" value="4" {{checked data.actions.wreck.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="wreck">Wreck</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="wreck">Wreck</span></td>
 		</tr>
     </tbody></table>
 <table class="table-actions pull-left" style="grid-column:5/7;">
@@ -142,7 +143,7 @@
 			<td><input class="{{#if (lte 3 data.actions.attune.value)}}filled{{/if}}" type="radio" name="data.actions.attune.value" value="2" {{checked data.actions.attune.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.attune.value)}}filled{{/if}}" type="radio" name="data.actions.attune.value" value="3" {{checked data.actions.attune.value 3}}/></td>
 			<td><input type="radio" name="data.actions.attune.value" value="4" {{checked data.actions.attune.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="attune">Attune</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="attune">Attune</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -151,7 +152,7 @@
 			<td><input class="{{#if (lte 3 data.actions.command.value)}}filled{{/if}}" type="radio" name="data.actions.command.value" value="2" {{checked data.actions.command.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.command.value)}}filled{{/if}}" type="radio" name="data.actions.command.value" value="3" {{checked data.actions.command.value 3}}/></td>
 			<td><input type="radio" name="data.actions.command.value" value="4" {{checked data.actions.command.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="command">Command</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="command">Command</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -160,7 +161,7 @@
 			<td><input class="{{#if (lte 3 data.actions.consort.value)}}filled{{/if}}" type="radio" name="data.actions.consort.value" value="2" {{checked data.actions.consort.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.consort.value)}}filled{{/if}}" type="radio" name="data.actions.consort.value" value="3" {{checked data.actions.consort.value 3}}/></td>
 			<td><input type="radio" name="data.actions.consort.value" value="4" {{checked data.actions.consort.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="consort">Consort</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="consort">Consort</span></td>
 		</tr>
         <tr>
             <td class="table-actions__attribute">
@@ -169,7 +170,7 @@
 			<td><input class="{{#if (lte 3 data.actions.sway.value)}}filled{{/if}}" type="radio" name="data.actions.sway.value" value="2" {{checked data.actions.sway.value 2}}/></td>
 			<td><input class="{{#if (lte 4 data.actions.sway.value)}}filled{{/if}}" type="radio" name="data.actions.sway.value" value="3" {{checked data.actions.sway.value 3}}/></td>
 			<td><input type="radio" name="data.actions.sway.value" value="4" {{checked data.actions.sway.value 4}}/></td>
-            <td class="left-aligned"><span class="rollable" data-action="sway">Sway</span></td>
+            <td class="left-aligned"><span class="action-roll" data-action="sway">Sway</span></td>
 		</tr>
     </tbody></table>
 <div class="agent-powers section" style="grid-column: 1/5;">
@@ -191,7 +192,12 @@
 </div>
 
 <div class="agent-gear section" style="grid-column: 5/7;">
-    <h3 style="margin-top:0.5em;">Load <span style="font-weight:400;">&#x2b1c; 3 light  &#x2b1c; 5 normal  &#x2b1c; 6 heavy</span></h3>
+    <h3 style="margin-top:0.5em;">Load and Gear {{data.derived.totalLoad}}</h3>
+    <div class="button-group" role="group" aria-label="Load">
+        <button>3 Light</button>
+        <button class="active">5 Normal</button>
+        <button>6 Heavy</button>
+    </div>
     <h4>Standard items</h4>
     <ul>
         {{#each gear as |item id|}}
@@ -200,7 +206,6 @@
         <p role="tooltip"><img src="{{item.img}}" alt="{{item.name}}" width="24" height="24" style="float:left;margin-right: 0.5em;" />{{item.data.description}}</p>
         </li>
         {{/each}}
-        <li><i class="far fa-square"></i> <i class="far fa-square"></i> <i class="far fa-square"></i> Gadgets</li>
     </ul>
     <h4>Special items</h4>
     <ul>
@@ -324,6 +329,11 @@
         </div>
             </div>
     </section>
+    <section class="tab" data-group="primary" data-tab="bio" style="position:relative;">
+        <div style="width:100%;min-height:40em;display:flex;flex-direction:row;flex-wrap:wrap;">
+        {{editor content=data.description target="data.description" button=true owner=true editable=true}}
+        </div>
+    </section>
     {{else}}
     <section>
         <h2>SELECT PLAYBOOK</h2>
@@ -333,4 +343,5 @@
         
     </section>
     {{/if}}
+    </section>
 </form>

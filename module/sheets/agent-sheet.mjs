@@ -38,6 +38,7 @@ export class AgentSheet extends ActorSheet {
     activateListeners(html) {
         super.activateListeners(html);
         html.find(".rollable").click(this._onRoll.bind(this));
+        html.find(".action-roll").click(this._actionRoll.bind(this));
         html.find(".simple-roll").click(this._simpleRoll.bind(this));
         html.find(".agent-gear li").click(this._toggleGear.bind(this));
         html.find(".agent-powers span[data-ability]").click(this._toggleAbility.bind(this));
@@ -123,12 +124,6 @@ export class AgentSheet extends ActorSheet {
         }
 
         const is_resistance = ["resolve", "insight", "prowess"].includes(action);
-        // TODO more sophisticated:
-        //   position/effect
-        //   factor in harm
-        //   has assist?
-        //   pushing yourself?
-        //   devil's bargain?
 
         const data = this.actor.data.data;
         let dice_amount = 0;
@@ -160,7 +155,10 @@ export class AgentSheet extends ActorSheet {
             roll_status: results.roll_status, 
             resist_status: results.resist_status,
             zeromode: results.zeromode, 
-            action: results.action});
+            action: results.action,
+            position: results.position,
+            effect: results.effect
+        });
 
         let messageData = {
             speaker: speaker,
@@ -185,7 +183,7 @@ export class AgentSheet extends ActorSheet {
         let roll_status = this.getActionRollStatus(rolls, zeromode);
         return [rolls, zeromode, roll_status, r];
     }
-    
+
     _simpleRoll(event) {
         const action = $(event.currentTarget).data("action");
 
@@ -215,6 +213,92 @@ export class AgentSheet extends ActorSheet {
                         };
                         await this._displayRollResult(results);
                     }}
+            },
+            default: "confirm"
+        });
+        d.render(true);
+    }
+
+    _actionRoll(event) {
+        const action = $(event.currentTarget).data("action");
+        const data = this.actor.data.data;
+        const base_dice = Number.parseInt(data.actions[action].value);
+        const d = new Dialog({
+            title: `${action} Roll`,
+            content: `<form style='padding: 1em;'>
+            <h1>Starting Dice: ${base_dice}</h1>
+            <ul class="dice-mods">
+            <li>Is someone aiding you? <button role="switch" aria-checked="false"><span>yes</span><span>no</span></button></li>
+            <li>Does a playbook ability give +1d? <button role="switch" aria-checked="false"><span>yes</span><span>no</span></button></li>
+            <li>Are you pushing yourself? <button role="switch" aria-checked="false"><span>yes</span><span>no</span></button></li>
+            <li>Did you take a Devil's Bargain? <button role="switch" aria-checked="false"><span>yes</span><span>no</span></button></li>
+            <li>Do you have Level 2 harm? <button role="switch" aria-checked="${data.derived.wounded}" data-mod="-1" disabled="true"><span>yes</span><span>no</span></button></li>
+            </ul>
+            <h3>Position</h3>
+            <div class="button-group position" role="group" aria-label="Position">
+            <button value="controlled">Controlled</button>
+            <button class="active" value="risky">Risky</button>
+            <button value="desperate">Desperate</button>
+            </div>
+            <h3>Effect</h3>
+            <div class="button-group effect" role="group" aria-label="Effect">
+            <button value="none">No Effect</button>
+            <button value="limited">Limited</button>
+            <button value="standard" class="active">Standard</button>
+            <button value="great">Great</button>
+            </div>
+            </form>`,
+            buttons: {
+                cancel: {icon:"<i class='fas fa-times'></i>", label: "Cancel"},
+                confirm: {
+                    icon:"<i class='fas fa-dice'></i>",
+                    label: "Roll!",
+                    callback: async (html) => {
+                        const mods = html.find('button[aria-checked="true"]');
+                        let extra_dice = 0;
+                        mods.each(e => {
+                            const el = mods[e];
+                            if('mod' in el.dataset)
+                            {
+                                const val = Number.parseInt(el.dataset.mod);
+                                extra_dice += val;
+                            }
+                            else
+                            {
+                                extra_dice += 1;
+                            }
+                        });
+                        let [rolls, zeromode, roll_status, original_roll] = await this._performRoll(base_dice + extra_dice);
+                        const position = html.find('.position button.active')[0].value;
+                        const effect = html.find('.effect button.active')[0].value;
+                        const results = {
+                            original_roll: original_roll,
+                            rolls: rolls,
+                            roll_status: roll_status,
+                            resist_status: "",
+                            zeromode: zeromode,
+                            action: action,
+                            position: position,
+                            effect: effect
+                        };
+                        await this._displayRollResult(results);
+                    }}
+            },
+            render: html => {
+                $(".dice-mods button").on("click", e => {
+                    let el = e.currentTarget;
+
+                    if (el.getAttribute("aria-checked") == "true") {
+                        el.setAttribute("aria-checked", "false");
+                    } else {
+                        el.setAttribute("aria-checked", "true");
+                    }
+                });
+                $(".button-group").on("click", "button", e => {
+                    const group = e.currentTarget.parentElement;
+                    $(group.children).removeClass("active");
+                    e.currentTarget.classList.add("active");
+                });
             },
             default: "confirm"
         });

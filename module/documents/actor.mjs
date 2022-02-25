@@ -41,6 +41,9 @@ export class SecretsActor extends Actor {
         data.derived.insight = ["hunt", "study", "survey", "tinker"].map(x => data.actions[x].value > 0 ? 1 : 0).reduce((a, x) => a + x, 0);
         data.derived.prowess = ["finesse", "prowl", "skirmish", "wreck"].map(x => data.actions[x].value > 0 ? 1 : 0).reduce((a, x) => a + x, 0);
         data.derived.resolve = ["attune", "command", "consort", "sway"].map(x => data.actions[x].value > 0 ? 1 : 0).reduce((a, x) => a + x, 0);
+        data.derived.totalLoad = this.items.filter(i => i.type === 'gear' && i.data.data.equipped).reduce((sum, i)=>sum + i.data.data.load, 0);
+        data.derived.hurt = (data.harm.level1a || data.harm.level1b) == true;
+        data.derived.wounded = (data.harm.level2a !== '' || data.harm.level2b !== '');
     }
 
     async setPlaybook(playbook) {
@@ -104,22 +107,34 @@ export class SecretsActor extends Actor {
     }
 
     async addStandardGear() {
-        let folder = await game.folders.find( f => f.name === "Standard Gear");
+        const folder = await game.folders.find( f => f.name === "Standard Gear");
         if(folder === undefined) {
             console.warn("Could not find standard gear folder!");
             return;
         }
-        let existing_gear = this.items
+        const existing_gear = this.items
             .filter( a => a.type === 'gear' )
             .map( e => { return e.data.name } );
-        let desired_gear = folder.contents
+        const desired_gear = folder.contents
             .filter(x => !existing_gear.includes(x.name));
 
+
         let items_to_add = [];
+        let sort = 0;
         for (const item of desired_gear) {
             //console.log(`${item.name} - ${item.data.sort}`);
             const item_template = item.toObject();
+            sort = item.data.sort;
             items_to_add.push(item_template);
+        }
+        const gadget = game.items.getName("Gadget");
+        if (gadget)
+        {
+            const gadget_template = gadget.toObject();
+            gadget_template.sort = sort + 100;
+            items_to_add.push(gadget_template);
+            items_to_add.push(gadget_template);
+            items_to_add.push(gadget_template);
         }
         await this.createEmbeddedDocuments( "Item", items_to_add );
     }

@@ -7,6 +7,13 @@
 	--redmed: #ff6666;
 	--redlt: #ffb2b2;
 	--darkblue: #001324;
+  --critgreen: #12a012;
+}
+
+.editor,
+.editor-content {
+  min-height: 280px;
+  width: 100%;
 }
 
 .agent-header {
@@ -49,7 +56,11 @@ div.section {
 
 .rollable:hover, .rollable:focus {
   color: var(--red);
-  cursor: pointer; 
+  cursor: pointer;
+}
+.action-roll:hover, .action-roll:focus {
+  color: var(--red);
+  cursor: pointer;
 }
 
 .xp {
@@ -90,7 +101,7 @@ div.section {
 
 .agent-gear li:hover, .agent-powers li span:hover {
   color: var(--red);
-  cursor: pointer; 
+  cursor: pointer;
 }
 .agent-gear h4 {font-weight:bold;margin:0;}
 
@@ -120,7 +131,7 @@ li:hover [role="tooltip"] {
   margin-top: 0.5em;
 }
 .dice-tooltip .die.critical-success {
-  color: #12a012;
+  color: var(--critgreen);
 }
 .dice-tooltip .die.success {
   color: #008000;
@@ -142,6 +153,15 @@ li:hover [role="tooltip"] {
   padding: 3px 5px 0;
 }
 
+.chat-label-small {
+  text-transform: capitalize;
+  background-color: #191813;
+  color: #EEEFFF;
+  font-size: small;
+  text-align: center;
+  padding: 3px 5px;
+  font-weight: bold;
+}
 .chat-label-small-red {
   background-color: red;
   color: #191813;
@@ -191,6 +211,52 @@ li:hover [role="tooltip"] {
 .prose h3 {
   font-weight: bold;
   margin-top: 1.5em;
+}
+
+button[role="switch"] {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 1px;
+  text-align: center;
+  line-height: 2em;
+  border: medium solid #222;
+  width: 88px;
+  text-transform: capitalize;
+  transition: 0.2s;
+}
+button[role="switch"] span {
+  display:block;
+  width: 40px;
+  transition: 0.2s;
+}
+button[role="switch"][aria-checked="true"] {
+  border-color: var(--critgreen);
+}
+button[role="switch"][aria-checked="true"] :first-child {
+  background-color: var(--critgreen);
+  color: #fff;
+}
+button[role="switch"][aria-checked="false"] :last-child {
+  background-color: #222;
+  color: #fff;
+}
+.dice-mods {
+list-style: none;
+margin:0;
+padding:0;
+border-radius: 0.5em;
+border: 1px solid #ccc;
+}
+.dice-mods li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  border-top: 1px solid #ccc;
+}
+.dice-mods li:first-child {
+  border-top: none;
 }
 
 /*-- CLOCKS --*/
@@ -249,4 +315,14 @@ li:hover [role="tooltip"] {
 }
 .clock .size[value="4"] ~ input[value="1"] {
     transform: rotate(0deg);
+}
+
+.button-group {
+  display: flex;
+  vertical-align: middle;
+}
+.button-group {border-radius: 0.5em;}
+.button-group .active {
+  background-color: #12a012;
+  color: #fff;
 }
