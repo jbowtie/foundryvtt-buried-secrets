@@ -259,6 +259,17 @@ border: 1px solid #ccc;
   border-top: none;
 }
 
+dt{
+  display: flex;
+  justify-content: space-between;
+}
+dl .remove-skill{
+  display:none;
+}
+dl:hover .remove-skill{
+  display:block;
+}
+
 /*-- CLOCKS --*/
 .clock {
     font-size:19.5px;

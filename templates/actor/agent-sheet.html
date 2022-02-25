@@ -265,7 +265,7 @@
         <h3>Investigative Skills</h3>
         <dl>
         {{#each skills as |skill id|}}
-        <dt>{{skill.name}}</dt>
+        <dt>{{skill.name}} <a class="remove-skill" data-skill="{{skill._id}}" title="Remove skill"><i class="fas fa-trash"></i></a></dt>
         <dd>{{skill.data.description}}</dd>
         {{/each}}
         </dl>
@@ -304,7 +304,7 @@
             <h3>Skipped Mission</h3>
             <p>Agents who skipped the mission get to take R &amp; R (rest and relaxation).</p>
             <button>R &amp; R</button>
-            <p>This marks a healing tick and clears up to 3 stress.</p>
+            <p>This marks a healing tick and clears up to 2 stress.</p>
         </div>
         <div class="prose section">
             <h2>Downtime Activities</h2>

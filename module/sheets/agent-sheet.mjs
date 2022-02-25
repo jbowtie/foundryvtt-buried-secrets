@@ -47,6 +47,7 @@ export class AgentSheet extends ActorSheet {
         // add/remove investigative skills
         html.find(".add-skill").click(this._showSkillSelect.bind(this));
         html.find(".cancel-skill").click(this._cancelSkillSelect.bind(this));
+        html.find(".remove-skill").click(this._removeSkill.bind(this));
         html.find(".confirm-skill").click(this._confirmSkillSelect.bind(this));
     }
 
@@ -79,11 +80,19 @@ export class AgentSheet extends ActorSheet {
         $(event.currentTarget).hide();
     }
 
+    async _removeSkill(event) {
+        event.preventDefault();
+        const dl = $(event.currentTarget).parents("dl");
+        const itemId = $(event.currentTarget).data("skill");
+        this.actor.deleteItem(itemId);
+        dl.slideUp(200, () => this.render(false));
+        $('.add-skill').show();
+    }
+
     async _toggleGear(event) {
         event.preventDefault();
         // figure out which item it is
         const itemId = $(event.currentTarget).data("item");
-        //const load = $(event.currentTarget).data("load");
         const newVal = await this.actor.toggleGear(itemId);
     }
 

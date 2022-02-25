@@ -167,6 +167,11 @@ export class SecretsActor extends Actor {
         await item.update(toggle);
         return newVal;
     }
+
+    deleteItem(itemId) {
+        let item = this.items.find(i => i.id === itemId);
+        item.delete();
+    }
   /** @override */
    /* _onUpdate(changed, options, userId) {
         super._onUpdate(changed, options, userId);
