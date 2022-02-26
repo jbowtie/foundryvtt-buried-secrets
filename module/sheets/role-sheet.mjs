@@ -29,11 +29,13 @@ export class RoleSheet extends ActorSheet {
             if(a.data.data.harm.level1a || a.data.data.harm.level1b) harm = 1;
             if(a.data.data.harm.level2a || a.data.data.harm.level2b) harm = 2;
             if(a.data.data.harm.level3) harm = 3;
+            let status = a.data.data.status || "available";
             return {
+                id: a.id,
                 name: a.name,
                 playbook: a.data.data.playbook,
                 stress: a.data.data.stress.value,
-                status: a.data.data.status,
+                status: status,
                 skills: a.items.filter(x => x.type==='skill').map(s => s.name).join(', '),
                 harm: harm
             }
@@ -48,6 +50,7 @@ export class RoleSheet extends ActorSheet {
         super.activateListeners(html);
         // select role
         html.find(".select-role").click(this._setRole.bind(this));
+        html.find(".agent-status button").click(this._setAgentStatus.bind(this));
     }
 
     async _setRole(event) {
@@ -55,6 +58,19 @@ export class RoleSheet extends ActorSheet {
         const role = $(event.currentTarget).data("role");
         const updates = {_id: this.actor.id, data: { role: role }};
         const updated = await this.actor.update(updates);
+    }
+
+    async _setAgentStatus(event) {
+        event.preventDefault();
+        const status = event.currentTarget.value;
+        const agent = $(event.currentTarget).parents("tr").data("agent");
+        const actor = game.actors.get(agent);
+        const updates = {_id: actor.id, data: { status: status }};
+        console.log(updates);
+        const updated = await actor.update(updates);
+        const group = event.currentTarget.parentElement;
+        $(group.children).removeClass("active");
+        event.currentTarget.classList.add("active");
     }
 
 }

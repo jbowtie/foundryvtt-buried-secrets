@@ -27,6 +27,39 @@
 }
 .stress-track p {text-align:right;}
 
+.profile-status {
+  text-transform: uppercase;
+  text-align: center;
+  background-color: var(--darkblue);
+  color: var(--almost_white);
+}
+.status-dead {
+  text-decoration: line-through;
+  text-decoration-color: var(--red);
+  color:#666;
+}
+.status-missing {
+  color:#666;
+}
+.status-missing .profile-status {
+  background-color: var(--red);
+  font-weight: bold;
+}
+.status-dead .profile-status {
+  text-decoration: reset;
+  background-color: var(--red);
+  font-weight: bold;
+}
+.personnel table{
+  margin-top: 1em;
+}
+.personnel caption{
+  text-align: left;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
 div.section {
     padding: 5px;
     border-style: solid;

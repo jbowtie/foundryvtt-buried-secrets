@@ -48,7 +48,8 @@
                 "standard": false,
                 "heavy": false,
                 "special": false
-            }
+            },
+            "conditions": []
         },
         "role": {
             "templates": ["base"],

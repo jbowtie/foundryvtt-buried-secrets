@@ -28,7 +28,7 @@ Hooks.once('init', function() {
     Items.registerSheet("buried-secrets", GenericItemSheet, { makeDefault: true });
     //(maybe) preload templates
     //handlebars helpers
-    Handlebars.registerHelper('checked', function(value, test) {
+    Handlebars.registerHelper('checked2', function(value, test) {
         if (value == undefined) return '';
         return value==test ? 'checked' : '';
     });

@@ -2,7 +2,7 @@
 
     {{!-- Sheet Header --}}
     <header class="agent-header">
-        <h1>{{data.role}}</h1>
+        <h1 style="text-transform:capitalize;">{{data.role}}</h1>
     </header>
 
     {{#if data.role}}
@@ -14,12 +14,12 @@
             <p><b>Intel:</b>
                 <span class="xp ib stress">
                 {{#track data.resources.intel.max}}
-                    <input type="radio" name="data.resources.intel.value" value="{{@index}}" {{checked data.resources.intel.value @index}}/>
+                    <input type="radio" name="data.resources.intel.value" value="{{@index}}" {{checked2 data.resources.intel.value @index}}/>
                 {{/track}}
                 </span>
             </p>
             <p>
-                <label class="xp-clear ib"><input type="radio" name="data.resources.intel.value" value="0" {{checked data.resources.intel.value 0}}/>Clear Intel</label>
+                <label class="xp-clear ib"><input type="radio" name="data.resources.intel.value" value="0" {{checked2 data.resources.intel.value 0}}/>Clear Intel</label>
             </p>
         </div>
         <div class="section">
@@ -28,19 +28,19 @@
             <p><b>Heat:</b>
                 <span class="xp ib stress">
                 {{#track data.resources.heat.max}}
-                    <input type="radio" name="data.resources.heat.value" value="{{@index}}" {{checked data.resources.heat.value @index}}/>
+                    <input type="radio" name="data.resources.heat.value" value="{{@index}}" {{checked2 data.resources.heat.value @index}}/>
                 {{/track}}
                 </span>
             </p>
             <p>
-                <label class="xp-clear ib"><input type="radio" name="data.resources.heat.value" value="0" {{checked data.resources.heat.value 0}}/>Clear Heat</label>
+                <label class="xp-clear ib"><input type="radio" name="data.resources.heat.value" value="0" {{checked2 data.resources.heat.value 0}}/>Clear Heat</label>
             </p>
             <h4>Threat</h4>
             <p>As the threat level increases, the more dangerous and desperate the conspiracy becomes. If the threat level ever reaches 5, the crew is destroyed by the full might of the conspiracy.</p>
             <p><strong>Threat:</strong> 
                 <span class="xp ib stress">
                 {{#track data.resources.threat.max}}
-                    <input type="radio" name="data.resources.threat.value" value="{{@index}}" {{checked data.resources.threat.value @index}}/>
+                    <input type="radio" name="data.resources.threat.value" value="{{@index}}" {{checked2 data.resources.threat.value @index}}/>
                 {{/track}}
                 </span>
             </p>
@@ -53,25 +53,61 @@
             <p><b>Supply:</b>
                 <span class="xp ib stress">
                 {{#track 6}}
-                    <input type="radio" name="data.resources.supply.value" value="{{@index}}" {{checked data.resources.supply.value @index}}/>
+                    <input type="radio" name="data.resources.supply.value" value="{{@index}}" {{checked2 data.resources.supply.value @index}}/>
                 {{/track}}
                 </span>
             </p>
             <p>
-                <label class="xp-clear ib"><input type="radio" name="data.resources.supply.value" value="0" {{checked data.resources.supply.value 0}}/>Clear Supply</label>
+                <label class="xp-clear ib"><input type="radio" name="data.resources.supply.value" value="0" {{checked2 data.resources.supply.value 0}}/>Clear Supply</label>
             </p>
         </div>
         {{/if}}
         {{#if (eq data.role "personnel")}}
-        <div class="section">
-            <h3>Agents</h3>
+        <div class="section personnel">
+            <p>During the mission briefing, assign agents to the primary and secondary missions, and assemble the engagement dice.</p>
+            <p>During the debrief, ensure everyone gets their XP.</p>
+            <table>
+                <caption>Field Agents</caption>
+            <tr>
+                <th>Agent</th>
+                <th>Stress</th>
+                <th>Skills</th>
+                <th>Harm</th>
+                <th>Status</th>
+            </tr>
             {{#each agents}}
-            <p>{{this.name}} ({{this.playbook}}) - Stress: {{this.stress}}
-                - {{this.skills}} - Harm: {{this.harm}}
-            </p>
+            <tr data-agent="{{this.id}}">
+            <td>{{this.name}} ({{this.playbook}})
+            </td>
+            <td style="text-align: center;">{{this.stress}}/8</td>
+            <td>{{this.skills}}</td>
+            <td style="text-align: center;">
+                {{#if (eq this.harm 0)}}
+                <i class="fas fa-check" style="color: green"></i>
+                {{/if}}
+                {{#if (eq this.harm 1)}}
+                <i class="fas fa-band-aid" style="color: peru"></i>
+                {{/if}}
+                {{#if (eq this.harm 2)}}
+                <i class="fas fa-heartbeat" style="color: darkred"></i>
+                {{/if}}
+                {{#if (eq this.harm 3)}}
+                <i class="fas fa-ambulance" style="color: darkred"></i>
+                {{/if}}
+                {{this.harm}}
+            </td>
+            <td>
+                <div class="button-group agent-status">
+                <button {{#if (eq this.status "available")}}class="active"{{/if}} value="available">Available</button>
+                <button {{#if (eq this.status "primary")}}class="active"{{/if}} value="primary">Primary</button>
+                <button {{#if (eq this.status "secondary")}}class="active"{{/if}} value="secondary">Secondary</button>
+                <button {{#if (eq this.status "missing")}}class="active"{{/if}} value="missing">Missing</button>
+                <button {{#if (eq this.status "dead")}}class="active"{{/if}} value="dead">Dead</button>
+                </div>
+            </td>
+            </tr>
             {{/each}}
-            <h3>Experts</h3>
-            <h3>Squads</h3>
+            </table>
         </div>
         {{/if}}
     </section>
