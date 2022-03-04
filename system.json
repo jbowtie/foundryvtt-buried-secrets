@@ -2,7 +2,7 @@
     "name": "buried-secrets",
     "title": "Buried Secrets",
     "description": "A spy game Forged in the Dark",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "minimumCoreVersion": "9",
     "compatibleCoreVersion": "9",
     "author": "John C Barstow",

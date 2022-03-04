@@ -4,6 +4,9 @@
     <header class="agent-header">
         <h1 style="text-transform:capitalize;">{{data.role}}</h1>
     </header>
+    {{#if crew}}
+        <h3>Crew: <a class="entity-link content-link" data-type="Actor" data-entity="Actor" data-id="{{crew.id}}">{{crew.name}}</a></h3>
+    {{/if}}
 
     {{#if data.role}}
     <section>
@@ -45,6 +48,19 @@
                 </span>
             </p>
         </div>
+        <div class="section">
+            <h3>Mission Types</h3>
+            <ul style="display:flex;margin:0;list-style-type: none;" class="info-cards">
+                <li><h4>RECON</h4><p>Recon missions are focused on gathering clues, and primarily award <strong>INTEL</strong>.</p>
+                    <p><em>Examples: gain access to a site by posing as workers, break into someone’s office and go through their desk, attend a high society party.</em></p></li>
+                <li><h4>ASSAULT</h4><p>Assault missions are about eliminating conspiracy resources, and mostly award <strong>XP</strong>.</p>
+                    <p><em>Examples: destroy a death ray, assassinate one of their top agents, sabotage a key ritual.</em></p></li>
+                <li><h4>SUPPLY</h4><p>Supply missions are about gathering funds or resources, and primarily award <strong>SUPPLY</strong>.</p>
+                    <p><em>Examples: persuade an arms runner to help your cause, steal a rare book from a library, get a dose of super-soldier serum.</em></p></li>
+                <li><h4>DEFENSE</h4><p>Defense missions are focused on protecting or rescuing something the conspiracy wants to destroy.</p>
+                    <p><em>Examples: find a journalist before she is killed by the conspiracy, escort a key witness to a trial, guard an occult artifact.</em></p></li>
+            </ul>
+        </div>
         {{/if}}
         {{#if (eq data.role "qm")}}
         <div class="section">
@@ -60,6 +76,35 @@
             <p>
                 <label class="xp-clear ib"><input type="radio" name="data.resources.supply.value" value="0" {{checked2 data.resources.supply.value 0}}/>Clear Supply</label>
             </p>
+        </div>
+        <div class="section">
+            <h3>Headquarters</h3>
+            <p>For now, use the crew sheet to track your upgrades.</p>
+        </div>
+        <div>
+        {{editor content=data.description target="data.description" button=true owner=true editable=true}}
+        </div>
+        {{/if}}
+        {{#if (eq data.role "counter-intel")}}
+        <div class="section">
+            <h3>Manage Counter-Agents</h3>
+            <p>You begin with two counter-agents and can only have two at a time working for you until you upgrade your network.</p>
+        </div>
+        <div>
+        {{editor content=data.description target="data.description" button=true owner=true editable=true}}
+        </div>
+        {{/if}}
+        {{#if (eq data.role "analyst")}}
+        <div class="section">
+            <h3>After-Action Reports</h3>
+<p>An after-action report is a record of the mission. It can simply be a list with the names of the agents, the location, the objective, and the outcome. Alternatively, you can add commentary and in-character footnotes for a more complete or entertaining read. It is frequently helpful to record clues, people connected to the conspiracy, and the strengths or weaknesses of the enemy. Feel free to add in-character notes as you desire.</p>
+
+<p>At the start of the session, if anyone requests, do a brief summary of what happened in the previous game. The GM may also consult with you to help them recall details about conspiracy plans or actions.</p>
+
+<p>In a digital game where the GM organizes handouts about people or places, you should keep track of people or places that do not have a corresponding handout (often, these will have been improvised in response to crew actions) so you can request the creation of a handout if they become important.</p>
+        </div>
+        <div>
+        {{editor content=data.description target="data.description" button=true owner=true editable=true}}
         </div>
         {{/if}}
         {{#if (eq data.role "personnel")}}
@@ -77,7 +122,7 @@
             </tr>
             {{#each agents}}
             <tr data-agent="{{this.id}}">
-            <td>{{this.name}} ({{this.playbook}})
+            <td><a class="entity-link content-link" data-type="Actor" data-entity="Actor" data-id="{{this.id}}">{{this.name}}</a> ({{this.playbook}})
             </td>
             <td style="text-align: center;">{{this.stress}}/8</td>
             <td>{{this.skills}}</td>
@@ -109,6 +154,9 @@
             {{/each}}
             </table>
         </div>
+        <div>
+        {{editor content=data.description target="data.description" button=true owner=true editable=true}}
+        </div>
         {{/if}}
     </section>
     {{else}}
@@ -117,6 +165,8 @@
         <button class="select-role" data-role="director">Director</button>
         <button class="select-role" data-role="personnel">Personnel</button>
         <button class="select-role" data-role="qm">Quartermaster</button>
+        <button class="select-role" data-role="counter-intel">Counter-Intel</button>
+        <button class="select-role" data-role="analyst">Analyst</button>
     </section>
     {{/if}}
 </form>

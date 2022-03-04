@@ -7,6 +7,7 @@
 	--redmed: #ff6666;
 	--redlt: #ffb2b2;
 	--darkblue: #001324;
+	--medblue: #002444;
   --critgreen: #12a012;
 }
 
@@ -370,3 +371,38 @@ dl:hover .remove-skill{
   background-color: #12a012;
   color: #fff;
 }
+
+.info-cards {
+display:flex;margin:0;list-style-type: none;
+gap: 1em;
+padding: 0;
+
+}
+
+.info-cards li {
+  border: 1px solid #666;
+  border-radius: 1em;
+  padding: 0 0 1em;
+}
+.info-cards li:nth-child(even) {
+  background-color: rgb(172, 172, 172);
+}
+.info-cards li p {
+  padding: 0 1em;
+}
+.info-cards h4 {
+  color: #eee;
+  background-color: var(--darkblue);
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+  padding: 0.5em 1em;
+}
+
+.info-cards li:nth-child(even) h4 {
+  background-color: var(--medblue);
+}
+
+.crew .upgrades {display:grid;grid-gap:4px;}
+.crew .upgrades h3 {font-size: x-large; font-weight: bold;}
+.crew .upgrades input[type='checkbox'] {height: 1.2em; width:1.2em;}
+.crew .upgrades label {font-size: 1.2em; vertical-align: middle;}

@@ -3,6 +3,7 @@ import {SecretsItem} from "./documents/item.mjs";
 import {AgentSheet} from "./sheets/agent-sheet.mjs";
 import {GenericItemSheet} from "./sheets/item-sheet.mjs";
 import { RoleSheet } from "./sheets/role-sheet.mjs";
+import { CrewSheet } from "./sheets/crew-sheet.mjs";
 
 /*
  * Init Hook
@@ -13,7 +14,6 @@ Hooks.once('init', function() {
     // add properties to the global "game" object so you can find things easily
     // playbook objects (name, xptrigger, abilities, custom gear)
     // standard gear list (maybe)
-    game.secrets = {SecretsActor};
     //create custom classes
     CONFIG.Actor.documentClass = SecretsActor;
     CONFIG.Item.documentClass = SecretsItem;
@@ -21,7 +21,7 @@ Hooks.once('init', function() {
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("buried-secrets", AgentSheet, {types: ["character"], makeDefault: true});
     Actors.registerSheet("buried-secrets", RoleSheet, {types: ["role"], makeDefault: true});
-    Actors.registerSheet("buried-secrets", ActorSheet, {types: ["crew"], makeDefault: true});
+    Actors.registerSheet("buried-secrets", CrewSheet, {types: ["crew"], makeDefault: true});
     Actors.registerSheet("buried-secrets", ActorSheet, {types: ["npc"], makeDefault: true});
 
     Items.unregisterSheet("core", ItemSheet);
@@ -71,6 +71,13 @@ Hooks.once('init', function() {
 Hooks.once('ready', async function () {
     // after fully loaded
     if (!game.user.isGM) return;
+    const crew = game.actors.filter(a => a.data.type === 'crew');
+    if(crew.length > 0) {
+        game.crew = crew[0];
+    }
+    else {
+        game.crew = null;
+    }
 });
     // TODO: migration
 /*    const gearUpdate = {data: {equipped: false}};

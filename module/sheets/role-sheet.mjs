@@ -41,6 +41,7 @@ export class RoleSheet extends ActorSheet {
             }
         });
         context.agents = agents;
+        context.crew = game.crew;
 
         return context;
     }

@@ -1,6 +1,6 @@
 {
     "Actor": {
-        "types": ["character", "role", "crew", "npc"],
+        "types": ["character", "role", "crew", "npc", "expert", "squad"],
         "templates": {
             "base": {
                 "description": ""
@@ -51,6 +51,58 @@
             },
             "conditions": []
         },
+        "expert": {
+            "templates": ["base"],
+            "status": "",
+            "stress": {
+                "value": 0,
+                "min": 0,
+                "max": 8
+            },
+            "actions": {
+                "attune": {"value": 0, "min":0, "max": 5},
+                "command": {"value": 0, "min":0, "max": 5},
+                "consort": {"value": 0, "min":0, "max": 5},
+                "finesse": {"value": 0, "min":0, "max": 5},
+                "hunt": {"value": 0, "min":0, "max": 5},
+                "prowl": {"value": 0, "min":0, "max": 5},
+                "skirmish": {"value": 0, "min":0, "max": 5},
+                "study": {"value": 0, "min":0, "max": 5},
+                "survey": {"value": 0, "min":0, "max": 5},
+                "sway": {"value": 0, "min":0, "max": 5},
+                "tinker": {"value": 0, "min":0, "max": 5},
+                "wreck": {"value": 0, "min":0, "max": 5}
+            },
+            "xp": {
+                "playbook": {"value":0}
+            },
+            "harm": {
+                "healing": {"value": 0},
+                "level3": false,
+                "level2": false,
+                "level1": false
+            }
+        },
+        "squad": {
+            "templates": ["base"],
+            "playbook": "",
+            "status": "",
+            "elite": false,
+            "actions": {
+                "attune": {"value": 0, "min":0, "max": 5},
+                "command": {"value": 0, "min":0, "max": 5},
+                "consort": {"value": 0, "min":0, "max": 5},
+                "finesse": {"value": 0, "min":0, "max": 5},
+                "hunt": {"value": 0, "min":0, "max": 5},
+                "prowl": {"value": 0, "min":0, "max": 5},
+                "skirmish": {"value": 0, "min":0, "max": 5},
+                "study": {"value": 0, "min":0, "max": 5},
+                "survey": {"value": 0, "min":0, "max": 5},
+                "sway": {"value": 0, "min":0, "max": 5},
+                "tinker": {"value": 0, "min":0, "max": 5},
+                "wreck": {"value": 0, "min":0, "max": 5}
+            }
+        },
         "role": {
             "templates": ["base"],
             "role": "",
@@ -62,15 +114,44 @@
             }
         },
         "crew": {
-            "templates": ["base"]
+            "templates": ["base"],
+            "playbook": "",
+            "xp_trigger": "",
+            "hq": {
+                "aircraft1": false,
+                "aircraft2": false,
+                "hidden": false,
+                "quarters": false,
+                "safehouse1": false,
+                "safehouse2": false,
+                "vault1": false,
+                "vault2": false,
+                "workshop": false
+            },
+            "training": {
+                "insight": false,
+                "prowess": false,
+                "resolve": false,
+                "playbook": false
+            },
+            "quality": {
+                "documents": false,
+                "gadgets": false,
+                "gear": false,
+                "supplies": false,
+                "tools": false,
+                "weapons": false
+
+            },
+            "xp": {"value": 0},
+            "reputation": []
         },
         "npc": {
-            "templates": ["base"],
-            "biography": ""
+            "templates": ["base"]
         }
     },
     "Item": {
-        "types": ["skill", "gear", "ability", "playbook"],
+        "types": ["skill", "gear", "ability", "playbook", "crewbook", "squadbook"],
         "templates": {
             "base": {
                 "description": ""
@@ -94,6 +175,17 @@
             "xp_trigger": "",
             "abilities": "",
             "gear": "",
+            "actions": {}
+        },
+        "crewbook": {
+            "templates": ["base"],
+            "xp_trigger": "",
+            "abilities": "",
+            "upgrades": ""
+        },
+        "squadbook": {
+            "templates": ["base"],
+            "abilities": "",
             "actions": {}
         }
     }
