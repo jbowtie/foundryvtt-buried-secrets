@@ -25,6 +25,7 @@ export class CrewSheet extends ActorSheet {
     activateListeners(html) {
         super.activateListeners(html);
         html.find(".agent-powers span[data-ability]").click(this._toggleAbility.bind(this));
+        html.find(".upgrades input[type='checkbox']").click(this._toggleUpgrade.bind(this))
     }
     _prepareCharacterItems(context) {
         const gear = [];
@@ -59,5 +60,14 @@ export class CrewSheet extends ActorSheet {
         event.preventDefault();
         const itemId = $(event.currentTarget).data("ability");
         const newVal = await this.actor.toggleAbility(itemId);
+    }
+    async _toggleUpgrade(event) {
+        const item = event.currentTarget.name;
+        const val = event.currentTarget.checked;
+        console.log(`${item} is ${val}`);
+
+        game.actors.map(a => {
+            a.toggleCrewUpgrade(item, val);
+        });
     }
 }

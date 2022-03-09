@@ -179,4 +179,53 @@ export class SecretsActor extends Actor {
             console.log(changed.playbook);
         }
     }*/
+    async toggleCrewUpgrade(upgrade, enable) {
+        if (this.data.type === 'character')
+            this.toggleAgentCrewUpgrade(upgrade, enable);
+        if(this.data.type === 'role')
+            await this.toggleRoleCrewUpgrade(upgrade, enable);
+    }
+
+    toggleAgentCrewUpgrade(upgrade, enable) {
+        console.log(`Agent: ${this.name} setting ${upgrade } ${enable}`);
+        // see if active effect exists
+        // if exists, enable/disable
+        // if not exists and enable, create if match
+    }
+    async toggleRoleCrewUpgrade(upgrade, enable) {
+        console.log(`Role: ${this.name} setting ${upgrade } ${enable}`);
+        // see if active effect exists
+        const ae = this.effects.find(m => m.data.label === upgrade);
+        // if exists, enable/disable
+        if(ae)
+        {
+            const result = await ae.update({ disabled: !enable });
+            if (result) console.log(`Active Effect ${upgrade} toggled!`);
+        }
+        else
+        {
+            // if it doesn't exit and we're disabling, just return early
+            if(enable === false) return;
+
+            // create the specific active effect
+            if(upgrade === 'data.hq.vault1')
+            {
+                await this.createEffect(upgrade, [ {key: 'data.resources.intel.max', value: 4, mode: 2} ])
+            }
+            if(upgrade === 'data.hq.vault2')
+            {
+                await this.createEffect(upgrade, [ {key: 'data.resources.intel.max', value: 8, mode: 2} ])
+            }
+
+        }
+    }
+    async createEffect(upgrade, changes)
+    {
+        const result = await ActiveEffect.create({
+            label: upgrade,
+            origin: this.uuid,
+            changes: changes
+        },{parent: this});
+        if(result) console.log(`Active Effect ${upgrade} created on ${this.name}`);
+    }
 }
