@@ -14,5 +14,6 @@
     "gridDistance": 5,
     "gridUnits": "ft",
     "url": "https://github.com/jbowtie/foundryvtt-buried-secrets/",
-    "manifest": "https://raw.githubusercontent.com/jbowtie/foundryvtt-buried-secrets/main/system.json"
+    "manifest": "https://raw.githubusercontent.com/jbowtie/foundryvtt-buried-secrets/main/system.json",
+    "download": "https://github.com/jbowtie/foundryvtt-buried-secrets/releases/download/0.3.1/buried-secrets.zip"
 }
