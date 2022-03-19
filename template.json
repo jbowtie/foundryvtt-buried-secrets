@@ -9,6 +9,7 @@
         "character": {
             "templates": ["base"],
             "playbook": "",
+            "heritage": "",
             "xp_trigger": "",
             "status": "",
             "stress": {
@@ -49,7 +50,13 @@
                 "heavy": false,
                 "special": false
             },
-            "conditions": []
+            "conditions": [],
+            "load": {
+                "selected": "normal",
+                "light": 3,
+                "normal": 5,
+                "heavy": 6
+            }
         },
         "expert": {
             "templates": ["base"],

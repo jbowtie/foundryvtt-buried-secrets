@@ -97,11 +97,15 @@
         {{#if (eq data.role "analyst")}}
         <div class="section">
             <h3>After-Action Reports</h3>
-<p>An after-action report is a record of the mission. It can simply be a list with the names of the agents, the location, the objective, and the outcome. Alternatively, you can add commentary and in-character footnotes for a more complete or entertaining read. It is frequently helpful to record clues, people connected to the conspiracy, and the strengths or weaknesses of the enemy. Feel free to add in-character notes as you desire.</p>
-
-<p>At the start of the session, if anyone requests, do a brief summary of what happened in the previous game. The GM may also consult with you to help them recall details about conspiracy plans or actions.</p>
-
-<p>In a digital game where the GM organizes handouts about people or places, you should keep track of people or places that do not have a corresponding handout (often, these will have been improvised in response to crew actions) so you can request the creation of a handout if they become important.</p>
+            <p>An after-action report is a record of the mission. It can simply be a list with the names of the agents, the
+                location, the objective, and the outcome. Alternatively, you can add commentary and in-character footnotes for a
+                more complete or entertaining read. It is frequently helpful to record clues, people connected to the conspiracy,
+                and the strengths or weaknesses of the enemy. Feel free to add in-character notes as you desire.</p>
+            <p>At the start of the session, if anyone requests, do a brief summary of what happened in the previous game. The GM may
+                also consult with you to help them recall details about conspiracy plans or actions.</p>
+            <p>You should keep track of people or places
+                that do not have a corresponding handout (often, these will have been improvised in response to crew actions) so you
+                can request the creation of a handout if they become important.</p>
         </div>
         <div>
         {{editor content=data.description target="data.description" button=true owner=true editable=true}}
@@ -142,7 +146,7 @@
                 {{this.harm}}
             </td>
             <td>
-                <div class="button-group agent-status">
+                <div class="button-group agent-status" role="group" aria-label="Agent status">
                 <button {{#if (eq this.status "available")}}class="active"{{/if}} value="available">Available</button>
                 <button {{#if (eq this.status "primary")}}class="active"{{/if}} value="primary">Primary</button>
                 <button {{#if (eq this.status "secondary")}}class="active"{{/if}} value="secondary">Secondary</button>

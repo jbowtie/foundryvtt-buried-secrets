@@ -10,6 +10,7 @@
         <div class="header-fields">
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" spellcheck="false"/></h1>
             <h2>{{data.playbook}}</h2>
+            <p><label>Species:</label> <input name="data.heritage" type="text" value="{{data.heritage}}" placeholder="Human" style="width:auto;" /></p>
             <p><button class="simple-roll" data-action="fortune"><i class='fas fa-dice'></i> Fortune Roll</button></p>
         </div>
         <div class="stress-track">
@@ -196,10 +197,10 @@
 
 <div class="agent-gear section" style="grid-column: 5/7;">
     <h3 style="margin-top:0.5em;">Load and Gear {{data.derived.totalLoad}}</h3>
-    <div class="button-group" role="group" aria-label="Load">
-        <button>3 Light</button>
-        <button class="active">5 Normal</button>
-        <button>6 Heavy</button>
+    <div class="button-group load" role="group" aria-label="Load">
+        <button {{#if (eq data.load.selected "light")}}class="active"{{/if}} value="light">{{data.load.light}} Light</button>
+        <button {{#if (eq data.load.selected "normal")}}class="active"{{/if}} value="normal">{{data.load.normal}} Normal</button>
+        <button {{#if (eq data.load.selected "heavy")}}class="active"{{/if}} value="heavy">{{data.load.heavy}} Heavy</button>
     </div>
     <h4>Standard items</h4>
     <ul>

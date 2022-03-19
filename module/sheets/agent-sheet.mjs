@@ -49,6 +49,16 @@ export class AgentSheet extends ActorSheet {
         html.find(".cancel-skill").click(this._cancelSkillSelect.bind(this));
         html.find(".remove-skill").click(this._removeSkill.bind(this));
         html.find(".confirm-skill").click(this._confirmSkillSelect.bind(this));
+        html.find(".agent-gear .button-group button").click(this._selectLoad.bind(this));
+    }
+    async _selectLoad(event) {
+        event.preventDefault();
+        const newLoad = event.currentTarget.value;
+        const updates = {_id: this.actor.id, data: { load: {selected: newLoad} }};
+        const updated = await this.actor.update(updates);
+        const group = event.currentTarget.parentElement;
+        $(group.children).removeClass("active");
+        event.currentTarget.classList.add("active");
     }
 
     async _cancelSkillSelect(event) {
