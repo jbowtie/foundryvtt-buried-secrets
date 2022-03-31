@@ -362,6 +362,39 @@ dl:hover .remove-skill{
     transform: rotate(0deg);
 }
 
+.clock .size[value="6"] ~ input[type=radio][value="8"]
+{ display:none; }
+.clock .size[value="6"] ~ input[type=radio][value="7"]
+{ display:none; }
+.clock .size[value="6"] ~ input[type=radio][value="6"]
+{ transform: rotate(-60deg) skewY(-30deg); }
+.clock .size[value="6"] ~ input[type=radio][value="5"]
+{ transform: rotate(-120deg) skewY(-30deg); }
+.clock .size[value="6"] ~input[value="4"]
+{ transform: rotate(-180deg) skewY(-30deg); }
+.clock .size[value="6"] ~ input[value="3"]
+{ transform: rotate(-240deg) skewY(-30deg); }
+.clock .size[value="6"] ~ input[value="2"]
+{ transform: rotate(-300deg) skewY(-30deg); }
+.clock .size[value="6"] ~ input[value="1"]
+{transform: rotate(0deg) skewY(-30deg);  }
+
+.clock .size[value="8"] ~ input[type=radio][value="8"]
+{ transform: rotate(-45deg) skewY(-45deg); }
+.clock .size[value="8"] ~ input[type=radio][value="7"]
+{ transform: rotate(-90deg) skewY(-45deg); }
+.clock .size[value="8"] ~ input[type=radio][value="6"]
+{ transform: rotate(-135deg) skewY(-45deg); }
+.clock .size[value="8"] ~ input[type=radio][value="5"]
+{ transform: rotate(-180deg) skewY(-45deg); }
+.clock .size[value="8"] ~input[value="4"]
+{ transform: rotate(-225deg) skewY(-45deg); }
+.clock .size[value="8"] ~ input[value="3"]
+{ transform: rotate(-270deg) skewY(-45deg); }
+.clock .size[value="8"] ~ input[value="2"]
+{ transform: rotate(-315deg) skewY(-45deg); }
+.clock .size[value="8"] ~ input[value="1"]
+{transform: rotate(0deg) skewY(-45deg);  }
 .button-group {
   display: flex;
   vertical-align: middle;

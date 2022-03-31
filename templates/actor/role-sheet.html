@@ -81,6 +81,18 @@
             <h3>Headquarters</h3>
             <p>For now, use the crew sheet to track your upgrades.</p>
         </div>
+        <div class="section projects">
+            <h3>Long-Term Projects</h3>
+            {{#each projects}}
+                <div class="clock" data-id="{{this.id}}">
+                    <input type="hidden" class="size" value="{{this.size}}" />
+                    {{#track this.size}}
+                        <input type="radio" name="{{this.id}}-progress" value="{{@index}}" {{checked2 this.progress @index}}/>
+                    {{/track}}
+                </div>
+                <p>{{this.name}}</p>
+            {{/each}}
+        </div>
         <div>
         {{editor content=data.description target="data.description" button=true owner=true editable=true}}
         </div>

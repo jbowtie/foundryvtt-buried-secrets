@@ -9,8 +9,16 @@ export class SecretsActor extends Actor {
         switch (data.type) {
             case 'character':
             case 'npc':
-                //case '\uD83D\uDD5B clock':
                 data.token.actorLink = true;
+                break;
+            case 'clock':
+                const image = "systems/buried-secrets/assets/dog_blink_blue/8clock_0.png";
+                data.img = image;
+                data.token.actorLink = true;
+                data.token.scale = 1;
+                data.token.displayName = 50;
+                data.token.disposition = 0;
+                data.token.img = image;
                 break;
         }
 

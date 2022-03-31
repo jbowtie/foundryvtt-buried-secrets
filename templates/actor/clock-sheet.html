@@ -1,0 +1,14 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="agent-header">
+        <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" spellcheck="false"/></h1>
+    </header>
+    <div class="clock-frame">
+        <p><label class="xp-clear"><input type="radio" name="data.progress" value="0" {{checked2 data.progress 0}} />Clear</label></p>
+        <div class="clock" style="font-size:35px;margin:0 auto;">
+            <input type="hidden" name="attr_clock_size" class="size" value="{{data.size}}" />
+            {{#track data.size}}
+                <input type="radio" name="data.progress" value="{{@index}}" {{checked2 data.progress @index}}/>
+            {{/track}}
+        </div>
+    </div>
+</form>

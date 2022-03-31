@@ -1,6 +1,6 @@
 {
     "Actor": {
-        "types": ["character", "role", "crew", "npc", "expert", "squad"],
+        "types": ["character", "role", "crew", "npc", "expert", "squad", "clock"],
         "templates": {
             "base": {
                 "description": ""
@@ -155,10 +155,14 @@
         },
         "npc": {
             "templates": ["base"]
+        },
+        "clock": {
+            "size": 8,
+            "progress": 0
         }
     },
     "Item": {
-        "types": ["skill", "gear", "ability", "playbook", "crewbook", "squadbook"],
+        "types": ["skill", "gear", "ability", "playbook", "crewbook", "squadbook", "project"],
         "templates": {
             "base": {
                 "description": ""
@@ -194,6 +198,10 @@
             "templates": ["base"],
             "abilities": "",
             "actions": {}
+        },
+        "project": {
+            "size": 8,
+            "progress": 0
         }
     }
 }

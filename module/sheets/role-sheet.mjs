@@ -24,6 +24,10 @@ export class RoleSheet extends ActorSheet {
         context.data = actorData.data;
         context.flags = actorData.flags;
         
+        context.projects = context.items.filter(i => i.type === 'project')
+            .map(p => { return {id: p._id, name: p.name, size: p.data.size, progress: p.data.progress}; });
+
+        
         const agents = game.actors.filter(s => s.data.type === 'character').map(a => {
             let harm = 0;
             if(a.data.data.harm.level1a || a.data.data.harm.level1b) harm = 1;
@@ -52,6 +56,16 @@ export class RoleSheet extends ActorSheet {
         // select role
         html.find(".select-role").click(this._setRole.bind(this));
         html.find(".agent-status button").click(this._setAgentStatus.bind(this));
+        html.find(".projects .clock input[type='radio']").change(this._updateProjectProgress.bind(this));
+    }
+
+    async _updateProjectProgress(event) {
+        event.preventDefault();
+        const progress = event.currentTarget.value;
+        const project = $(event.currentTarget).parents(".clock").data("id");
+        let item = this.actor.items.find(i => i.id === project);
+        const updates = {_id: project, data: { progress: progress }};
+        await item.update(updates);
     }
 
     async _setRole(event) {
