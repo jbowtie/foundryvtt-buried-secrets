@@ -176,6 +176,18 @@ export class SecretsActor extends Actor {
         return newVal;
     }
 
+    async updateProjectProgress(itemId, newVal) {
+        let item = this.items.find(i => i.id === itemId);
+        if (item.type !== 'project'){
+            console.error("Cannot choose ${item.name} as project!");
+            return false;
+        }
+        console.log(`Progress ${newVal} for ${item.name}`);
+        const toggle = {_id: itemId, data: {progress: newVal}};
+        await item.update(toggle);
+        return true;
+    }
+
     deleteItem(itemId) {
         let item = this.items.find(i => i.id === itemId);
         item.delete();

@@ -49,7 +49,12 @@ export class AgentSheet extends ActorSheet {
         html.find(".cancel-skill").click(this._cancelSkillSelect.bind(this));
         html.find(".remove-skill").click(this._removeSkill.bind(this));
         html.find(".confirm-skill").click(this._confirmSkillSelect.bind(this));
+        //select load
         html.find(".agent-gear .button-group button").click(this._selectLoad.bind(this));
+        // add/remove/update projects
+        html.find(".segment").click(this._updateProjectProgress.bind(this));
+        html.find(".create-project button").click(this._addProject.bind(this));
+        html.find(".remove-project").click(this._removeProject.bind(this));
     }
     async _selectLoad(event) {
         event.preventDefault();
@@ -393,6 +398,7 @@ export class AgentSheet extends ActorSheet {
         const playbook_gear = [];
         const abilities = [];
         const skills = [];
+        const projects = [];
 
         for (let i of context.items) {
             switch (i.type) {
@@ -409,6 +415,9 @@ export class AgentSheet extends ActorSheet {
                 case 'skill':
                     skills.push(i);
                     break;
+                case 'project':
+                    projects.push(i);
+                    break;
             }
         }
 
@@ -416,5 +425,27 @@ export class AgentSheet extends ActorSheet {
         context.playbook_gear = playbook_gear;
         context.abilities = abilities;
         context.skills = skills;
+        context.projects = projects;
+    }
+
+    async _updateProjectProgress(event) {
+        event.preventDefault();
+        const progress = $(event.currentTarget).data("value");
+        const project = $(event.currentTarget).parents(".clock").data("id");
+        await this.actor.updateProjectProgress(project, progress);
+    }
+    async _removeProject(event) {
+        event.preventDefault();
+        const dl = $(event.currentTarget).parents(".project-card");
+        const itemId = $(event.currentTarget).data("project");
+        this.actor.deleteItem(itemId);
+        dl.slideUp(200, () => this.render(false));
+    }
+    async _addProject(event) {
+        event.preventDefault();
+        const segments = $('.create-project select').val();
+        const name = $('.create-project input').val();
+        if(!name) return;
+        await this.actor.createEmbeddedDocuments("Item", [{type:"project", name: name, data: {size: segments, progress: 0}}]);
     }
 }

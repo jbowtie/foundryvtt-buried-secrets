@@ -57,6 +57,8 @@ export class RoleSheet extends ActorSheet {
         html.find(".select-role").click(this._setRole.bind(this));
         html.find(".agent-status button").click(this._setAgentStatus.bind(this));
         html.find(".projects .clock input[type='radio']").change(this._updateProjectProgress.bind(this));
+        html.find(".create-project button").click(this._addProject.bind(this));
+        html.find(".remove-project").click(this._removeProject.bind(this));
     }
 
     async _updateProjectProgress(event) {
@@ -86,6 +88,20 @@ export class RoleSheet extends ActorSheet {
         const group = event.currentTarget.parentElement;
         $(group.children).removeClass("active");
         event.currentTarget.classList.add("active");
+    }
+    async _removeProject(event) {
+        event.preventDefault();
+        const dl = $(event.currentTarget).parents(".project-card");
+        const itemId = $(event.currentTarget).data("project");
+        this.actor.deleteItem(itemId);
+        dl.slideUp(200, () => this.render(false));
+    }
+    async _addProject(event) {
+        event.preventDefault();
+        const segments = $('.create-project select').val();
+        const name = $('.create-project input').val();
+        if(!name) return;
+        await this.actor.createEmbeddedDocuments("Item", [{type:"project", name: name, data: {size: segments, progress: 0}}]);
     }
 
 }

@@ -50,7 +50,7 @@
         </div>
         <div class="section">
             <h3>Mission Types</h3>
-            <ul style="display:flex;margin:0;list-style-type: none;" class="info-cards">
+            <ul class="info-cards">
                 <li><h4>RECON</h4><p>Recon missions are focused on gathering clues, and primarily award <strong>INTEL</strong>.</p>
                     <p><em>Examples: gain access to a site by posing as workers, break into someone’s office and go through their desk, attend a high society party.</em></p></li>
                 <li><h4>ASSAULT</h4><p>Assault missions are about eliminating conspiracy resources, and mostly award <strong>XP</strong>.</p>
@@ -84,6 +84,7 @@
         <div class="section projects">
             <h3>Long-Term Projects</h3>
             {{#each projects}}
+            <div class="project-card">
                 <div class="clock" data-id="{{this.id}}">
                     <input type="hidden" class="size" value="{{this.size}}" />
                     {{#track this.size}}
@@ -91,7 +92,18 @@
                     {{/track}}
                 </div>
                 <p>{{this.name}}</p>
+                <a class="remove-project" data-project="{{this.id}}" title="Remove project"><i class="fas fa-trash"></i></a>
+            </div>
             {{/each}}
+            <div class="create-project">
+                <select>
+                    <option value="8" selected="selected">8 segments</option>
+                    <option value="6">6 segments</option>
+                    <option value="4">4 segments</option>
+                </select>
+                <input type="text" placeholder="project name" />
+                <button type="button" class="add-proj"><i class="fas fa-plus"></i>Add Project</button>
+            </div>
         </div>
         <div>
         {{editor content=data.description target="data.description" button=true owner=true editable=true}}

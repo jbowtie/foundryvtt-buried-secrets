@@ -327,9 +327,29 @@
             <p><button class="simple-roll" data-action="recovery"><i class='fas fa-dice'></i> Recovery Roll</button></p>
             <p>Mark a number of segments on your healing clock. 1-3: one segment, 4/5: two segments, 6: three segments, critical: five segments.</p>
             <p>When you fill your healing clock, reduce each instance of harm on your sheet by one level, then clear the clock. Extra segments "roll over".</p>
-            <h3>Crafting</h3>
+            <h3>Projects</h3>
             <p>Work on a personal long-term project to invent, build or enhance gadgets, weapons, apps, or spells.</p>
-            <p>(under construction)</p>
+            {{#each projects as |project id|}}
+            <div class="project-card">
+                <div class="clock" data-id="{{project._id}}">
+                    <input type="hidden" class="size" value="{{project.data.size}}" />
+                    {{#track project.data.size}}
+                        <span class="segment {{#if (eq project.data.progress @index)}}selected{{/if}}" data-value="{{@index}}"></span>
+                    {{/track}}
+                </div>
+                <p>{{this.name}}</p>
+                <a class="remove-project" data-project="{{project._id}}" title="Remove project"><i class="fas fa-trash"></i></a>
+            </div>
+            {{/each}}
+            <div class="create-project">
+                <select>
+                    <option value="8">8 segments</option>
+                    <option value="6">6 segments</option>
+                    <option value="4">4 segments</option>
+                </select>
+                <input type="text" placeholder="project name" />
+                <button type="button" class="add-proj"><i class="fas fa-plus"></i>Add Project</button>
+            </div>
         </div>
             </div>
     </section>

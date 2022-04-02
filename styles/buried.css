@@ -439,3 +439,110 @@ padding: 0;
 .crew .upgrades h3 {font-size: x-large; font-weight: bold;}
 .crew .upgrades input[type='checkbox'] {height: 1.2em; width:1.2em;}
 .crew .upgrades label {font-size: 1.2em; vertical-align: middle;}
+
+.project-card {
+  display: inline-block;
+  border-radius: 1em;
+  border: 1px solid #666;
+  position: relative;
+  padding: 1em 1em 0.5em;
+  text-align: center;
+  margin-right: 0.5em;
+}
+.create-project {
+  display: flex;
+  gap: 0.5em;
+  margin: 1em 0 0.5em;
+}
+.create-project select {
+  height: auto;
+}
+.create-project input {
+  flex: 2;
+  height: auto;
+}
+.add-proj {flex: 1;}
+
+
+/* span-based clock for stupid reasons */
+
+.clock .segment {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display:inline-block;
+  margin: 0;
+  width: 2em;
+  height: 2em;
+  position: absolute;
+  left:2em;
+  bottom:2em;
+  top:auto;
+  background-color: #eee;
+  transform-origin:0 2em ;
+  box-sizing: border-box;
+  font-size:inherit;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.clock .segment.selected,
+.clock .segment.selected ~ .segment {
+  background-color: #222;
+}
+
+
+.clock .size[value="4"] ~ .segment[data-value="8"]
+{ display:none; }
+.clock .size[value="4"] ~ .segment[data-value="7"]
+{ display:none; }
+.clock .size[value="4"] ~ .segment[data-value="6"]
+{ display:none; }
+.clock .size[value="4"] ~ .segment[data-value="5"]
+{ display:none; }
+.clock .size[value="4"] ~ .segment[data-value="4"] {
+    transform: rotate(-90deg);
+}
+.clock .size[value="4"] ~ .segment[data-value="3"] {
+    transform: rotate(-180deg);
+}
+.clock .size[value="4"] ~ .segment[data-value="2"] {
+    transform: rotate(-270deg);
+}
+.clock .size[value="4"] ~ .segment[data-value="1"] {
+    transform: rotate(0deg);
+}
+
+
+.clock .size[value="6"] ~ .segment[data-value="8"]
+{ display:none; }
+.clock .size[value="6"] ~ .segment[data-value="7"]
+{ display:none; }
+.clock .size[value="6"] ~ .segment[data-value="6"]
+{ transform: rotate(-60deg) skewY(-30deg); }
+.clock .size[value="6"] ~ .segment[data-value="5"]
+{ transform: rotate(-120deg) skewY(-30deg); }
+.clock .size[value="6"] ~ .segment[data-value="4"]
+{ transform: rotate(-180deg) skewY(-30deg); }
+.clock .size[value="6"] ~ .segment[data-value="3"]
+{ transform: rotate(-240deg) skewY(-30deg); }
+.clock .size[value="6"] ~ .segment[data-value="2"]
+{ transform: rotate(-300deg) skewY(-30deg); }
+.clock .size[value="6"] ~ .segment[data-value="1"]
+{transform: rotate(0deg) skewY(-30deg);  }
+
+.clock .size[value="8"] ~ .segment[data-value="8"]
+{ transform: rotate(-45deg) skewY(-45deg); }
+.clock .size[value="8"] ~ .segment[data-value="7"]
+{ transform: rotate(-90deg) skewY(-45deg); }
+.clock .size[value="8"] ~ .segment[data-value="6"]
+{ transform: rotate(-135deg) skewY(-45deg); }
+.clock .size[value="8"] ~ .segment[data-value="5"]
+{ transform: rotate(-180deg) skewY(-45deg); }
+.clock .size[value="8"] ~ .segment[data-value="4"]
+{ transform: rotate(-225deg) skewY(-45deg); }
+.clock .size[value="8"] ~ .segment[data-value="3"]
+{ transform: rotate(-270deg) skewY(-45deg); }
+.clock .size[value="8"] ~ .segment[data-value="2"]
+{ transform: rotate(-315deg) skewY(-45deg); }
+.clock .size[value="8"] ~ .segment[data-value="1"]
+{transform: rotate(0deg) skewY(-45deg);  }
