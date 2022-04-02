@@ -78,11 +78,22 @@
             </p>
         </div>
         <div class="section">
-            <h3>Headquarters</h3>
-            <p>For now, use the crew sheet to track your upgrades.</p>
+            <h3>Downtime Activities</h3>
+            <p>After a mission, choose two downtime activities. These benefit the whole crew. Agents that are not assigned to an activity by you can choose to pursue an activity for their personal benefit.</p>
+            <ul class="info-cards">
+                <li><h4>Recruit</h4><p>Spend one supply to gain up to five recruits that Personnel can distribute among their squads. Spend two supply to add a whole new squad.</p>
+                    <p><em>The crew is limited to six squads.</em></p></li>
+                <li><h4>Acquire Asset</h4><p>Assign an agent to hire, borrow, or steal an asset your crew requires for an upcoming mission. The roll will determine the quality of the asset obtained.</p>
+                    <p><em>This might mean hiring outside expertise, obtaining black-market goods, or gaining legitimate access to classified information.</em></p></li>
+                <li><h4>Upgrade</h4><p>Assign an agent and spend supply to purchase a single upgrade or ability on the crew sheet.</p>
+                    <p><a class="entity-link content-link" data-type="Actor" data-entity="Actor" data-id="{{crew.id}}">{{crew.name}}</a></p></li>
+                <li><h4>Long-Term Project</h4><p>Assign an agent to lead the project. They will roll an action to advance the project clock.</p>
+                    <p><em>Mark segments on the clock according to your result.</em></p> </li>
+            </ul>
         </div>
         <div class="section projects">
             <h3>Long-Term Projects</h3>
+            <p><strong>Critical:</strong> Five ticks.  <strong>6:</strong> Three ticks.  <strong>4/5:</strong> Two ticks.  <strong>1-3:</strong> One tick.</p>
             {{#each projects}}
             <div class="project-card">
                 <div class="clock" data-id="{{this.id}}">
