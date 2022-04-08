@@ -2,7 +2,7 @@
     "name": "buried-secrets",
     "title": "Buried Secrets",
     "description": "A spy game Forged in the Dark",
-    "version": "0.4",
+    "version": "0.4.1",
     "minimumCoreVersion": "9",
     "compatibleCoreVersion": "9",
     "author": "John C Barstow",
@@ -15,5 +15,5 @@
     "gridUnits": "ft",
     "url": "https://github.com/jbowtie/foundryvtt-buried-secrets/",
     "manifest": "https://raw.githubusercontent.com/jbowtie/foundryvtt-buried-secrets/main/system.json",
-    "download": "https://github.com/jbowtie/foundryvtt-buried-secrets/releases/download/0.4/buried-secrets.zip"
+    "download": "https://github.com/jbowtie/foundryvtt-buried-secrets/releases/download/0.4.1/buried-secrets.zip"
 }
