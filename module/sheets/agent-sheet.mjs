@@ -30,6 +30,9 @@ export class AgentSheet extends ActorSheet {
             }
             const existing_skills = context.skills.map(s => s.name);
             context.skill_list = game.items.filter(x => x.type === 'skill' && !existing_skills.includes(x.data.name));
+        
+            context.conditionsA = ["Cold", "Haunted", "Obsessed", "Paranoid"];
+            context.conditionsB = ["Reckless", "Soft", "Unstable", "Vicious"];
         }
 
         return context;
@@ -55,6 +58,7 @@ export class AgentSheet extends ActorSheet {
         html.find(".segment").click(this._updateProjectProgress.bind(this));
         html.find(".create-project button").click(this._addProject.bind(this));
         html.find(".remove-project").click(this._removeProject.bind(this));
+        html.find(".toggleList").click(this._toggleCondition.bind(this));
     }
     async _selectLoad(event) {
         event.preventDefault();
@@ -115,6 +119,12 @@ export class AgentSheet extends ActorSheet {
         event.preventDefault();
         const itemId = $(event.currentTarget).data("ability");
         const newVal = await this.actor.toggleAbility(itemId);
+    }
+    
+    async _toggleCondition(event) {
+        event.preventDefault();
+        const condition = $(event.currentTarget).text();
+        const newVal = await this.actor.toggleCondition(condition);
     }
 
     async _setPlaybook(event) {

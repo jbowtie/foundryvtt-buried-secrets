@@ -19,6 +19,9 @@ export class CrewSheet extends ActorSheet {
         context.data = actorData.data;
         context.flags = actorData.flags;
         this._prepareCharacterItems(context);
+
+        context.reputationsA = ["Ambitious", "Brutal", "Daring", "Honorable"];
+        context.reputationsB = ["Professional", "Savvy", "Subtle", "Strange"];
         return context;
     }
     /** @override */
@@ -26,6 +29,7 @@ export class CrewSheet extends ActorSheet {
         super.activateListeners(html);
         html.find(".agent-powers span[data-ability]").click(this._toggleAbility.bind(this));
         html.find(".upgrades input[type='checkbox']").click(this._toggleUpgrade.bind(this))
+        html.find(".toggleList").click(this._toggleReputation.bind(this));
     }
     _prepareCharacterItems(context) {
         const gear = [];
@@ -61,6 +65,13 @@ export class CrewSheet extends ActorSheet {
         const itemId = $(event.currentTarget).data("ability");
         const newVal = await this.actor.toggleAbility(itemId);
     }
+    
+    async _toggleReputation(event) {
+        event.preventDefault();
+        const condition = $(event.currentTarget).text();
+        const newVal = await this.actor.toggleReputation(condition);
+    }
+
     async _toggleUpgrade(event) {
         const item = event.currentTarget.name;
         const val = event.currentTarget.checked;

@@ -175,6 +175,32 @@ export class SecretsActor extends Actor {
         await item.update(toggle);
         return newVal;
     }
+    async toggleCondition(condition) {
+        let conditions = this.data.data.conditions;
+        if (conditions.includes(condition))
+        {
+            conditions = conditions.filter(i => i !== condition);
+        }
+        else
+        {
+            conditions.push(condition);
+        }
+        const updates = {_id: this.id, data: {conditions: conditions}};
+        const updated = await this.update(updates);
+    }
+    async toggleReputation(condition) {
+        let conditions = this.data.data.reputation;
+        if (conditions.includes(condition))
+        {
+            conditions = conditions.filter(i => i !== condition);
+        }
+        else
+        {
+            conditions.push(condition);
+        }
+        const updates = {_id: this.id, data: {reputation: conditions}};
+        const updated = await this.update(updates);
+    }
 
     async updateProjectProgress(itemId, newVal) {
         let item = this.items.find(i => i.id === itemId);

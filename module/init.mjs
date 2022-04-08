@@ -66,6 +66,17 @@ Hooks.once('init', function() {
         }
         return ret;
     });
+
+    Handlebars.registerHelper('inList', function(items, list, options) {
+        let ret = list.map(x =>
+            {
+                const itemClass = items.includes(x) ? "active" : "";
+                console.log(`${x} in ${items} = ${items.includes(x)}`);
+                return `<a class="${itemClass} toggleList">${x}</a>`;
+            }
+        ).join(" - ");
+        return ret;
+    });
 });
 
 /*

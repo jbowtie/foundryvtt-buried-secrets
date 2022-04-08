@@ -22,8 +22,8 @@
             </span>
             <p><label class="xp-clear"><input type="radio" name="data.stress.value" value="0" {{checked2 data.stress.value 0}} />Clear Stress</label></p>
             <h2>Conditions</h2>
-            <p style="text-align: center;">Cold - Haunted - Obsessed - Paranoid</p>
-            <p style="text-align: center;">Reckless - Soft - Unstable - Vicious</p>
+            <p style="text-align: center;">{{#inList data.conditions conditionsA}}{{/inList}}</p>
+            <p style="text-align: center;">{{#inList data.conditions conditionsB}}{{/inList}}</p>
         </div>
     </header>
     {{#if data.playbook}}
