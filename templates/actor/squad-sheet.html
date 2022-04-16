@@ -9,27 +9,29 @@
         </div>
         <div class="header-fields">
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" spellcheck="false"/></h1>
-            <h2>{{data.playbook}}</h2>
+            <h2>{{#if data.elite}}Elite {{/if}}{{data.playbook}}</h2>
             <p><label>Species:</label> <input name="data.heritage" type="text" value="{{data.heritage}}" placeholder="Human" style="width:auto;" /></p>
             <p><button class="simple-roll" data-action="fortune"><i class='fas fa-dice'></i> Fortune Roll</button></p>
         </div>
         <div class="stress-track">
+            <div style="text-align: end;">
             <strong>Stress: </strong>
             <span class="xp xp-track" title="Stress">
                 {{#track data.stress.max}}
                     <input type="radio" name="data.stress.value" value="{{@index}}" {{checked2 data.stress.value @index}}/>
                 {{/track}}
             </span>
+            </div>
             <p><label class="xp-clear"><input type="radio" name="data.stress.value" value="0" {{checked2 data.stress.value 0}} />Clear Stress</label></p>
-            <h2>Conditions</h2>
-            <p style="text-align: center;">Cold - Haunted - Obsessed - Paranoid</p>
-            <p style="text-align: center;">Reckless - Soft - Unstable - Vicious</p>
+            <h2>Edges &amp; Flaws</h2>
+            <p style="text-align: center;">{{#inList data.conditions edges}}{{/inList}}</p>
+            <p style="text-align: center;">{{#inList data.conditions flaws}}{{/inList}}</p>
         </div>
     </header>
     {{#if data.playbook}}
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="mission">Mission</a>
+        <a class="item" data-tab="mission">Rookies</a>
         <a class="item" data-tab="downtime">Downtime</a>
         <a class="item" data-tab="bio">Biography</a>
     </nav>
@@ -37,301 +39,79 @@
     {{!-- Sheet Body --}}
     <section class="sheet-body">
         {{!-- Tab content goes here --}}
-        <section class="tab" data-group="primary" data-tab="mission">
-            <div style="display:grid;grid-gap:4px;">
-<table class="table-actions pull-left" style="grid-column:1/3;">
-    <tbody><tr><th colspan="4" style="text-align: left;padding-left:0.5em;font-size: larger"><span class="rollable" data-action="insight">Insight</span></th><th colspan="2" style="text-align:right;padding-right:0.5em">XP: <span class="xp xp-track" title="Insight XP">
-            {{#track 6}}
-                <input type="radio" name="data.xp.insight.value" value="{{@index}}" {{checked2 data.xp.insight.value @index}}/>
-            {{/track}}
-            </span>
-            <p><label class="xp-clear"><input type="radio" name="data.xp.insight.value" value="0" {{checked2 data.xp.insight.value 0}} />Clear XP</label></p>
-            </th>
-        </tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.hunt.value" value="0" {{checked2 data.actions.hunt.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.hunt.value)}}filled{{/if}}" type="radio" name="data.actions.hunt.value" value="1" {{checked2 data.actions.hunt.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.hunt.value)}}filled{{/if}}" type="radio" name="data.actions.hunt.value" value="2" {{checked2 data.actions.hunt.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.hunt.value)}}filled{{/if}}" type="radio" name="data.actions.hunt.value" value="3" {{checked2 data.actions.hunt.value 3}}/></td>
-			<td><input type="radio" name="data.actions.hunt.value" value="4" {{checked2 data.actions.hunt.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="hunt">Hunt</span></td>
-		</tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.study.value" value="0" {{checked2 data.actions.study.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.study.value)}}filled{{/if}}" type="radio" name="data.actions.study.value" value="1" {{checked2 data.actions.study.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.study.value)}}filled{{/if}}" type="radio" name="data.actions.study.value" value="2" {{checked2 data.actions.study.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.study.value)}}filled{{/if}}" type="radio" name="data.actions.study.value" value="3" {{checked2 data.actions.study.value 3}}/></td>
-			<td><input type="radio" name="data.actions.study.value" value="4" {{checked2 data.actions.study.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="study">Study</span></td>
-		</tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.survey.value" value="0" {{checked2 data.actions.survey.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.survey.value)}}filled{{/if}}" type="radio" name="data.actions.survey.value" value="1" {{checked2 data.actions.survey.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.survey.value)}}filled{{/if}}" type="radio" name="data.actions.survey.value" value="2" {{checked2 data.actions.survey.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.survey.value)}}filled{{/if}}" type="radio" name="data.actions.survey.value" value="3" {{checked2 data.actions.survey.value 3}}/></td>
-			<td><input type="radio" name="data.actions.survey.value" value="4" {{checked2 data.actions.survey.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="survey">Survey</span></td>
-		</tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.tinker.value" value="0" {{checked2 data.actions.tinker.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.tinker.value)}}filled{{/if}}" type="radio" name="data.actions.tinker.value" value="1" {{checked2 data.actions.tinker.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.tinker.value)}}filled{{/if}}" type="radio" name="data.actions.tinker.value" value="2" {{checked2 data.actions.tinker.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.tinker.value)}}filled{{/if}}" type="radio" name="data.actions.tinker.value" value="3" {{checked2 data.actions.tinker.value 3}}/></td>
-			<td><input type="radio" name="data.actions.tinker.value" value="4" {{checked2 data.actions.tinker.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="tinker">Tinker</span></td>
-		</tr>
-    </tbody></table>
-<table class="table-actions pull-left" style="grid-column:3/5;">
-    <tbody><tr><th colspan="4" style="text-align: left;padding-left:0.5em;font-size: larger"><span class="rollable" data-action="prowess">Prowess</span></th><th colspan="2" style="text-align:right;padding-right:0.5em">XP: <span class="xp xp-track" title="Prowess XP">
-            {{#track 6}}
-                <input type="radio" name="data.xp.prowess.value" value="{{@index}}" {{checked2 data.xp.prowess.value @index}}/>
-            {{/track}}
-            </span>
-            <p><label class="xp-clear"><input type="radio" name="data.xp.prowess.value" value="0" {{checked2 data.xp.prowess.value 0}} />Clear XP</label></p>
-            </th>
-        </tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.finesse.value" value="0" {{checked2 data.actions.finesse.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.finesse.value)}}filled{{/if}}" type="radio" name="data.actions.finesse.value" value="1" {{checked2 data.actions.finesse.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.finesse.value)}}filled{{/if}}" type="radio" name="data.actions.finesse.value" value="2" {{checked2 data.actions.finesse.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.finesse.value)}}filled{{/if}}" type="radio" name="data.actions.finesse.value" value="3" {{checked2 data.actions.finesse.value 3}}/></td>
-			<td><input type="radio" name="data.actions.finesse.value" value="4" {{checked2 data.actions.finesse.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="finesse">Finesse</span></td>
-		</tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.prowl.value" value="0" {{checked2 data.actions.prowl.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.prowl.value)}}filled{{/if}}" type="radio" name="data.actions.prowl.value" value="1" {{checked2 data.actions.prowl.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.prowl.value)}}filled{{/if}}" type="radio" name="data.actions.prowl.value" value="2" {{checked2 data.actions.prowl.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.prowl.value)}}filled{{/if}}" type="radio" name="data.actions.prowl.value" value="3" {{checked2 data.actions.prowl.value 3}}/></td>
-			<td><input type="radio" name="data.actions.prowl.value" value="4" {{checked2 data.actions.prowl.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="prowl">Prowl</span></td>
-		</tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.skirmish.value" value="0" {{checked2 data.actions.skirmish.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.skirmish.value)}}filled{{/if}}" type="radio" name="data.actions.skirmish.value" value="1" {{checked2 data.actions.skirmish.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.skirmish.value)}}filled{{/if}}" type="radio" name="data.actions.skirmish.value" value="2" {{checked2 data.actions.skirmish.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.skirmish.value)}}filled{{/if}}" type="radio" name="data.actions.skirmish.value" value="3" {{checked2 data.actions.skirmish.value 3}}/></td>
-			<td><input type="radio" name="data.actions.skirmish.value" value="4" {{checked2 data.actions.skirmish.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="skirmish">Skirmish</span></td>
-		</tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.wreck.value" value="0" {{checked2 data.actions.wreck.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.wreck.value)}}filled{{/if}}" type="radio" name="data.actions.wreck.value" value="1" {{checked2 data.actions.wreck.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.wreck.value)}}filled{{/if}}" type="radio" name="data.actions.wreck.value" value="2" {{checked2 data.actions.wreck.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.wreck.value)}}filled{{/if}}" type="radio" name="data.actions.wreck.value" value="3" {{checked2 data.actions.wreck.value 3}}/></td>
-			<td><input type="radio" name="data.actions.wreck.value" value="4" {{checked2 data.actions.wreck.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="wreck">Wreck</span></td>
-		</tr>
-    </tbody></table>
-<table class="table-actions pull-left" style="grid-column:5/7;">
-    <tbody><tr><th colspan="4" style="text-align: left;padding-left:0.5em;font-size: larger"><span class="rollable" data-action="resolve">Resolve</span></th><th colspan="2" style="text-align:right;padding-right:0.5em">XP: <span class="xp xp-track" title="Resolve XP">
-            {{#track 6}}
-                <input type="radio" name="data.xp.resolve.value" value="{{@index}}" {{checked2 data.xp.resolve.value @index}}/>
-            {{/track}}
-            </span>
-            <p><label class="xp-clear"><input type="radio" name="data.xp.resolve.value" value="0" {{checked2 data.xp.resolve.value 0}} />Clear XP</label></p>
-            </th>
-        </tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.attune.value" value="0" {{checked2 data.actions.attune.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.attune.value)}}filled{{/if}}" type="radio" name="data.actions.attune.value" value="1" {{checked2 data.actions.attune.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.attune.value)}}filled{{/if}}" type="radio" name="data.actions.attune.value" value="2" {{checked2 data.actions.attune.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.attune.value)}}filled{{/if}}" type="radio" name="data.actions.attune.value" value="3" {{checked2 data.actions.attune.value 3}}/></td>
-			<td><input type="radio" name="data.actions.attune.value" value="4" {{checked2 data.actions.attune.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="attune">Attune</span></td>
-		</tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.command.value" value="0" {{checked2 data.actions.command.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.command.value)}}filled{{/if}}" type="radio" name="data.actions.command.value" value="1" {{checked2 data.actions.command.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.command.value)}}filled{{/if}}" type="radio" name="data.actions.command.value" value="2" {{checked2 data.actions.command.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.command.value)}}filled{{/if}}" type="radio" name="data.actions.command.value" value="3" {{checked2 data.actions.command.value 3}}/></td>
-			<td><input type="radio" name="data.actions.command.value" value="4" {{checked2 data.actions.command.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="command">Command</span></td>
-		</tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.consort.value" value="0" {{checked2 data.actions.consort.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.consort.value)}}filled{{/if}}" type="radio" name="data.actions.consort.value" value="1" {{checked2 data.actions.consort.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.consort.value)}}filled{{/if}}" type="radio" name="data.actions.consort.value" value="2" {{checked2 data.actions.consort.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.consort.value)}}filled{{/if}}" type="radio" name="data.actions.consort.value" value="3" {{checked2 data.actions.consort.value 3}}/></td>
-			<td><input type="radio" name="data.actions.consort.value" value="4" {{checked2 data.actions.consort.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="consort">Consort</span></td>
-		</tr>
-        <tr>
-            <td class="table-actions__attribute">
-                <input type="radio" name="data.actions.sway.value" value="0" {{checked2 data.actions.sway.value 0}} style="display:none;"/>
-                <input class="{{#if (lte 2 data.actions.sway.value)}}filled{{/if}}" type="radio" name="data.actions.sway.value" value="1" {{checked2 data.actions.sway.value 1}}/></td>
-			<td><input class="{{#if (lte 3 data.actions.sway.value)}}filled{{/if}}" type="radio" name="data.actions.sway.value" value="2" {{checked2 data.actions.sway.value 2}}/></td>
-			<td><input class="{{#if (lte 4 data.actions.sway.value)}}filled{{/if}}" type="radio" name="data.actions.sway.value" value="3" {{checked2 data.actions.sway.value 3}}/></td>
-			<td><input type="radio" name="data.actions.sway.value" value="4" {{checked2 data.actions.sway.value 4}}/></td>
-            <td class="left-aligned"><span class="action-roll" data-action="sway">Sway</span></td>
-		</tr>
-    </tbody></table>
-<div class="agent-powers section" style="grid-column: 1/5;">
-    <h3 style="position:relative;margin-top:0.5em;margin-bottom:0.5em;">Special Abilities <span style="position:absolute;right:0;text-align:right;">XP: <span class="xp xp-track" title="Playbook XP">
-            {{#track 8}}
-                <input type="radio" name="data.xp.playbook.value" value="{{@index}}" {{checked2 data.xp.playbook.value @index}}/>
-            {{/track}}
-            </span>
-        </span>
-    </h3>
-    <p style="text-align: right;margin-bottom: 1em;font-weight: bold;"><label class="xp-clear"><input type="radio" name="data.xp.playbook.value" value="0" {{checked2 data.xp.playbook.value 0}} />Clear XP</label></p>
-    <ul>
-        {{#each abilities as |ability id|}}
-        <li>
-            <span data-ability="{{ability._id}}"><i class="{{#if ability.data.chosen}}fas{{else}}far{{/if}} fa-square"></i> <strong>{{ability.name}}</strong></span> &mdash; {{ability.data.description}}</li>
-        {{/each}}
-</ul>
-<p style="margin-top:0;"><i>{{data.xp_trigger}}</i></p>
-</div>
-
-<div class="agent-gear section" style="grid-column: 5/7;">
-    <h3 style="margin-top:0.5em;">Load and Gear {{data.derived.totalLoad}}</h3>
-    <div class="button-group load" role="group" aria-label="Load">
-        <button {{#if (eq data.load.selected "light")}}class="active"{{/if}} value="light">{{data.load.light}} Light</button>
-        <button {{#if (eq data.load.selected "normal")}}class="active"{{/if}} value="normal">{{data.load.normal}} Normal</button>
-        <button {{#if (eq data.load.selected "heavy")}}class="active"{{/if}} value="heavy">{{data.load.heavy}} Heavy</button>
-    </div>
-    <h4>Standard items</h4>
-    <ul>
-        {{#each gear as |item id|}}
-        <li data-load="{{item.data.load}}" data-item="{{item._id}}" style="position:relative;">
-        {{#inventory item}}{{/inventory}}
-        <p role="tooltip"><img src="{{item.img}}" alt="{{item.name}}" width="24" height="24" style="float:left;margin-right: 0.5em;" />{{item.data.description}}</p>
-        </li>
-        {{/each}}
-    </ul>
-    <h4>Special items</h4>
-    <ul>
-        {{#each playbook_gear as |item id|}}
-        <li data-load="{item.data.load}" data-item="{{item._id}}" style="position:relative;">
-        {{#inventory item}}{{/inventory}}
-        <p role="tooltip"><img src="{{item.img}}" alt="{{item.name}}" width="24" height="24" style="float:left;margin-right: 0.5em;" />{{item.data.description}}</p>
-        </li>
-        {{/each}}
-    </ul>
-</div>
-
-        <div class="healing section">
-            <h3>Healing</h3>
-            <label class="xp-clear"><input type="radio" name="data.harm.healing.value" value="0" {{checked2 data.harm.healing.value 0}} />Clear</label>
-            <div class="clock">
-                <input type="hidden" name="attr_clock_size" class="size" value="4" />
-                <input type="radio" name="data.harm.healing.value" value="4" {{checked2 data.harm.healing.value 4}} />
-                <input type="radio" name="data.harm.healing.value" value="3" {{checked2 data.harm.healing.value 3}} />
-                <input type="radio" name="data.harm.healing.value" value="2" {{checked2 data.harm.healing.value 2}} />
-                <input type="radio" name="data.harm.healing.value" value="1" {{checked2 data.harm.healing.value 1}} />
-            </div>
-        </div>
-        <div class="harm section" style="grid-column: 2/4;">
-            <h3>Harm</h3>
-            <table>
-                <colgroup>
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                </colgroup>
-                <tr>
-                    <td class="num">3</td>
-                    <td colspan="2"><input type="text" name="data.harm.level3" value="{{data.harm.level3}}" /></td>
-                    <td class="lbl">Need Help</td>
-                </tr><tr>
-                    <td class="num">2</td>
-                    <td style="border-right:1px solid black;"><input type="text" name="data.harm.level2a" value="{{data.harm.level2a}}" /></td>
-                    <td><input type="text" name="data.harm.level2b" value="{{data.harm.level2b}}" /></td>
-                    <td class="lbl">-1d</td>
-                </tr><tr>
-                    <td class="num">1</td>
-                    <td style="border-right:1px solid black;"><input type="text" name="data.harm.level1a" value="{{data.harm.level1a}}" /></td>
-                    <td><input type="text" name="data.harm.level1b" value="{{data.harm.level1b}}" /></td>
-                    <td class="lbl">Less Effect</td>
-                </tr>
-            </table>
-        </div>
-        <div class="armor section" style="grid-column: 4/5;">
-            <h3>Armour Use</h3>
-            <p><label><input type="checkbox" name="data.armour.standard" {{checked data.armour.standard}} /> Armour</label></p>
-            <p><label><input type="checkbox" name="data.armour.heavy" {{checked data.armour.heavy}} /> Heavy</label></p>
-            <p><label><input type="checkbox" name="data.armour.special" {{checked data.armour.special}} /> Special</label></p>
-        </div>
-        <div class="agent-skill section" style="grid-column: 5/7;">
-        <h3>Investigative Skills</h3>
-        <dl>
-        {{#each skills as |skill id|}}
-        <dt>{{skill.name}} <a class="remove-skill" data-skill="{{skill._id}}" title="Remove skill"><i class="fas fa-trash"></i></a></dt>
-        <dd>{{skill.data.description}}</dd>
-        {{/each}}
-        </dl>
-        <div class="skill-select" style="display: none;">
-        <select>
-            <option value="">- select a skill -</option>
-            {{#each skill_list as |skill id|}}
-            <option value="{{skill.name}}">{{skill.name}}</option>
+        <section class="tab personnel" data-group="primary" data-tab="mission">
+            <h2 class="emph">Actions</h2>
+            <p>Squads typically specialize in one or two actions; use the ""Other" action for anything else.</p>
+            <div class="button-group" style="width:50%">
+            {{#each data.actions as |action ac|}}
+                {{#if (gt action.value 0)}}
+                    <button class="action-roll" data-action="{{ac}}" style="text-transform: capitalize;">{{ac}}</button>
+                {{/if}}
             {{/each}}
-        </select>
-        <button class="cancel-skill">Cancel</button>
-        <button class="confirm-skill">Confirm</button>
-        </div>
-        <button class="add-skill"><i class="fas fa-plus"></i>Add Skill</button>
-        </div>
-
+                <button class="action-roll" data-action="other">Other</button>
             </div>
+            <table>
+                <caption>Rookies</caption>
+                <colgroup>
+                    <col span="1" />
+                    <col span="1" />
+                    <col span="1" />
+                    <col span="1" style="width: 25%;" />
+                </colgroup>
+            <tr>
+                <th>Rookie</th>
+                <th>XP</th>
+                <th>Harm</th>
+                <th>Options</th>
+            </tr>
+            {{#each data.rookies}}
+            <tr data-agent="{{@index}}">
+            <td>{{this.name}}</td>
+            <td style="text-align: center;">{{this.xp.value}}/{{this.xp.max}}</td>
+            <td style="text-align: center;">
+                {{#if (eq this.harm.value 0)}}
+                <i class="fas fa-check" style="color: green"></i>
+                {{/if}}
+                {{#if (eq this.harm.value 1)}}
+                <i class="fas fa-band-aid" style="color: peru"></i>
+                {{/if}}
+                {{#if (eq this.harm.value 2)}}
+                <i class="fas fa-heartbeat" style="color: darkred"></i>
+                {{/if}}
+                {{#if (eq this.harm.value 3)}}
+                <i class="fas fa-ambulance" style="color: darkred"></i>
+                {{/if}}
+                {{this.harm.value}}/{{this.harm.max}}
+            </td>
+            <td>
+                <div class="button-group" role="group" aria-label="Rookie status">
+                <button value="promote"><i class="fas fa-medal"></i>Promote</button>
+                <button value="dead"><i class="fas fa-skull"></i>Remove</button>
+                </div>
+            </td>
+            </tr>
+            {{/each}}
+            </table>
         </section>
         <section class="tab" data-group="primary" data-tab="downtime">
             
-            <div style="display:grid;grid-gap:4px;grid-template-columns: 1fr 1fr;">
-        <div class="prose section">
+        <div class="prose">
             <h2>Mission Rewards</h2>
             <p>After the mission, mark as directed:</p>
             <h3>Primary Mission</h4>
-            <p>If you were on the primary mission, mark xp as follows:</p>
+            <p>If the squad was on the primary mission, rookies mark xp as follows:</p>
             <ul>
-                <li>{{data.xp_trigger}}</li>
-                <li>You made effective use of your investigative skills.</li>
-                <li>You struggled with issues from your stress or conditions.</li>
+                <li>You struggled with issues from your stress, edges, or flaws.</li>
                 <li>You provided emotional support for a crew member.</li>
             </ul>
             <h3>Secondary Mission</h3>
-            <p>If you survived the secondary mission, you mark 2 xp.</p>
-            <p>You may also need to mark harm or stress.</p>
+            <p>If the squad survived the secondary mission, all members mark 2 xp.</p>
+            <p>You may also need to mark harm, stress, or remove a rookie.</p>
             <h3>Skipped Mission</h3>
-            <p>Agents who skipped the mission get to take R &amp; R (rest and relaxation).</p>
+            <p>Squads who skipped the mission get to take R &amp; R (rest and relaxation).</p>
             <button>R &amp; R</button>
             <p>This marks a healing tick and clears up to 2 stress.</p>
         </div>
-        <div class="prose section">
-            <h2>Downtime Activities</h2>
-            <p>If you went on a mission, you can pursue one personal activity before your next mission.</p>
-            <h3>Assigned Downtime</h3>
-            <p><strong>If the Quartermaster assigns you to a project</strong>, you don't have time left for a personal activity.</p>
-            <h3>Seek Stability</h3>
-            <p>Visit your source of stability to relieve stress.</p>
-            <button class="rollable" data-action="stability">Stability Check</button>
-            <h3>Train</h3>
-            <p>Mark 1 XP in a selected track (Insight, Prowess, Resolve, or playbook advancement).</p>
-            <p><em>You can mark 2 XP for a track when your crew has unlocked the corresponding upgrade.</em></p>
-            <h3>Recover</h3>
-            <p>Seek treatment for your existing harm. Either roll using the quality level of the NPC treating you, or take one stress and roll 0d.</p>
-            <p>Poor - 0d, Standard - 1d, Fine - 2d, Exceptional - 3d.</p>
-            <p><button class="simple-roll" data-action="recovery"><i class='fas fa-dice'></i> Recovery Roll</button></p>
-            <p>Mark a number of segments on your healing clock. 1-3: one segment, 4/5: two segments, 6: three segments, critical: five segments.</p>
-            <p>When you fill your healing clock, reduce each instance of harm on your sheet by one level, then clear the clock. Extra segments "roll over".</p>
-            <h3>Crafting</h3>
-            <p>Work on a personal long-term project to invent, build or enhance gadgets, weapons, apps, or spells.</p>
-            <p>(under construction)</p>
-        </div>
-            </div>
     </section>
     <section class="tab" data-group="primary" data-tab="bio">
         <div>
@@ -340,11 +120,10 @@
     </section>
     {{else}}
     <section>
-        <h2>SELECT PLAYBOOK</h2>
+        <h2>SELECT SQUAD TYPE</h2>
         {{#each playbooks as |item id|}}
         <button class='select-playbook' data-playbook="{{item.name}}"><img src="{{item.img}}" style= "width: 2em; height: 2em;margin-right: 0.5em;"/> {{item.name}}</button>
         {{/each}}
-        
     </section>
     {{/if}}
     </section>

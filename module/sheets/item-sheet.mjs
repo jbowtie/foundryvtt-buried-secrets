@@ -63,6 +63,7 @@ export class GenericItemSheet extends ItemSheet {
 
     // Roll handlers, click handlers, etc. would go here.
     html.find('.add-playbook-action').click(this.addPlaybookAction.bind(this));
+    html.find('.remove-playbook-action').click(this.removePlaybookAction.bind(this));
   }
   
   async addPlaybookAction(event) {
@@ -72,6 +73,15 @@ export class GenericItemSheet extends ItemSheet {
     const val = $('input.new_action_val')[0].value;
     console.log(`${att} = ${val}`);
     abilities[att] = val;
+    const updates = {_id: this.item.id, data: { actions: abilities}};
+    const updated = await this.item.update(updates);
+  }
+  async removePlaybookAction(event) {
+    event.preventDefault();
+    const abilities = this.item.data.data.actions;
+    const att = $(event.currentTarget).data("action");
+    console.log(`Removing ${att}`);
+    abilities[att] = 0;
     const updates = {_id: this.item.id, data: { actions: abilities}};
     const updated = await this.item.update(updates);
   }

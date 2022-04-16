@@ -1,0 +1,56 @@
+<form class="{{cssClass}}" autocomplete="off">
+  <header class="sheet-header">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="bonuses">Attributes</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      <label>Description:</label>
+      <textarea name="data.description">{{data.description}}</textarea>
+      <label>XP trigger:</label>
+      <input name="data.xp_trigger" type="text" value="{{data.xp_trigger}}" />
+      <label>Abilities (comma-seperated names):</label>
+      <textarea name="data.abilities">{{data.abilities}}</textarea>
+      <label>Unique Gear (comma-seperated names):</label>
+      <textarea name="data.gear">{{data.gear}}</textarea>
+    </div>
+    <div class="tab" data-group="primary" data-tab="bonuses">
+        <h3>Starting Actions:</h3>
+        {{#each data.actions as |val action|}}
+        {{#if (gte val 1)}}
+        <p class="flexrow">{{action}}: {{val}}<button class="remove-playbook-action" data-action="{{action}}" title="Remove action"><i class="fas fa-trash"></i></button></p>
+        {{/if}}
+        {{/each}}
+        <p class="flexrow">
+            <select class="new_action">
+                <option value="attune">Attune</option>
+                <option value="command">Command</option>
+                <option value="consort">Consort</option>
+                <option value="finesse">Finesse</option>
+                <option value="hunt">Hunt</option>
+                <option value="prowl">Prowl</option>
+                <option value="skirmish">Skirmish</option>
+                <option value="study">Study</option>
+                <option value="survey">Survey</option>
+                <option value="sway">Sway</option>
+                <option value="tinker">Tinker</option>
+                <option value="wreck">Wreck</option>
+            </select>
+            <input class="new_action_val" type="number" value="2" />
+            <button class="add-playbook-action">Add</button>
+        </p>
+    </div>
+  </section>
+</form>

@@ -95,6 +95,11 @@
             "playbook": "",
             "status": "",
             "elite": false,
+            "stress": {
+                "value": 0,
+                "min": 0,
+                "max": 6
+            },
             "actions": {
                 "attune": {"value": 0, "min":0, "max": 5},
                 "command": {"value": 0, "min":0, "max": 5},
@@ -108,7 +113,9 @@
                 "sway": {"value": 0, "min":0, "max": 5},
                 "tinker": {"value": 0, "min":0, "max": 5},
                 "wreck": {"value": 0, "min":0, "max": 5}
-            }
+            },
+            "conditions": [],
+            "rookies": []
         },
         "role": {
             "templates": ["base"],
