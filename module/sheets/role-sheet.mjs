@@ -45,6 +45,22 @@ export class RoleSheet extends ActorSheet {
             }
         });
         context.agents = agents;
+        const squads = game.actors.filter(s => s.data.type === 'squad').map(a => {
+            let status = a.data.data.status || "available";
+            let skills = Object.keys(a.data.data.actions)
+                .filter(x => a.data.data.actions[x].value > 0)
+                .map(x => x.capitalize());
+            return {
+                id: a.id,
+                name: a.name,
+                playbook: a.data.data.playbook,
+                stress: a.data.data.stress.value,
+                status: status,
+                skills: skills.join(', '),
+                rookies: a.data.data.rookies.length
+            }
+        });
+        context.squads = squads;
         context.crew = game.crew;
 
         return context;

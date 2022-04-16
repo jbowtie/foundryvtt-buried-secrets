@@ -186,7 +186,37 @@
                 <button {{#if (eq this.status "primary")}}class="active"{{/if}} value="primary">Primary</button>
                 <button {{#if (eq this.status "secondary")}}class="active"{{/if}} value="secondary">Secondary</button>
                 <button {{#if (eq this.status "missing")}}class="active"{{/if}} value="missing">Missing</button>
-                <button {{#if (eq this.status "dead")}}class="active"{{/if}} value="dead">Dead</button>
+                <button {{#if (eq this.status "dead")}}class="active"{{/if}} value="dead"><i class="fas fa-skull"></i>Dead</button>
+                </div>
+            </td>
+            </tr>
+            {{/each}}
+            </table>
+            <table>
+                <caption>Squads</caption>
+            <tr>
+                <th>Squad</th>
+                <th>Stress</th>
+                <th>Attributes</th>
+                <th>Rookies</th>
+                <th>Status</th>
+            </tr>
+            {{#each squads}}
+            <tr data-agent="{{this.id}}">
+            <td><a class="entity-link content-link" data-type="Actor" data-entity="Actor" data-id="{{this.id}}">{{this.name}}</a> ({{this.playbook}})
+            </td>
+            <td style="text-align: center;">{{this.stress}}/6</td>
+            <td>{{this.skills}}</td>
+            <td style="text-align: center;">
+                {{this.rookies}}/6
+            </td>
+            <td>
+                <div class="button-group agent-status" role="group" aria-label="Agent status">
+                <button {{#if (eq this.status "available")}}class="active"{{/if}} value="available">Available</button>
+                <button {{#if (eq this.status "primary")}}class="active"{{/if}} value="primary">Primary</button>
+                <button {{#if (eq this.status "secondary")}}class="active"{{/if}} value="secondary">Secondary</button>
+                <button {{#if (eq this.status "missing")}}class="active"{{/if}} value="missing">Missing</button>
+                <button {{#if (eq this.status "dead")}}class="active"{{/if}} value="dead">Destroyed</button>
                 </div>
             </td>
             </tr>

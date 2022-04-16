@@ -71,7 +71,6 @@ Hooks.once('init', function() {
         let ret = list.map(x =>
             {
                 const itemClass = items.includes(x) ? "active" : "";
-                console.log(`${x} in ${items} = ${items.includes(x)}`);
                 return `<a class="${itemClass} toggleList">${x}</a>`;
             }
         ).join(" - ");
