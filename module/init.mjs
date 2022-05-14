@@ -5,7 +5,7 @@ import {GenericItemSheet} from "./sheets/item-sheet.mjs";
 import { RoleSheet } from "./sheets/role-sheet.mjs";
 import { CrewSheet } from "./sheets/crew-sheet.mjs";
 import { ClockSheet } from "./sheets/clock-sheet.mjs";
-import { SquadSheet } from "./sheets/npc-sheet.mjs";
+import { SquadSheet, ExpertSheet } from "./sheets/npc-sheet.mjs";
 
 /*
  * Init Hook
@@ -25,6 +25,7 @@ Hooks.once('init', function() {
     Actors.registerSheet("buried-secrets", RoleSheet, {types: ["role"], makeDefault: true});
     Actors.registerSheet("buried-secrets", CrewSheet, {types: ["crew"], makeDefault: true});
     Actors.registerSheet("buried-secrets", SquadSheet, {types: ["squad"], makeDefault: true});
+    Actors.registerSheet("buried-secrets", ExpertSheet, {types: ["expert"], makeDefault: true});
     Actors.registerSheet("buried-secrets", ClockSheet, {types: ["clock"], makeDefault: true});
     Actors.registerSheet("buried-secrets", ActorSheet, {types: ["npc"], makeDefault: true});
 

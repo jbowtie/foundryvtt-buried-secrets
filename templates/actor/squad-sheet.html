@@ -85,8 +85,8 @@
             </td>
             <td>
                 <div class="button-group" role="group" aria-label="Rookie status">
-                <button value="promote"><i class="fas fa-medal"></i>Promote</button>
-                <button value="dead"><i class="fas fa-skull"></i>Remove</button>
+                <button class="promote-rookie" value="promote"><i class="fas fa-medal"></i>Promote</button>
+                <button class="kill-rookie" value="dead"><i class="fas fa-skull"></i>Remove</button>
                 </div>
             </td>
             </tr>
@@ -98,6 +98,10 @@
         <div class="prose">
             <h2>Mission Rewards</h2>
             <p>After the mission, mark as directed:</p>
+                <div class="button-group" role="group" aria-label="Mark squad rewards" style="width:50%;">
+            <button class="add-xp"><i class="fa-plus fas"></i> Add XP</button>
+            <button class="add-harm"><i class="fas fa-heartbeat" style="color: darkred"></i> Add Harm</button>
+                </div>
             <h3>Primary Mission</h4>
             <p>If the squad was on the primary mission, rookies mark xp as follows:</p>
             <ul>
@@ -109,7 +113,7 @@
             <p>You may also need to mark harm, stress, or remove a rookie.</p>
             <h3>Skipped Mission</h3>
             <p>Squads who skipped the mission get to take R &amp; R (rest and relaxation).</p>
-            <button>R &amp; R</button>
+            <button class="r-and-r" style="width: 50%;">R &amp; R</button>
             <p>This marks a healing tick and clears up to 2 stress.</p>
         </div>
     </section>

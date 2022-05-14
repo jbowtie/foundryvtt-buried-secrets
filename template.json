@@ -88,7 +88,8 @@
                 "level3": false,
                 "level2": false,
                 "level1": false
-            }
+            },
+            "conditions": []
         },
         "squad": {
             "templates": ["base"],
