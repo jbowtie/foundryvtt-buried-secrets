@@ -1,3 +1,5 @@
+import { DicePool } from "../rolls.mjs";
+
 export class AgentSheet extends ActorSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -133,11 +135,11 @@ export class AgentSheet extends ActorSheet {
         await this.actor.setPlaybook(playbook);
     }
 
-    async stabilityRoll() {
+    async stabilityRoll(pool) {
         const data = this.actor.data.data;
         const stability_dice = Math.min(data.derived.insight, data.derived.prowess, data.derived.resolve);
-        const [rolls, zeromode, roll_status, r] = await this._performRoll(stability_dice);
-        const [roll, critical] = this.rollValue(rolls, zeromode);
+        const [rolls, zeromode, roll_status, r] = await pool.actionRoll(stability_dice);
+        const [roll, critical] = pool.rollValue(rolls, zeromode);
         const results = {
             original_roll: r,
             rolls: rolls,
@@ -146,14 +148,15 @@ export class AgentSheet extends ActorSheet {
             zeromode: zeromode,
             action: 'stability'
         };
-        await this._displayRollResult(results);
+        await pool.displayResult(results);
     }
     async _onRoll(event) {
         event.preventDefault();
+        const pool = new DicePool();
 
         const action = $(event.currentTarget).data("action");
         if(action === 'stability') {
-            await this.stabilityRoll();
+            await this.stabilityRoll(pool);
             return;
         }
 
@@ -167,10 +170,10 @@ export class AgentSheet extends ActorSheet {
         else{
             dice_amount = data.actions[action].value;
         }
-        let [rolls, zeromode, roll_status, r] = await this._performRoll(dice_amount);
+        let [rolls, zeromode, roll_status, r] = await pool.actionRoll(dice_amount);
         let resist_status = "";
         if(is_resistance){
-            [roll_status, resist_status] = this.getResistanceRollStatus(rolls, zeromode);
+            [roll_status, resist_status] = pool.getResistanceRollStatus(rolls, zeromode);
         }
         const results = {
             original_roll: r,
@@ -180,42 +183,7 @@ export class AgentSheet extends ActorSheet {
             zeromode: zeromode,
             action: action
         };
-        await this._displayRollResult(results);
-    }
-    async _displayRollResult(results) {
-        let speaker = ChatMessage.getSpeaker(this.actor);
-        let message = await renderTemplate("systems/buried-secrets/templates/secrets-roll.html", {
-            rolls: results.rolls, 
-            roll_status: results.roll_status, 
-            resist_status: results.resist_status,
-            zeromode: results.zeromode, 
-            action: results.action,
-            position: results.position,
-            effect: results.effect
-        });
-
-        let messageData = {
-            speaker: speaker,
-            content: message,
-            type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-            roll: results.original_roll
-        }
-
-        await CONFIG.ChatMessage.documentClass.create(messageData, {});
-    }
-
-    async _performRoll(dice_amount) {
-        let zeromode = false;
-        if (dice_amount < 0) { dice_amount = 0;}
-        if (dice_amount <= 0) {
-            dice_amount = 2;
-            zeromode = true;
-        }
-        let r = new Roll( `${dice_amount}d6`, {} );
-        await r.evaluate({async: true});
-        let rolls = (r.terms)[0].results;
-        let roll_status = this.getActionRollStatus(rolls, zeromode);
-        return [rolls, zeromode, roll_status, r];
+        await pool.displayResult(this.actor, results);
     }
 
     _simpleRoll(event) {
@@ -236,7 +204,8 @@ export class AgentSheet extends ActorSheet {
                     label: "Roll!",
                     callback: async (html) => {
                         const dice_amount = parseInt(html.find('[name="dice_amount"]')[0].value);
-                        let [rolls, zeromode, roll_status, original_roll] = await this._performRoll(dice_amount);
+                        const pool = new DicePool();
+                        let [rolls, zeromode, roll_status, original_roll] = await pool.actionRoll(dice_amount);
                         const results = {
                             original_roll: original_roll,
                             rolls: rolls,
@@ -245,7 +214,7 @@ export class AgentSheet extends ActorSheet {
                             zeromode: zeromode,
                             action: action
                         };
-                        await this._displayRollResult(results);
+                        await pool.displayResult(results);
                     }}
             },
             default: "confirm"
@@ -302,7 +271,8 @@ export class AgentSheet extends ActorSheet {
                                 extra_dice += 1;
                             }
                         });
-                        let [rolls, zeromode, roll_status, original_roll] = await this._performRoll(base_dice + extra_dice);
+                        const pool = new DicePool();
+                        let [rolls, zeromode, roll_status, original_roll] = await pool.actionRoll(base_dice + extra_dice);
                         const position = html.find('.position button.active')[0].value;
                         const effect = html.find('.effect button.active')[0].value;
                         const results = {
@@ -315,7 +285,7 @@ export class AgentSheet extends ActorSheet {
                             position: position,
                             effect: effect
                         };
-                        await this._displayRollResult(results);
+                        await pool.displayResult(this.actor, results);
                     }}
             },
             render: html => {
@@ -337,70 +307,6 @@ export class AgentSheet extends ActorSheet {
             default: "confirm"
         });
         d.render(true);
-    }
-
-    rollValue(rolls, zeromode = false) {
-        let sorted_rolls = rolls.map(i => i.result).sort();
-        let use_die;
-        let prev_use_die;
-
-        if (zeromode) {
-            use_die = sorted_rolls[0];
-        } else {
-            use_die = sorted_rolls[sorted_rolls.length - 1];
-            if (sorted_rolls.length - 2 >= 0) {
-                prev_use_die = sorted_rolls[sorted_rolls.length - 2]
-            }
-        }
-
-        let critical = false;
-
-        if (use_die === 6) {
-            // if 6 - check the prev highest one.
-            // 6,6 = critical success
-            if (prev_use_die && prev_use_die === 6) {
-                critical = true;
-            }
-        }
-        return [use_die, critical];
-    }
-
-    getResistanceRollStatus(rolls, zeromode = false) {
-        let [use_die, critical] = this.rollValue(rolls, zeromode);
-        let stress = 6 - use_die;
-        let roll_status = "success";
-        let resist_status = `Take ${stress} stress`;
-        if (critical) {
-            roll_status = "critical-success";
-            resist_status = "Clear 1 stress";
-        }
-
-        return [roll_status, resist_status];
-    }
-
-    getActionRollStatus(rolls, zeromode = false) {
-
-        let [use_die, critical] = this.rollValue(rolls, zeromode);
-        let roll_status;
-
-        // 1,2,3 = failure
-        if (use_die <= 3) {
-            roll_status = "failure";
-        } else if (use_die === 6) {
-            // if 6 - check the prev highest one.
-            // 6,6 = critical success
-            if (critical) {
-                roll_status = "critical-success";
-            } else {
-                // 6 = success
-                roll_status = "success";
-            }
-        } else {
-            // else (4,5) = partial success
-            roll_status = "partial-success";
-        }
-
-        return roll_status;
     }
 
     _prepareCharacterItems(context) {
