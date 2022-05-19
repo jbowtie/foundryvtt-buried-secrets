@@ -23,7 +23,7 @@ export class DicePool {
     }
 
     rollValue(rolls, zeromode = false) {
-        let sorted_rolls = rolls.map(i => i.result).sort();
+        const sorted_rolls = rolls.map(i => i.result).sort();
         let use_die;
         let prev_use_die;
 
@@ -50,7 +50,7 @@ export class DicePool {
 
     getActionRollStatus(rolls, zeromode = false) {
 
-        let [use_die, critical] = this.rollValue(rolls, zeromode);
+        const [use_die, critical] = this.rollValue(rolls, zeromode);
         let roll_status;
 
         // 1,2,3 = failure
@@ -73,6 +73,19 @@ export class DicePool {
         return roll_status;
     }
 
+    getResistanceRollStatus(rolls, zeromode = false) {
+        const [use_die, critical] = this.rollValue(rolls, zeromode);
+        const stress = 6 - use_die;
+        let roll_status = "success";
+        let resist_status = `Take ${stress} stress`;
+        if (critical) {
+            roll_status = "critical-success";
+            resist_status = "Clear 1 stress";
+        }
+
+        return [roll_status, resist_status];
+    }
+
     async actionRoll(dice_amount) {
         let zeromode = false;
         if (dice_amount < 0) { dice_amount = 0;}
@@ -80,10 +93,10 @@ export class DicePool {
             dice_amount = 2;
             zeromode = true;
         }
-        let r = new Roll( `${dice_amount}d6`, {} );
+        const r = new Roll( `${dice_amount}d6`, {} );
         await r.evaluate({async: true});
-        let rolls = (r.terms)[0].results;
-        let roll_status = this.getActionRollStatus(rolls, zeromode);
+        const rolls = (r.terms)[0].results;
+        const roll_status = this.getActionRollStatus(rolls, zeromode);
         return [rolls, zeromode, roll_status, r];
     }
 }

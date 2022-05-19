@@ -9,7 +9,12 @@
     "scripts": [],
     "esmodules": ["module/init.mjs"],
     "styles": ["styles/buried.css"],
-    "packs": [],
+    "packs": [{
+        "name": "buried-secrets-playbooks",
+        "label": "Playbooks",
+        "path": "./packs/playbooks.db",
+        "type": "Item"
+    }],
     "languages": [],
     "gridDistance": 5,
     "gridUnits": "ft",
