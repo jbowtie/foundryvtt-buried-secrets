@@ -148,7 +148,7 @@ export class AgentSheet extends ActorSheet {
             zeromode: zeromode,
             action: 'stability'
         };
-        await pool.displayResult(results);
+        await pool.displayResult(this.actor, results);
     }
     async _onRoll(event) {
         event.preventDefault();
@@ -214,7 +214,7 @@ export class AgentSheet extends ActorSheet {
                             zeromode: zeromode,
                             action: action
                         };
-                        await pool.displayResult(results);
+                        await pool.displayResult(this.actor, results);
                     }}
             },
             default: "confirm"
