@@ -61,6 +61,7 @@ export class AgentSheet extends ActorSheet {
         html.find(".create-project button").click(this._addProject.bind(this));
         html.find(".remove-project").click(this._removeProject.bind(this));
         html.find(".toggleList").click(this._toggleCondition.bind(this));
+        html.find(".r-and-r").click(this._recuperate.bind(this));
     }
     async _selectLoad(event) {
         event.preventDefault();
@@ -231,9 +232,9 @@ export class AgentSheet extends ActorSheet {
             content: `<form style='padding: 1em;'>
             <h1>Starting Dice: ${base_dice}</h1>
             <ul class="dice-mods">
-            <li>Is someone aiding you? <button role="switch" aria-checked="false"><span>yes</span><span>no</span></button></li>
+            <li>Is someone taking 1 stress to aid you? <button role="switch" aria-checked="false"><span>yes</span><span>no</span></button></li>
             <li>Does a playbook ability give +1d? <button role="switch" aria-checked="false"><span>yes</span><span>no</span></button></li>
-            <li>Are you pushing yourself? <button role="switch" aria-checked="false"><span>yes</span><span>no</span></button></li>
+            <li>Are you pushing yourself (2 stress)? <button role="switch" aria-checked="false"><span>yes</span><span>no</span></button></li>
             <li>Did you take a Devil's Bargain? <button role="switch" aria-checked="false"><span>yes</span><span>no</span></button></li>
             <li>Do you have Level 2 harm? <button role="switch" aria-checked="${data.derived.wounded}" data-mod="-1" disabled="true"><span>yes</span><span>no</span></button></li>
             </ul>
@@ -244,6 +245,7 @@ export class AgentSheet extends ActorSheet {
             <button value="desperate">Desperate</button>
             </div>
             <h3>Effect</h3>
+            <p ${data.derived.hurt ? "" : "hidden"}>Your level 1 harm reduces the effect level.</p>
             <div class="button-group effect" role="group" aria-label="Effect">
             <button value="none">No Effect</button>
             <button value="limited">Limited</button>
@@ -364,4 +366,16 @@ export class AgentSheet extends ActorSheet {
         if(!name) return;
         await this.actor.createEmbeddedDocuments("Item", [{type:"project", name: name, data: {size: segments, progress: 0}}]);
     }
+
+    async _recuperate(event) {
+        event.preventDefault();
+        let stress = this.actor.data.data.stress.value;
+        stress = Math.max(0, stress - 2);
+        // do we need healing?
+        // tick the clock
+        // move it down when it fills up
+        const updates = {_id: this.actor.id, data: { stress: {value: stress }}};
+        const updated = await this.actor.update(updates);
+    }
+
 }
