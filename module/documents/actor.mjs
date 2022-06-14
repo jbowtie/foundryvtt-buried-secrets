@@ -50,7 +50,7 @@ export class SecretsActor extends Actor {
         data.derived.prowess = ["finesse", "prowl", "skirmish", "wreck"].map(x => data.actions[x].value > 0 ? 1 : 0).reduce((a, x) => a + x, 0);
         data.derived.resolve = ["attune", "command", "consort", "sway"].map(x => data.actions[x].value > 0 ? 1 : 0).reduce((a, x) => a + x, 0);
         data.derived.totalLoad = this.items.filter(i => i.type === 'gear' && i.data.data.equipped).reduce((sum, i)=>sum + i.data.data.load, 0);
-        data.derived.hurt = (data.harm.level1a || data.harm.level1b) == true;
+        data.derived.hurt = (data.harm.level1a !== '' || data.harm.level1b !== '');
         data.derived.wounded = (data.harm.level2a !== '' || data.harm.level2b !== '');
     }
 
