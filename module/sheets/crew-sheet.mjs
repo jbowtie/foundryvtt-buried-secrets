@@ -13,10 +13,10 @@ export class CrewSheet extends ActorSheet {
         const context = super.getData();
 
         // Use a safe clone of the actor data for further operations.
-        const actorData = context.actor.data;
+        const actorData = context.actor;
 
         // Add the actor's data to context.data for easier access, as well as flags.
-        context.data = actorData.data;
+        context.data = actorData.system;
         context.flags = actorData.flags;
         this._prepareCharacterItems(context);
 

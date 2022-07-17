@@ -11,7 +11,7 @@ export class AgentSheet extends ActorSheet {
         });
     }
 
-    getData() {
+    async getData() {
         // Retrieve the data structure from the base sheet. You can inspect or log
         // the context variable to see the structure, but some key properties for
         // sheets are the actor object, the data object, whether or not it's
@@ -19,23 +19,25 @@ export class AgentSheet extends ActorSheet {
         const context = super.getData();
 
         // Use a safe clone of the actor data for further operations.
-        const actorData = context.actor.data;
+        const actor = context.actor;
 
         // Add the actor's data to context.data for easier access, as well as flags.
-        context.data = actorData.data;
-        context.flags = actorData.flags;
+        context.system = actor.system;
+        context.flags = actor.flags;
 
-        if(actorData.type == 'character') {
+        if(actor.type == 'character') {
             this._prepareCharacterItems(context);
-            if(context.data.playbook === '') {
+            if(context.system.playbook === '') {
                 context.playbooks = game.items.filter(x => x.type === 'playbook');
             }
             const existing_skills = context.skills.map(s => s.name);
-            context.skill_list = game.items.filter(x => x.type === 'skill' && !existing_skills.includes(x.data.name));
+            context.skill_list = game.items.filter(x => x.type === 'skill' && !existing_skills.includes(x.system.name));
         
             context.conditionsA = ["Cold", "Haunted", "Obsessed", "Paranoid"];
             context.conditionsB = ["Reckless", "Soft", "Unstable", "Vicious"];
         }
+
+        context.descMarkup = await TextEditor.enrichHTML(context.system.description, {async: true});
 
         return context;
     }
@@ -66,7 +68,7 @@ export class AgentSheet extends ActorSheet {
     async _selectLoad(event) {
         event.preventDefault();
         const newLoad = event.currentTarget.value;
-        const updates = {_id: this.actor.id, data: { load: {selected: newLoad} }};
+        const updates = {_id: this.actor.id, system: { load: {selected: newLoad} }};
         const updated = await this.actor.update(updates);
         const group = event.currentTarget.parentElement;
         $(group.children).removeClass("active");
@@ -137,7 +139,7 @@ export class AgentSheet extends ActorSheet {
     }
 
     async stabilityRoll(pool) {
-        const data = this.actor.data.data;
+        const data = this.actor.system;
         const stability_dice = Math.min(data.derived.insight, data.derived.prowess, data.derived.resolve);
         const [rolls, zeromode, roll_status, r] = await pool.actionRoll(stability_dice);
         const [roll, critical] = pool.rollValue(rolls, zeromode);
@@ -163,7 +165,7 @@ export class AgentSheet extends ActorSheet {
 
         const is_resistance = ["resolve", "insight", "prowess"].includes(action);
 
-        const data = this.actor.data.data;
+        const data = this.actor.system;
         let dice_amount = 0;
         if(is_resistance){
             dice_amount = data.derived[action];
@@ -225,7 +227,7 @@ export class AgentSheet extends ActorSheet {
 
     _actionRoll(event) {
         const action = $(event.currentTarget).data("action");
-        const data = this.actor.data.data;
+        const data = this.actor.system;
         const base_dice = Number.parseInt(data.actions[action].value);
         const d = new Dialog({
             title: `${action} Roll`,
@@ -321,7 +323,7 @@ export class AgentSheet extends ActorSheet {
         for (let i of context.items) {
             switch (i.type) {
                 case 'gear':
-                    if(i.data.source === 'playbook') {
+                    if(i.system.source === 'playbook') {
                         playbook_gear.push(i);
                     } else {
                         gear.push(i);
@@ -364,17 +366,17 @@ export class AgentSheet extends ActorSheet {
         const segments = $('.create-project select').val();
         const name = $('.create-project input').val();
         if(!name) return;
-        await this.actor.createEmbeddedDocuments("Item", [{type:"project", name: name, data: {size: segments, progress: 0}}]);
+        await this.actor.createEmbeddedDocuments("Item", [{type:"project", name: name, system: {size: segments, progress: 0}}]);
     }
 
     async _recuperate(event) {
         event.preventDefault();
-        let stress = this.actor.data.data.stress.value;
+        let stress = this.actor.system.stress.value;
         stress = Math.max(0, stress - 2);
         // do we need healing?
         // tick the clock
         // move it down when it fills up
-        const updates = {_id: this.actor.id, data: { stress: {value: stress }}};
+        const updates = {_id: this.actor.id, system: { stress: {value: stress }}};
         const updated = await this.actor.update(updates);
     }
 

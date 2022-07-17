@@ -1,11 +1,13 @@
 {
-    "name": "buried-secrets",
+    "id": "buried-secrets",
     "title": "Buried Secrets",
     "description": "A spy game Forged in the Dark",
-    "version": "0.6",
-    "minimumCoreVersion": "9",
-    "compatibleCoreVersion": "9",
-    "author": "John C Barstow",
+    "version": "0.7",
+    "compatibility": {
+        "minimum": 10,
+        "verified": 10
+    },
+    "authors": [{"name": "John C Barstow"}],
     "scripts": [],
     "esmodules": ["module/init.mjs"],
     "styles": ["styles/buried.css"],

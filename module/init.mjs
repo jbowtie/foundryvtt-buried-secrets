@@ -41,8 +41,8 @@ Hooks.once('init', function() {
 
     Handlebars.registerHelper('inventory', function(item, options) {
         let ret = "";
-        const itemClass = item.data.equipped ? "fas" : "far";
-        switch(item.data.load) {
+        const itemClass = item.system.equipped ? "fas" : "far";
+        switch(item.system.load) {
             case 0:
                 ret += `<i class="${itemClass} fa-square"></i> <i>${item.name}</i>`;
                 break;
@@ -86,7 +86,7 @@ Hooks.once('init', function() {
 Hooks.once('ready', async function () {
     // after fully loaded
     if (!game.user.isGM) return;
-    const crew = game.actors.filter(a => a.data.type === 'crew');
+    const crew = game.actors.filter(a => a.type === 'crew');
     if(crew.length > 0) {
         game.crew = crew[0];
     }

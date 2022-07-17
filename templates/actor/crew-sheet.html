@@ -78,7 +78,7 @@
     <ul>
         {{#each abilities as |ability id|}}
         <li>
-            <span data-ability="{{ability._id}}"><i class="{{#if ability.data.chosen}}fas{{else}}far{{/if}} fa-square"></i> <strong>{{ability.name}}</strong></span> &mdash; {{ability.data.description}}</li>
+            <span data-ability="{{ability._id}}"><i class="{{#if ability.system.chosen}}fas{{else}}far{{/if}} fa-square"></i> <strong>{{ability.name}}</strong></span> &mdash; {{{ability.system.description}}}</li>
         {{/each}}
 </ul>
 <p style="margin-top:0;"><i>{{data.xp_trigger}}</i></p>
@@ -88,7 +88,7 @@
         
     <section class="tab" data-group="primary" data-tab="bio">
         <div>
-        {{editor content=data.description target="data.description" button=true owner=true editable=true}}
+        {{editor data.description target="data.description" button=true owner=true editable=true}}
         </div>
     </section>
     </section>
