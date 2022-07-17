@@ -15,9 +15,9 @@ export class GenericItemSheet extends ItemSheet {
     const path = "systems/buried-secrets/templates/item";
 
     let generic_template = ["skill", "ability"];
-    let template_name = `${this.item.data.type}`;
+    let template_name = `${this.item.type}`;
 
-    if (generic_template.includes(this.item.data.type)) {
+    if (generic_template.includes(this.item.type)) {
       template_name = "generic";
     }
 
@@ -46,7 +46,7 @@ export class GenericItemSheet extends ItemSheet {
     context.editable = this.options.editable;
 
     // Add the actor's data to context.data for easier access, as well as flags.
-    context.data = itemData.data;
+    context.data = itemData.system;
     context.flags = itemData.flags;
 
     return context;
