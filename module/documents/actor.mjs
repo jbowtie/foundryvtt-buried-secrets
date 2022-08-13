@@ -240,7 +240,7 @@ export class SecretsActor extends Actor {
     async toggleRoleCrewUpgrade(upgrade, enable) {
         console.log(`Role: ${this.name} setting ${upgrade } ${enable}`);
         // see if active effect exists
-        const ae = this.effects.find(m => m.data.label === upgrade);
+        const ae = this.effects.find(m => m.label === upgrade);
         // if exists, enable/disable
         if(ae)
         {
@@ -253,13 +253,13 @@ export class SecretsActor extends Actor {
             if(enable === false) return;
 
             // create the specific active effect
-            if(upgrade === 'data.hq.vault1')
+            if(upgrade === 'system.hq.vault1')
             {
-                await this.createEffect(upgrade, [ {key: 'data.resources.intel.max', value: 4, mode: 2} ])
+                await this.createEffect(upgrade, [ {key: 'system.resources.intel.max', value: 4, mode: 2} ])
             }
-            if(upgrade === 'data.hq.vault2')
+            if(upgrade === 'system.hq.vault2')
             {
-                await this.createEffect(upgrade, [ {key: 'data.resources.intel.max', value: 8, mode: 2} ])
+                await this.createEffect(upgrade, [ {key: 'system.resources.intel.max', value: 8, mode: 2} ])
             }
 
         }
