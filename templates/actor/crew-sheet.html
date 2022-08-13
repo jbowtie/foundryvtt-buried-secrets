@@ -33,35 +33,35 @@
                 <div class="section" style="grid-column:1/3;">
                     <h3>HQ Upgrades</h3>
                     <p>Each upgrade improves your crew headquarters in some fashion.</p>
-                    <p><label><input type="checkbox" name="data.hq.aircraft1" {{checked data.hq.aircraft1}} /> Aircraft 1</label></p>
-                    <p><label><input type="checkbox" name="data.hq.aircraft2" {{checked data.hq.aircraft2}} /> Aircraft 2</label></p>
-                    <p><label><input type="checkbox" name="data.hq.hidden" {{checked data.hq.hidden}} /> Hidden</label></p>
-                    <p><label><input type="checkbox" name="data.hq.quarters" {{checked data.hq.quarters}} /> Quarters</label></p>
-                    <p><label><input type="checkbox" name="data.hq.safehouse1" {{checked data.hq.safehouse1}} /> Safehouse 1</label></p>
-                    <p><label><input type="checkbox" name="data.hq.safehouse2" {{checked data.hq.safehouse2}} /> Safehouse 2</label></p>
-                    <p><label><input type="checkbox" name="data.hq.vault1" {{checked data.hq.vault1}} /> Vault 1</label></p>
-                    <p><label><input type="checkbox" name="data.hq.vault2" {{checked data.hq.vault2}} /> Vault 2</label></p>
-                    <p><label><input type="checkbox" name="data.hq.workshop" {{checked data.hq.workshop}} /> Workshop</label></p>
+                    <p><label><input type="checkbox" name="system.hq.aircraft1" {{checked system.hq.aircraft1}} /> Aircraft 1</label></p>
+                    <p><label><input type="checkbox" name="system.hq.aircraft2" {{checked system.hq.aircraft2}} /> Aircraft 2</label></p>
+                    <p><label><input type="checkbox" name="system.hq.hidden" {{checked system.hq.hidden}} /> Hidden</label></p>
+                    <p><label><input type="checkbox" name="system.hq.quarters" {{checked system.hq.quarters}} /> Quarters</label></p>
+                    <p><label><input type="checkbox" name="system.hq.safehouse1" {{checked system.hq.safehouse1}} /> Safehouse 1</label></p>
+                    <p><label><input type="checkbox" name="system.hq.safehouse2" {{checked system.hq.safehouse2}} /> Safehouse 2</label></p>
+                    <p><label><input type="checkbox" name="system.hq.vault1" {{checked system.hq.vault1}} /> Vault 1</label></p>
+                    <p><label><input type="checkbox" name="system.hq.vault2" {{checked system.hq.vault2}} /> Vault 2</label></p>
+                    <p><label><input type="checkbox" name="system.hq.workshop" {{checked system.hq.workshop}} /> Workshop</label></p>
                 </div>
                 <div class="section" style="grid-column: 3/5;">
                     <h3>Quality Upgrades</h3>
                     <p>Fine quality items are measurably better than their standard counterparts.</p>
-                    <p><label><input type="checkbox" name="data.quality.documents" {{checked data.quality.documents}} /> Documents</label></p>
-                    <p><label><input type="checkbox" name="data.quality.gadgets" {{checked data.quality.gadgets}} /> Gadgets</label></p>
-                    <p><label><input type="checkbox" name="data.quality.gear" {{checked data.quality.gear}} /> Gear</label></p>
-                    <p><label><input type="checkbox" name="data.quality.supplies" {{checked data.quality.supplies}} /> Supplies</label></p>
-                    <p><label><input type="checkbox" name="data.quality.tools" {{checked data.quality.tools}} /> Tools</label></p>
-                    <p><label><input type="checkbox" name="data.quality.weapons" {{checked data.quality.weapons}} /> Weapons</label></p>
+                    <p><label><input type="checkbox" name="system.quality.documents" {{checked system.quality.documents}} /> Documents</label></p>
+                    <p><label><input type="checkbox" name="system.quality.gadgets" {{checked system.quality.gadgets}} /> Gadgets</label></p>
+                    <p><label><input type="checkbox" name="system.quality.gear" {{checked system.quality.gear}} /> Gear</label></p>
+                    <p><label><input type="checkbox" name="system.quality.supplies" {{checked system.quality.supplies}} /> Supplies</label></p>
+                    <p><label><input type="checkbox" name="system.quality.tools" {{checked system.quality.tools}} /> Tools</label></p>
+                    <p><label><input type="checkbox" name="system.quality.weapons" {{checked system.quality.weapons}} /> Weapons</label></p>
                 </div>
                 <div class="section" style="grid-column: 5/7;">
                     <h3>Crew Upgrades</h3>
                     <p>(TODO)</p>
                     <h3>Training Upgrades</h3>
                     <p>You earn 2 xp (instead of 1) when you train during downtime.</p>
-                    <p><label><input type="checkbox" name="data.training.insight" {{checked data.training.insight}} /> Insight</label></p>
-                    <p><label><input type="checkbox" name="data.training.prowess" {{checked data.training.prowess}} /> Prowess</label></p>
-                    <p><label><input type="checkbox" name="data.training.resolve" {{checked data.training.resolve}} /> Resolve</label></p>
-                    <p><label><input type="checkbox" name="data.training.playbook" {{checked data.training.playbook}} /> Playbook</label></p>
+                    <p><label><input type="checkbox" name="system.training.insight" {{checked system.training.insight}} /> Insight</label></p>
+                    <p><label><input type="checkbox" name="system.training.prowess" {{checked system.training.prowess}} /> Prowess</label></p>
+                    <p><label><input type="checkbox" name="system.training.resolve" {{checked system.training.resolve}} /> Resolve</label></p>
+                    <p><label><input type="checkbox" name="system.training.playbook" {{checked system.training.playbook}} /> Playbook</label></p>
                 </div>
 
 
@@ -69,7 +69,7 @@
 <div class="agent-powers section" style="grid-column: 1/7;">
     <h3 style="position:relative;margin-top:0.5em;margin-bottom:0.5em;">Special Abilities <span style="position:absolute;right:0;text-align:right;">XP: <span class="xp xp-track" title="Playbook XP">
             {{#track 8}}
-                <input type="radio" name="data.xp.playbook.value" value="{{@index}}" {{checked2 data.xp.playbook.value @index}}/>
+                <input type="radio" name="system.xp.playbook.value" value="{{@index}}" {{checked2 system.xp.playbook.value @index}}/>
             {{/track}}
             </span>
         </span>
@@ -88,7 +88,7 @@
         
     <section class="tab" data-group="primary" data-tab="bio">
         <div>
-        {{editor data.description target="data.description" button=true owner=true editable=true}}
+        {{editor descMarkup target="system.description" button=true owner=true editable=true}}
         </div>
     </section>
     </section>

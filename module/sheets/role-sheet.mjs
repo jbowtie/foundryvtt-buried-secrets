@@ -10,7 +10,7 @@ export class RoleSheet extends ActorSheet {
             tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mission"}]
         });
     }
-    getData() {
+    async getData() {
         // Retrieve the data structure from the base sheet. You can inspect or log
         // the context variable to see the structure, but some key properties for
         // sheets are the actor object, the data object, whether or not it's
@@ -18,50 +18,52 @@ export class RoleSheet extends ActorSheet {
         const context = super.getData();
 
         // Use a safe clone of the actor data for further operations.
-        const actorData = context.actor.data;
+        const actor = context.actor;
 
         // Add the actor's data to context.data for easier access, as well as flags.
-        context.data = actorData.data;
-        context.flags = actorData.flags;
+        context.data = actor.system;
+        context.system = actor.system;
+        context.flags = actor.flags;
         
         context.projects = context.items.filter(i => i.type === 'project')
-            .map(p => { return {id: p._id, name: p.name, size: p.data.size, progress: p.data.progress}; });
+            .map(p => { return {id: p._id, name: p.name, size: p.system.size, progress: p.system.progress}; });
 
         
-        const agents = game.actors.filter(s => s.data.type === 'character').map(a => {
+        const agents = game.actors.filter(s => s.type === 'character').map(a => {
             let harm = 0;
-            if(a.data.data.harm.level1a || a.data.data.harm.level1b) harm = 1;
-            if(a.data.data.harm.level2a || a.data.data.harm.level2b) harm = 2;
-            if(a.data.data.harm.level3) harm = 3;
-            let status = a.data.data.status || "available";
+            if(a.system.harm.level1a || a.system.harm.level1b) harm = 1;
+            if(a.system.harm.level2a || a.system.harm.level2b) harm = 2;
+            if(a.system.harm.level3) harm = 3;
+            let status = a.system.status || "available";
             return {
                 id: a.id,
                 name: a.name,
-                playbook: a.data.data.playbook,
-                stress: a.data.data.stress.value,
+                playbook: a.system.playbook,
+                stress: a.system.stress.value,
                 status: status,
                 skills: a.items.filter(x => x.type==='skill').map(s => s.name).join(', '),
                 harm: harm
             }
         });
         context.agents = agents;
-        const squads = game.actors.filter(s => s.data.type === 'squad').map(a => {
-            let status = a.data.data.status || "available";
-            let skills = Object.keys(a.data.data.actions)
-                .filter(x => a.data.data.actions[x].value > 0)
+        const squads = game.actors.filter(s => s.type === 'squad').map(a => {
+            let status = a.system.status || "available";
+            let skills = Object.keys(a.system.actions)
+                .filter(x => a.system.actions[x].value > 0)
                 .map(x => x.capitalize());
             return {
                 id: a.id,
                 name: a.name,
-                playbook: a.data.data.playbook,
-                stress: a.data.data.stress.value,
+                playbook: a.system.playbook,
+                stress: a.system.stress.value,
                 status: status,
                 skills: skills.join(', '),
-                rookies: a.data.data.rookies.length
+                rookies: a.system.rookies.length
             }
         });
         context.squads = squads;
         context.crew = game.crew;
+        context.descMarkup = await TextEditor.enrichHTML(context.system.description, {async: true});
 
         return context;
     }
@@ -82,14 +84,14 @@ export class RoleSheet extends ActorSheet {
         const progress = event.currentTarget.value;
         const project = $(event.currentTarget).parents(".clock").data("id");
         let item = this.actor.items.find(i => i.id === project);
-        const updates = {_id: project, data: { progress: progress }};
+        const updates = {_id: project, system: { progress: progress }};
         await item.update(updates);
     }
 
     async _setRole(event) {
         event.preventDefault();
         const role = $(event.currentTarget).data("role");
-        const updates = {_id: this.actor.id, data: { role: role }};
+        const updates = {_id: this.actor.id, system: { role: role }};
         const updated = await this.actor.update(updates);
     }
 
@@ -98,7 +100,7 @@ export class RoleSheet extends ActorSheet {
         const status = event.currentTarget.value;
         const agent = $(event.currentTarget).parents("tr").data("agent");
         const actor = game.actors.get(agent);
-        const updates = {_id: actor.id, data: { status: status }};
+        const updates = {_id: actor.id, system: { status: status }};
         console.log(updates);
         const updated = await actor.update(updates);
         const group = event.currentTarget.parentElement;
@@ -117,7 +119,7 @@ export class RoleSheet extends ActorSheet {
         const segments = $('.create-project select').val();
         const name = $('.create-project input').val();
         if(!name) return;
-        await this.actor.createEmbeddedDocuments("Item", [{type:"project", name: name, data: {size: segments, progress: 0}}]);
+        await this.actor.createEmbeddedDocuments("Item", [{type:"project", name: name, system: {size: segments, progress: 0}}]);
     }
 
 }

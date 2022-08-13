@@ -125,7 +125,7 @@
                 "intel": {"value": 0, "min": 0, "max": 4},
                 "heat": {"value": 0, "min": 0, "max": 8},
                 "threat": {"value": 0, "min": 0, "max": 5},
-                "supply": {"value": 0}
+                "supply": {"value": 0, "min": 0, "max": 6}
             }
         },
         "crew": {

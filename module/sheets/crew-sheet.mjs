@@ -9,7 +9,7 @@ export class CrewSheet extends ActorSheet {
             tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mission"}]
         });
     }
-    getData() {
+    async getData() {
         const context = super.getData();
 
         // Use a safe clone of the actor data for further operations.
@@ -17,11 +17,13 @@ export class CrewSheet extends ActorSheet {
 
         // Add the actor's data to context.data for easier access, as well as flags.
         context.data = actorData.system;
+        context.system = actorData.system;
         context.flags = actorData.flags;
         this._prepareCharacterItems(context);
 
         context.reputationsA = ["Ambitious", "Brutal", "Daring", "Honorable"];
         context.reputationsB = ["Professional", "Savvy", "Subtle", "Strange"];
+        context.descMarkup = await TextEditor.enrichHTML(context.data.description, {async: true});
         return context;
     }
     /** @override */
@@ -40,7 +42,7 @@ export class CrewSheet extends ActorSheet {
         for (let i of context.items) {
             switch (i.type) {
                 case 'gear':
-                    if(i.data.source === 'playbook') {
+                    if(i.system.source === 'playbook') {
                         playbook_gear.push(i);
                     } else {
                         gear.push(i);
