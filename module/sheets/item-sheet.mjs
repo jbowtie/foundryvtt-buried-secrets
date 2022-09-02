@@ -68,21 +68,21 @@ export class GenericItemSheet extends ItemSheet {
   
   async addPlaybookAction(event) {
     event.preventDefault();
-    const abilities = this.item.data.data.actions;
+    const abilities = this.item.system.actions;
     const att = $('select.new_action')[0].value;
     const val = $('input.new_action_val')[0].value;
     console.log(`${att} = ${val}`);
     abilities[att] = val;
-    const updates = {_id: this.item.id, data: { actions: abilities}};
+    const updates = {_id: this.item.id, system: { actions: abilities}};
     const updated = await this.item.update(updates);
   }
   async removePlaybookAction(event) {
     event.preventDefault();
-    const abilities = this.item.data.data.actions;
+    const abilities = this.item.system.actions;
     const att = $(event.currentTarget).data("action");
     console.log(`Removing ${att}`);
     abilities[att] = 0;
-    const updates = {_id: this.item.id, data: { actions: abilities}};
+    const updates = {_id: this.item.id, system: { actions: abilities}};
     const updated = await this.item.update(updates);
   }
 }
