@@ -50,7 +50,7 @@ export class SquadSheet extends ActorSheet {
             return;
         }
         // set the actions
-        let actions = pb.data.data.actions;
+        let actions = pb.system.actions;
         let new_actions = {};
         for (const act in actions)
         {
@@ -68,11 +68,11 @@ export class SquadSheet extends ActorSheet {
             };
             rookies.push(rookie);
         }
-        const updates = {_id: this.actor.id, data: { playbook: playbook, actions: new_actions, rookies: rookies }};
+        const updates = {_id: this.actor.id, system: { playbook: playbook, actions: new_actions, rookies: rookies }};
         const updated = await this.actor.update(updates);
     }
     async _addXP(event) {
-        let rookies = this.actor.data.data.rookies;
+        let rookies = this.actor.system.rookies;
         let newRookies = rookies.map(r =>{
             let rookie = {name: r.name, xp: r.xp, harm: r.harm};
             if (rookie.xp.value < rookie.xp.max) {
@@ -80,11 +80,11 @@ export class SquadSheet extends ActorSheet {
             }
             return rookie;
         });
-        const updates = {_id: this.actor.id, data: { rookies: newRookies }};
+        const updates = {_id: this.actor.id, system: { rookies: newRookies }};
         const updated = await this.actor.update(updates);
     }
     async _addHarm(event) {
-        let rookies = this.actor.data.data.rookies;
+        let rookies = this.actor.system.rookies;
         let newRookies = rookies.map(r =>{
             let rookie = {name: r.name, xp: r.xp, harm: r.harm};
             if (rookie.harm.value < rookie.harm.max) {
@@ -92,11 +92,11 @@ export class SquadSheet extends ActorSheet {
             }
             return rookie;
         });
-        const updates = {_id: this.actor.id, data: { rookies: newRookies }};
+        const updates = {_id: this.actor.id, system: { rookies: newRookies }};
         const updated = await this.actor.update(updates);
     }
     async _recuperate(event) {
-        let rookies = this.actor.data.data.rookies;
+        let rookies = this.actor.system.rookies;
         let newRookies = rookies.map(r =>{
             let rookie = {name: r.name, xp: r.xp, harm: r.harm};
             if (rookie.harm.value > rookie.harm.min) {
@@ -104,15 +104,15 @@ export class SquadSheet extends ActorSheet {
             }
             return rookie;
         });
-        let stress = this.actor.data.data.stress.value;
+        let stress = this.actor.system.stress.value;
         stress = Math.max(0, stress - 2);
-        const updates = {_id: this.actor.id, data: { rookies: newRookies, stress: {value: stress }}};
+        const updates = {_id: this.actor.id, system: { rookies: newRookies, stress: {value: stress }}};
         const updated = await this.actor.update(updates);
     }
     async _promoteRookie(event) {
         const index = $(event.currentTarget).parents("tr").data("agent");
         console.log(`promoting rookie ${index}`)
-        const actorData = this.actor.data.data;
+        const actorData = this.actor.system;
         let rookies = actorData.rookies;
         const rookie = rookies[Number(index)];
         // dialog: select a skill
@@ -143,9 +143,9 @@ export class SquadSheet extends ActorSheet {
         await this._removeRookie(Number(index));
     }
     async _removeRookie(index) {
-        let rookies = this.actor.data.data.rookies;
+        let rookies = this.actor.system.rookies;
         rookies.splice(index, 1);
-        const updates = {_id: this.actor.id, data: { rookies: rookies }};
+        const updates = {_id: this.actor.id, system: { rookies: rookies }};
         const updated = await this.actor.update(updates);
     }
     async _toggleCondition(event) {
@@ -156,7 +156,7 @@ export class SquadSheet extends ActorSheet {
 
     _actionRoll(event) {
         const action = $(event.currentTarget).data("action");
-        const data = this.actor.data.data;
+        const data = this.actor.system;
         let base_dice = 0;
         if(action !== 'other')
             base_dice = data.elite ? 2 : 1;
@@ -360,7 +360,7 @@ export class ExpertSheet extends ActorSheet {
     }
     _actionRoll(event) {
         const action = $(event.currentTarget).data("action");
-        const data = this.actor.data.data;
+        const data = this.actor.system;
         let base_dice = 0;
         if(action !== 'other')
             base_dice = data.elite ? 2 : 1;
